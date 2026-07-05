@@ -1,0 +1,3 @@
+﻿[13] QUERY: attendance tracking app school Africa alternative
+ERROR: A positional parameter cannot be found that accepts argument 'https://lite.duckduckgo.com/lite/?q=attendance%20tracking%20app%20school%20Africa%20alternative'.
+

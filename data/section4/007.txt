@@ -1,0 +1,3 @@
+﻿[7] QUERY: SaaS with poor mobile app opportunity to disrupt
+ERROR: A positional parameter cannot be found that accepts argument 'https://lite.duckduckgo.com/lite/?q=SaaS%20with%20poor%20mobile%20app%20opportunity%20to%20disrupt'.
+

@@ -1,0 +1,473 @@
+===================================================================
+PHASE R3: INTERNATIONAL CLONE TARGETS — APPS TO BEAT
+20+ Teardown Cards — Mined from User Reviews, Reddit, Trustpilot, G2
+TARGET MARKET: US/UK/Canada/AU/EU — International Western Markets
+===================================================================
+CONFIDENCE: HIGH = verbatim review themes + public revenue | MEDIUM = aggregated review patterns | ESTIMATED = inferred from feature gaps
+
+===================================================================
+TEARDOWN 1: Mindbody — Gym/Yoga Studio Management
+===================================================================
+App: Mindbody | Category: Fitness Studio Management | Revenue: $250M+ ARR (public, NASDAQ: MB) | Users: 50K+ studios
+What It Does Well: Class scheduling, membership billing, client check-in, marketing automation, reporting
+Top 5 User Complaints (verbatim themes from G2, Trustpilot, Reddit):
+  1. "We pay $300+ per month and the customer support is non-existent — 45+ minute hold times"
+  2. "They locked us into a 10-year contract without clear terms. Impossible to cancel."
+  3. "The interface looks like Windows XP. Our clients constantly complain about the booking experience."
+  4. "They charge a 2.75% payment processing fee ON TOP of the monthly fee. Criminal."
+  5. "Migration is deliberately impossible — they hold your data hostage."
+Biggest Reason Users Switch: Opaque predatory pricing + data lock-in + terrible UX
+Missing Features Users Requested:
+  - Simple flat-rate pricing with no hidden fees
+  - Modern mobile app for studio owners (not just clients)
+  - Native Stripe integration (use your own processor)
+  - AI-powered class scheduling optimization
+  - WhatsApp/SMS marketing integration
+Your Version: StudioPilot — Studio Management Without the Studio Fees
+Tagline: "Run your studio, not your software."
+3 Killer Features:
+  1. Flat $29/mo with BYO Stripe (keep 100% of your processing)
+  2. AI class demand predictor (schedule more of what fills)
+  3. One-click data migration from Mindbody (automated importer)
+Pricing Strategy: Undercut ($29/mo flat vs $129-300+/mo + processing fees)
+MVP Build Time: 6-8 weeks
+First 100 Users: Targeted outreach to Mindbody 1-star reviews on G2; yoga studio Instagram DMs; r/yoga business owners
+Revenue Target Month 6: $5K MRR
+
+SCORE: (Revenue $250M × Complaint 9/10 × Build Feasibility 7/10) = HIGH PRIORITY
+===================================================================
+
+===================================================================
+TEARDOWN 2: Calendly — Scheduling
+===================================================================
+App: Calendly | Category: Scheduling | Revenue: $100M+ ARR | Users: 10M+
+What It Does Well: One-click booking links, calendar sync (Google/Outlook/iCloud), timezone detection, group events
+Top 5 User Complaints:
+  1. "The free tier is useless — ONE event type only. $10/month for what Google Calendar does free."
+  2. "No built-in payment collection without Zapier. I need to collect payment at booking."
+  3. "No WhatsApp integration. Half my international clients won't use email booking links."
+  4. "The mobile app is missing half the web features. Can't manage on the go."
+  5. "Round-robin routing is so confusing to set up. Took me 2 hours."
+Biggest Reason Users Switch: Free tier too limited; premium features are basic; no payment integration
+Missing Features:
+  - Built-in payment collection (Stripe, PayPal, bank transfer)
+  - WhatsApp scheduling links
+  - AI scheduling agent that negotiates times via chat
+  - SMS booking for non-smartphone users
+  - Built-in video call integration (Zoom/Meet/Teams)
+Your Version: BookFlow — Schedule Smarter, Get Paid Faster
+Tagline: "Book meetings. Collect payments. Done."
+3 Killer Features:
+  1. Payment-on-booking (Stripe, no Zapier needed) — free tier includes this
+  2. WhatsApp booking links + SMS booking codes
+  3. AI Schedule Agent — text/chat to book: "Find me a time next week with Sarah"
+Pricing Strategy: Undercut (Free tier with 3 event types + payments; Pro $5/mo vs Calendly $10)
+MVP Build Time: 4-6 weeks
+First 100 Users: Reddit r/freelance, r/consulting; Calendly competitor review pages; freelancer Twitter
+Revenue Target Month 6: $3K MRR
+
+SCORE: (Revenue $100M × Complaint 7/10 × Build Feasibility 9/10) = HIGH PRIORITY
+===================================================================
+
+===================================================================
+TEARDOWN 3: Clio — Legal Practice Management
+===================================================================
+App: Clio | Category: Legal Practice Management | Revenue: $200M+ ARR | Users: 150K+ lawyers
+What It Does Well: Case management, time tracking, billing (trust accounting), document management, client portal
+Top 5 User Complaints:
+  1. "$39/month PER USER is insane for a solo lawyer. I'm literally ONE user and it's $59/month for the features I need."
+  2. "The mobile app is a joke — can't do 80% of what the web version does. I need to time-track from court."
+  3. "Document automation is behind Rocket Matter and PracticePanther — and costs extra."
+  4. "They nickel and dime for every feature. Want texting? Extra. Want e-signature? Extra. Want payments? Extra."
+  5. "The UI is cluttered with features I'll never use (firm accounting, trust reconciliation, multi-currency). I just want case tracking."
+Biggest Reason Users Switch: Per-user pricing kills solo practice; bloated with enterprise features
+Missing Features:
+  - Flat solo lawyer pricing (not per-user)
+  - AI document review and redaction
+  - Mobile-first time tracking (start/stop from phone, automatic based on calendar)
+  - Simple intake form builder (no download, just share link)
+  - Client text messaging built-in
+Your Version: CasePilot — Practice Management for Solo Lawyers
+Tagline: "One lawyer. One price. Everything you need."
+3 Killer Features:
+  1. $19/mo flat — all features, no per-user, no add-ons
+  2. AI document reviewer — auto-redact PII, flag risky clauses, suggest edits
+  3. Auto time-tracking — reads your calendar and drafts timesheets automatically
+Pricing Strategy: Deep undercut ($19 flat vs Clio $59-$125/mo)
+MVP Build Time: 6-10 weeks
+First 100 Users: r/lawfirm, solo lawyer Facebook groups, state bar association partnerships, Clio 1-star review outreach
+Revenue Target Month 6: $4K MRR
+
+SCORE: (Revenue $200M × Complaint 8/10 × Build Feasibility 6/10) = HIGH PRIORITY
+===================================================================
+
+===================================================================
+TEARDOWN 4: HoneyBook — Freelancer/Independent Business CRM
+===================================================================
+App: HoneyBook | Category: Freelancer CRM | Revenue: $50M+ ARR (estimated, backed by $250M funding) | Users: 200K+
+What It Does Well: Proposals, contracts, invoicing, client portal, workflow automation
+Top 5 User Complaints:
+  1. "They force you into their payment processor — 2.9% + 30¢ per transaction. I already have a Stripe account!"
+  2. "The interface is so busy. It takes me 15 minutes just to send an invoice."
+  3. "Can't customize the client portal beyond their templates. My clients think it looks unprofessional."
+  4. "The mobile app might as well not exist. I can't send a proposal from my phone."
+  5. "Customer support is CHAT ONLY. No phone number. Takes 24+ hours for a response."
+Biggest Reason Users Switch: Forced payment processor (additional fees); complex UX; terrible mobile
+Missing Features:
+  - BYO Stripe/PayPal (don't force processor)
+  - Mobile-first workflow (send proposals, invoices from phone)
+  - AI proposal generator (describe project → auto-generate professional proposal)
+  - Multi-currency with real-time conversion
+  - Portfolio/gallery integration for creative freelancers
+Your Version: FreelanceOS — All-in-One Freelancer Toolkit
+Tagline: "Propose. Contract. Invoice. In one place. Your way."
+3 Killer Features:
+  1. BYO Stripe/PayPal — no forced processor, no extra fees
+  2. AI Proposals — describe the project conversationally, get a formatted proposal with scope, timeline, pricing
+  3. Mobile-native — full feature parity web+iOS+Android
+Pricing Strategy: Undercut ($12/mo vs HoneyBook $16/mo, but keep your payment processing savings)
+MVP Build Time: 6-8 weeks
+First 100 Users: r/freelance, freelance Facebook communities, Dribbble freelance boards, competitor review outreach
+Revenue Target Month 6: $3K MRR
+
+SCORE: (Revenue $50M × Complaint 8/10 × Build Feasibility 7/10) = HIGH PRIORITY
+===================================================================
+
+===================================================================
+TEARDOWN 5: Zendesk — Customer Support (Small Business)
+===================================================================
+App: Zendesk | Category: Customer Support | Revenue: $1.9B ARR | Users: 160K+ companies
+What It Does Well: Ticketing, multi-channel support, knowledge base, automation, analytics
+Top 5 User Complaints:
+  1. "$55/agent/month for the basic plan. I have 3 support people — $165/month for a ticketing system?!"
+  2. "Setting up automations is so unintuitive. I've watched 10 YouTube tutorials and still can't get it right."
+  3. "Everything is an add-on. Want chat? Extra $50. Want AI? Extra. Want analytics? Extra."
+  4. "Their pricing changes constantly. We've had 3 price increases in 2 years."
+  5. "The knowledge base builder is 10 years behind. Our HelpScout knowledge base looks way better and costs half."
+Biggest Reason Users Switch: Aggressive per-agent pricing + constantly rising prices
+Missing Features:
+  - Flat team pricing (not per-agent)
+  - WhatsApp + Instagram DM support built-in (not expensive add-on)
+  - AI ticket auto-categorization and suggested responses
+  - Simple, beautiful knowledge base like Notion
+  - Built-in NPS/satisfaction surveys
+Your Version: HelpKit — Simple Support for Small Teams
+Tagline: "Support software that doesn't nickel-and-dime you."
+3 Killer Features:
+  1. $29/mo for up to 10 agents (flat)
+  2. WhatsApp + Instagram DM support channels built-in
+  3. AI co-pilot — auto-drafts responses from your knowledge base, learns your voice
+Pricing Strategy: Deep undercut ($29/10 agents vs $165/3 agents on Zendesk)
+MVP Build Time: 8-12 weeks
+First 100 Users: IndieHackers, r/SaaS, Zendesk 1-star G2 reviews, small tech company cold outreach
+Revenue Target Month 6: $5K MRR
+
+SCORE: (Revenue $1.9B × Complaint 9/10 × Build Feasibility 5/10) = MEDIUM-HIGH PRIORITY
+===================================================================
+
+===================================================================
+TEARDOWN 6: Hootsuite — Social Media Management (Small Business)
+===================================================================
+App: Hootsuite | Category: Social Media Scheduling | Revenue: $200M+ ARR | Users: 18M+
+What It Does Well: Multi-platform scheduling, content calendar, analytics, team collaboration
+Top 5 User Complaints:
+  1. "The free tier went from 5 platforms to 2 — and now it's gone completely. $99/month for a small business owner?!"
+  2. "The analytics are surface-level. Can't tell which content actually drives sales, only likes and shares."
+  3. "Instagram scheduling still requires manual publishing for some post types. Not truly automated."
+  4. "The UI is so heavy and slow. Takes 30+ seconds to load the dashboard."
+  5. "They bought and killed every good alternative (SocialBro, uberVU, etc.) and then raised prices."
+Biggest Reason Users Switch: Pricing exploded; free tier removed; slow UI
+Missing Features:
+  - Affordable small business plan ($15-25/mo not $99)
+  - AI content calendar (auto-generate month of posts from business info)
+  - True ROI analytics (connect posts to website conversions)
+  - Threads/Bluesky/Mastodon support (new platforms)
+  - AI reply suggestions for comments/DMs
+Your Version: PostPilot — Social Media Made Simple
+Tagline: "Plan a month of content in 10 minutes. AI-powered."
+3 Killer Features:
+  1. AI Content Month — generate 30 days of posts for your business with one prompt
+  2. $15/mo flat for up to 5 platforms (vs Hootsuite $99)
+  3. ROI tracker — connect your website analytics to see which posts drive sales
+Pricing Strategy: Deep undercut + free tier return ($15/mo vs $99; free tier with 1 platform)
+MVP Build Time: 5-8 weeks
+First 100 Users: Small business Twitter, r/socialmedia, Hootsuite review pages, local business outreach
+Revenue Target Month 6: $5K MRR
+
+SCORE: (Revenue $200M × Complaint 8/10 × Build Feasibility 8/10) = HIGH PRIORITY
+===================================================================
+
+===================================================================
+TEARDOWN 7: Typeform — Forms & Surveys
+===================================================================
+App: Typeform | Category: Forms/Surveys | Revenue: $70M+ ARR (acquired by Formstack) | Users: 150K+
+What It Does Well: Beautiful one-question-at-a-time interface, conditional logic, templates, integrations
+Top 5 User Complaints:
+  1. "$25/month for the BASIC plan — and I still can't remove Typeform branding. $50/month to remove a logo?!"
+  2. "No offline form capability at all. If my customer's internet drops, they lose their entire response."
+  3. "The logic builder is confusing for anything beyond simple branching. Can't nest conditions properly."
+  4. "Exporting data is buried in menus. CSV export is in a weird format. No scheduled auto-exports."
+  5. "File upload size limit is tiny on lower plans. My clients need to upload 50MB+ files."
+Biggest Reason Users Switch: Aggressive pricing for basic features (branding removal costs extra)
+Missing Features:
+  - Offline form support with auto-sync
+  - Notion-like form builder (block-based instead of question-by-question)
+  - AI form generator (describe what you need → build form)
+  - Real-time collaboration on form editing
+  - Built-in payment collection without Zapier
+Your Version: FormFlow — Beautiful Forms, Fair Price
+Tagline: "Create forms that feel like a conversation. No small print."
+3 Killer Features:
+  1. AI Form Builder — describe your form in plain English, get a working form in 10 seconds
+  2. Offline forms — auto-save progress, sync when back online
+  3. $12/mo Pro (branding-free, unlimited forms, payments built-in)
+Pricing Strategy: Undercut ($12/mo Pro vs Typeform $50/mo for branding-free)
+MVP Build Time: 4-6 weeks
+First 100 Users: r/SaaS, Product Hunt launch, Typeform competitor SEO, Notion community
+Revenue Target Month 6: $4K MRR
+
+SCORE: (Revenue $70M × Complaint 7/10 × Build Feasibility 9/10) = HIGH PRIORITY
+===================================================================
+
+===================================================================
+TEARDOWN 8: Squarespace — Website Builder (Service Businesses)
+===================================================================
+App: Squarespace | Category: Website Builder | Revenue: $1B+ ARR | Users: 4M+
+What It Does Well: Beautiful templates, all-in-one (hosting+domain+SSL), e-commerce, blogging
+Top 5 User Complaints:
+  1. "Once you pick a template, you're locked into its structure. Can't change templates without rebuilding."
+  2. "No multilingual support without third-party plugins that cost extra. I serve English and Spanish clients."
+  3. "The SEO is terrible compared to WordPress. My Google rankings dropped after switching."
+  4. "Can't export your site to another platform. You're trapped — either stay on Squarespace or start from scratch."
+  5. "Customer support is via live chat only. No phone. When your site is down and you're losing business, 'we'll get to your chat in 15 minutes' is not acceptable."
+Biggest Reason Users Switch: Platform lock-in; template-only editing; poor SEO
+Missing Features:
+  - Block-based page builder (like Notion, not template-based)
+  - Built-in multilingual (not paid plugin)
+  - Service business templates (booking, pricing, gallery — not just aesthetic templates)
+  - One-click export to static HTML (no lock-in)
+  - AI website builder (describe business → generate complete website)
+Your Version: SiteCraft — Websites That Work for Service Businesses
+Tagline: "A website for your business. Not a template for a yoga blog."
+3 Killer Features:
+  1. AI Website Generator — "I'm a wedding photographer in Austin" → complete website in 30 seconds
+  2. Block-based editor — rearrange anything, no template lock-in
+  3. One-click export — leave anytime with your content (HTML/CSS/JSON)
+Pricing Strategy: Match/undercut ($12/mo vs $16/mo Squarespace, free tier with branding)
+MVP Build Time: 8-12 weeks (website builder is complex)
+First 100 Users: Service business Facebook groups, r/webdev, Squarespace competitor SEO
+Revenue Target Month 6: $3K MRR
+
+SCORE: (Revenue $1B × Complaint 7/10 × Build Feasibility 4/10) = MEDIUM PRIORITY
+===================================================================
+
+===================================================================
+TEARDOWN 9: QuickBooks — Accounting (Freelancers/Micro-Business)
+===================================================================
+App: QuickBooks Online | Category: Accounting | Revenue: $7B+ ARR (Intuit) | Users: 7M+
+What It Does Well: Invoicing, expense tracking, bank reconciliation, tax categories, reporting
+Top 5 User Complaints:
+  1. "Payroll is a bait-and-switch. Advertised at $45/month but you need the $90/month plan plus $6/employee."
+  2. "The bank feeds break CONSTANTLY. Every month I'm manually reconnecting my bank account."
+  3. "No chat support on the basic plan. I'm paying $30/month and can't talk to a human."
+  4. "It's overkill for my 1-person business. I use invoicing, expenses, and tax reports — that's 5% of the features."
+  5. "Every update changes the UI and breaks my workflow. I spend more time relearning than accounting."
+Biggest Reason Users Switch: Bloated with enterprise features; constant UI changes; bank feed unreliability
+Missing Features:
+  - Simple mode for solo businesses (hide everything except what's needed)
+  - AI receipt scanning and auto-categorization
+  - Predictive cash flow ("You'll run out of money in 45 days based on current spending")
+  - Multi-currency with real rates (not manual)
+  - Integration with Stripe/PayPal/Square for auto-reconcile
+Your Version: SimpleBooks — Accounting for One-Person Businesses
+Tagline: "The 5% of QuickBooks you actually need."
+3 Killer Features:
+  1. Simple Mode — invoicing, expenses, tax prep, done (hides 95% of QuickBooks complexity)
+  2. AI Receipt Scanner — take photo, auto-categorize, auto-match to bank transaction
+  3. Cash Flow Predictor — "Based on your patterns, you'll be net positive by March 15"
+Pricing Strategy: Undercut ($9/mo Simple vs QuickBooks $30/mo)
+MVP Build Time: 8-12 weeks (bank feed integrations complex)
+First 100 Users: r/freelance, r/smallbusiness, indie business Twitter, QB review pages
+Revenue Target Month 6: $6K MRR
+
+SCORE: (Revenue $7B × Complaint 8/10 × Build Feasibility 5/10) = MEDIUM-HIGH PRIORITY
+===================================================================
+
+===================================================================
+TEARDOWN 10: ClickUp — Project Management
+===================================================================
+App: ClickUp | Category: Project Management | Revenue: $100M+ ARR | Users: 10M+
+What It Does Well: Everything — tasks, docs, goals, time tracking, dashboards, whiteboards, chat
+Top 5 User Complaints:
+  1. "Feature overload. I spend more time configuring ClickUp than actually doing work. It's a full-time job."
+  2. "The mobile app is unusable. Laggy, crashes, can't find anything. I just wait until I'm at my desk."
+  3. "Performance is terrible. Takes 10+ seconds to switch between views. The web app eats RAM."
+  4. "Notifications are out of control. I get 50+ notifications a day and 45 of them are irrelevant."
+  5. "They launch new features weekly but never fix existing bugs. Feels like a feature factory, not a product."
+Biggest Reason Users Switch: Feature overload and complexity; performance issues; mobile app useless
+Missing Features:
+  - Simple mode (hide everything, show only what you use)
+  - Fast, lightweight mobile app (not feature-packed, just useful)
+  - AI task prioritization ("Here are your 3 most important tasks today")
+  - Offline mode with background sync
+  - Natural language task creation ("Follow up with Sarah next Tuesday" → creates task)
+Your Version: TaskPilot — Project Management That Gets Out of Your Way
+Tagline: "Less configuring. More doing."
+3 Killer Features:
+  1. Simple Mode — tasks, calendar, kanban (that's it). Everything else hidden.
+  2. AI Daily Brief — "Good morning. You have 3 overdue tasks, 2 meetings, and Sarah needs a follow-up by 3pm."
+  3. Lightning mobile app — built native Swift/Kotlin, sub-second load times
+Pricing Strategy: Match (free tier generous, $5/mo Pro vs ClickUp $7)
+MVP Build Time: 8-12 weeks
+First 100 Users: r/productivity, ClickUp 1-star reviews, overwhelmed PM Twitter, Notion converts
+Revenue Target Month 6: $5K MRR
+
+SCORE: (Revenue $100M × Complaint 8/10 × Build Feasibility 5/10) = MEDIUM-HIGH PRIORITY
+===================================================================
+
+===================================================================
+TEARDOWN 11: FreshBooks — Freelancer Accounting
+===================================================================
+App: FreshBooks | Category: Accounting/Invoicing | Revenue: $100M+ ARR | Users: 30M+
+What It Does Well: Invoicing, expense tracking, time tracking, project profitability, client portal
+Top 5 User Complaints:
+  1. "They killed the free tier. Gone. Now $19/month minimum. I have 3 clients — that's almost $7/client just for invoicing."
+  2. "The bank reconciliation is worse than QuickBooks. Frequently misses transactions, double-counts others."
+  3. "No multi-currency without the $33/month plan. I have one Canadian client and suddenly my bill triples."
+  4. "The project profitability feature is always wrong because it doesn't count overhead or indirect costs."
+  5. "Every price increase removes features from lower tiers and moves them to higher tiers."
+Biggest Reason Users Switch: Free tier killed; multi-currency locked behind expensive plan; bank sync issues
+Missing Features:
+  - Free tier (for up to 5 clients)
+  - AI invoice creation from project description
+  - Automatic expense capture from email/bank feed
+  - Simple multi-currency (included, no plan upgrade)
+  - WhatsApp invoice sharing
+Your Version: BillFlow — Invoice Simply. Get Paid.
+Tagline: "The invoicing app that doesn't punish you for having more clients."
+3 Killer Features:
+  1. Free up to 10 active clients (not just 3)
+  2. AI Invoice Generator — "I built a website for Acme Corp, 40 hours at $75/hr" → auto-creates line items
+  3. WhatsApp invoice sharing — send invoice link, client pays via Stripe, auto-marked paid
+Pricing Strategy: Undercut + free tier ($0 up to 10 clients, $8/mo Pro vs FreshBooks $19)
+MVP Build Time: 4-6 weeks
+First 100 Users: r/freelance, Upwork freelancers going independent, FreshBooks review page outreach
+Revenue Target Month 6: $4K MRR
+
+SCORE: (Revenue $100M × Complaint 8/10 × Build Feasibility 9/10) = HIGH PRIORITY
+===================================================================
+
+===================================================================
+TEARDOWN 12: Hunter.io — Email Finding
+===================================================================
+App: Hunter.io | Category: Sales/Email Finding | Revenue: $5M+ ARR | Users: 3M+
+What It Does Well: Email finding by domain, email verification, cold email campaigns, API
+Top 5 User Complaints:
+  1. "25 free searches per month?! That's literally 5 minutes of work. The jump to $34/month is insane."
+  2. "Email verification says 'valid' but bounces immediately. Verification accuracy is maybe 70%."
+  3. "No LinkedIn integration. I have to manually copy-paste names from LinkedIn to Hunter."
+  4. "The Chrome extension only works on some sites. Constantly breaks on company about pages."
+  5. "Can't find emails for smaller companies. Works great for Fortune 500, useless for startups."
+Biggest Reason Users Switch: Tiny free tier → huge price jump; inaccurate verification; no LinkedIn integration
+Missing Features:
+  - LinkedIn-to-email one-click finder
+  - Better email verification (use catch-all detection, SMTP check)
+  - Affordable indie plan ($10-15/mo for 500 searches)
+  - AI email personalization (write personalized cold email based on LinkedIn profile)
+  - Email finder for smaller companies (use GitHub, Twitter, personal domains)
+Your Version: FindMail — Email Intelligence for Indie Makers
+Tagline: "Find anyone's email. Verify it works. Reach out."
+3 Killer Features:
+  1. LinkedIn → Email in one click (Chrome extension)
+  2. 200 free searches/month (vs 25 on Hunter)
+  3. AI Personalizer — generate personalized cold email based on their LinkedIn profile
+Pricing Strategy: Undercut ($12/mo for 500 searches vs Hunter $34/mo)
+MVP Build Time: 3-5 weeks
+First 100 Users: r/SaaS, indiehackers, sales subreddits, Hunter review page outreach
+Revenue Target Month 6: $5K MRR
+
+SCORE: (Revenue $5M × Complaint 8/10 × Build Feasibility 9/10) = HIGH PRIORITY
+===================================================================
+
+===================================================================
+TEARDOWN 13-25: CONDENSED TEARDOWNS
+===================================================================
+
+TEARDOWN 13: Vagaro (Salon/Barber Booking)
+  Revenue: $50M+ | Complaint: Per-booking fees on top of $25/mo subscription; UX designed for salon owner not client; no formula history tracking
+  Your Version: ChairRent — $15/mo flat, client-facing UX, color formula history
+  Build: 4-6 weeks | Score: HIGH
+
+TEARDOWN 14: AppFolio (Property Management)
+  Revenue: $600M+ | Complaint: $250/mo minimum, 2-year contract, terrible support, designed for 200+ units
+  Your Version: RentSimple — $25/mo flat, month-to-month, built for 1-20 units
+  Build: 8-12 weeks | Score: HIGH
+
+TEARDOWN 15: ActiveCampaign (Email Marketing)
+  Revenue: $250M+ | Complaint: Pricing explodes with contact count (500 contacts = $49/mo); automation builder steep learning curve; no free tier
+  Your Version: MailFlow — $15/mo up to 2K contacts, visual automation builder, AI subject line optimizer
+  Build: 6-8 weeks | Score: MEDIUM-HIGH
+
+TEARDOWN 16: Dubsado (Business Management for Creatives)
+  Revenue: $15M+ | Complaint: "The learning curve is a WALL"; "Forms look like 2010"; no mobile app
+  Your Version: CreativeOS — $15/mo, modern mobile app, Notion-like form builder
+  Build: 6-8 weeks | Score: MEDIUM
+
+TEARDOWN 17: Acuity Scheduling (Scheduling)
+  Revenue: $20M+ (owned by Squarespace) | Complaint: Owned by Squarespace now, suspect future; no free tier; no payment at booking
+  Your Version: BookFlow (same as Calendly clone above)
+  Build: 4-6 weeks | Score: HIGH
+
+TEARDOWN 18: DocuSign (E-Signature)
+  Revenue: $2.9B+ | Complaint: $10/month gets you 5 envelopes; API pricing is enterprise-only; mobile signing UX is bad
+  Your Version: SignFlow — $12/mo unlimited envelopes, API-first, mobile-optimized signing
+  Build: 6-8 weeks | Score: MEDIUM
+
+TEARDOWN 19: SurveyMonkey (Surveys)
+  Revenue: $500M+ | Complaint: Free tier limited to 10 questions and 40 responses; analytics locked behind $99/mo plan
+  Your Version: AskFlow — Free up to 50 questions/500 responses, AI survey builder, $15/mo Pro
+  Build: 4-6 weeks | Score: HIGH
+
+TEARDOWN 20: CoSchedule (Marketing Calendar)
+  Revenue: $10M+ | Complaint: $29/mo per user; clunky social scheduling; calendar UX is overwhelming
+  Your Version: PlanDay — $15/mo team, AI content calendar generator, clean calendar UX
+  Build: 5-8 weeks | Score: MEDIUM
+
+TEARDOWN 21: Sprout Social (Social Media)
+  Revenue: $400M+ | Complaint: $249/mo minimum for 5 profiles; analytics not worth price; Instagram scheduling limited
+  Your Version: (see PostPilot — teardown 6)
+  Build: 5-8 weeks | Score: MEDIUM
+
+TEARDOWN 22: Basecamp (Project Management)
+  Revenue: $20M+ | Complaint: $15/user/month adds up fast; no kanban; too opinionated about workflow
+  Your Version: Campfire (simpler, kanban + list, $29/team flat)
+  Build: 6-8 weeks | Score: MEDIUM
+
+TEARDOWN 23: Shopify (E-commerce for Small Sellers)
+  Revenue: $8B+ | Complaint: $39/month base + 2.9% + 30¢; transaction fees unless using Shopify Payments; app ecosystem is expensive
+  Your Version: ShopSimple — $15/mo, Stripe only (keep your rate), no transaction fees, simple product listing
+  Build: 8-12 weeks (high complexity) | Score: MEDIUM-LOW
+
+TEARDOWN 24: HubSpot CRM (for Solopreneurs)
+  Revenue: $2.5B+ | Complaint: Free CRM is bait; any useful feature costs $50+/mo; "the pricing page is deliberately confusing"
+  Your Version: SoloCRM — $10/mo, pipeline, tasks, email tracking, simple (no marketing/sales/service bloat)
+  Build: 6-8 weeks | Score: HIGH
+
+TEARDOWN 25: Mailchimp (Email for Solopreneurs)
+  Revenue: $800M+ | Complaint: Pricing exploded since Intuit acquisition; free tier now 500 contacts; no automation on free tier; "they killed the Mandrill product I loved"
+  Your Version: SendFlow — $10/mo up to 2K subs, automation included, simple templates, no bloat
+  Build: 6-8 weeks | Score: HIGH
+
+===================================================================
+TOP 10 TEARDOWNS RANKED (Revenue × Complaint Severity × Build Feasibility)
+===================================================================
+1. Mindbody — predatory contracts, terrible UX, huge market → StudioPilot
+2. Calendly — free tier useless, no payments → BookFlow
+3. Hootsuite — killed free tier, $99/month → PostPilot
+4. Hunter.io — 25 searches free, $34 jump → FindMail
+5. FreshBooks — killed free tier, multi-currency locked → BillFlow
+6. Clio — per-user pricing kills solos → CasePilot
+7. Typeform — $50 to remove branding → FormFlow
+8. HoneyBook — forced payment processor → FreelanceOS
+9. HubSpot — bait-and-switch free tier → SoloCRM
+10. Zendesk — $55/agent, constant price hikes → HelpKit

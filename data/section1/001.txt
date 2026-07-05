@@ -1,0 +1,793 @@
+﻿[1] QUERY: app store revenue estimates small indie apps 2024 2025
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=1;">
+  <meta name="referrer" content="origin">
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>app store revenue estimates small indie apps 2024 2025 at DuckDuckGo</title>
+  <link title="DuckDuckGo (Lite)" type="application/opensearchdescription+xml" rel="search" href="//duckduckgo.com/opensearch_lite_v2.xml">
+  <link href="//duckduckgo.com/favicon.ico" rel="shortcut icon" />
+  <link rel="icon" href="//duckduckgo.com/favicon.ico" type="image/x-icon" />
+  <link id="icon60" rel="apple-touch-icon" href="//duckduckgo.com/assets/icons/meta/DDG-iOS-icon_60x60.png?v=2"/>
+  <link id="icon76" rel="apple-touch-icon" sizes="76x76" href="//duckduckgo.com/assets/icons/meta/DDG-iOS-icon_76x76.png?v=2"/>
+  <link id="icon120" rel="apple-touch-icon" sizes="120x120" href="//duckduckgo.com/assets/icons/meta/DDG-iOS-icon_120x120.png?v=2"/>
+  <link id="icon152" rel="apple-touch-icon" sizes="152x152" href="//duckduckgo.com/assets/icons/meta/DDG-iOS-icon_152x152.png?v=2"/>
+  <link rel="image_src" href="//duckduckgo.com/assets/icons/meta/DDG-icon_256x256.png">
+  <link rel="stylesheet" media="handheld, all" href="//duckduckgo.com/dist/lr.48ddfe4eadf6a534e93f.css" type="text/css"/>
+</head>
+
+<body>
+  <p class='extra'>&nbsp;</p>
+  <div class="header">
+    DuckDuckGo
+  </div>
+  <p class='extra'>&nbsp;</p>
+
+  <form action="/lite/" method="post">
+      <input class='query' type="text" size="40" name="q" value="app store revenue estimates small indie apps 2024 2025">
+      <input class='submit' type="submit" value="Search">
+      
+      
+      
+      
+
+      <div class="filters">
+        <select class="submit" name="kl">
+          
+            <option value="" >All Regions</option>
+          
+            <option value="ar-es" >Argentina</option>
+          
+            <option value="au-en" >Australia</option>
+          
+            <option value="at-de" >Austria</option>
+          
+            <option value="be-fr" >Belgium (fr)</option>
+          
+            <option value="be-nl" >Belgium (nl)</option>
+          
+            <option value="br-pt" >Brazil</option>
+          
+            <option value="bg-bg" >Bulgaria</option>
+          
+            <option value="ca-en" >Canada (en)</option>
+          
+            <option value="ca-fr" >Canada (fr)</option>
+          
+            <option value="ct-ca" >Catalonia</option>
+          
+            <option value="cl-es" >Chile</option>
+          
+            <option value="cn-zh" >China</option>
+          
+            <option value="co-es" >Colombia</option>
+          
+            <option value="hr-hr" >Croatia</option>
+          
+            <option value="cz-cs" >Czech Republic</option>
+          
+            <option value="dk-da" >Denmark</option>
+          
+            <option value="ee-et" >Estonia</option>
+          
+            <option value="fi-fi" >Finland</option>
+          
+            <option value="fr-fr" >France</option>
+          
+            <option value="de-de" >Germany</option>
+          
+            <option value="gr-el" >Greece</option>
+          
+            <option value="hk-tzh" >Hong Kong</option>
+          
+            <option value="hu-hu" >Hungary</option>
+          
+            <option value="is-is" >Iceland</option>
+          
+            <option value="in-en" >India (en)</option>
+          
+            <option value="id-en" >Indonesia (en)</option>
+          
+            <option value="ie-en" >Ireland</option>
+          
+            <option value="il-en" >Israel (en)</option>
+          
+            <option value="it-it" >Italy</option>
+          
+            <option value="jp-jp" >Japan</option>
+          
+            <option value="kr-kr" >Korea</option>
+          
+            <option value="lv-lv" >Latvia</option>
+          
+            <option value="lt-lt" >Lithuania</option>
+          
+            <option value="my-en" >Malaysia (en)</option>
+          
+            <option value="mx-es" >Mexico</option>
+          
+            <option value="nl-nl" >Netherlands</option>
+          
+            <option value="nz-en" >New Zealand</option>
+          
+            <option value="no-no" >Norway</option>
+          
+            <option value="pk-en" >Pakistan (en)</option>
+          
+            <option value="pe-es" >Peru</option>
+          
+            <option value="ph-en" >Philippines (en)</option>
+          
+            <option value="pl-pl" >Poland</option>
+          
+            <option value="pt-pt" >Portugal</option>
+          
+            <option value="ro-ro" >Romania</option>
+          
+            <option value="ru-ru" >Russia</option>
+          
+            <option value="xa-ar" >Saudi Arabia</option>
+          
+            <option value="sg-en" >Singapore</option>
+          
+            <option value="sk-sk" >Slovakia</option>
+          
+            <option value="sl-sl" >Slovenia</option>
+          
+            <option value="za-en" >South Africa</option>
+          
+            <option value="es-ca" >Spain (ca)</option>
+          
+            <option value="es-es" >Spain (es)</option>
+          
+            <option value="se-sv" >Sweden</option>
+          
+            <option value="ch-de" >Switzerland (de)</option>
+          
+            <option value="ch-fr" >Switzerland (fr)</option>
+          
+            <option value="tw-tzh" >Taiwan</option>
+          
+            <option value="th-en" >Thailand (en)</option>
+          
+            <option value="tr-tr" >Turkey</option>
+          
+            <option value="us-en" >US (English)</option>
+          
+            <option value="us-es" >US (Spanish)</option>
+          
+            <option value="ua-uk" >Ukraine</option>
+          
+            <option value="uk-en" >United Kingdom</option>
+          
+            <option value="vn-en" >Vietnam (en)</option>
+          
+        </select>
+
+        <select class="submit" name="df">
+          
+            <option value="" selected>Any Time</option>
+          
+            <option value="d" >Past Day</option>
+          
+            <option value="w" >Past Week</option>
+          
+            <option value="m" >Past Month</option>
+          
+            <option value="y" >Past Year</option>
+          
+        </select>
+      </div>
+  </form>
+
+  
+    <p class="extra">&nbsp;</p>
+    <table border="0">
+      <tr>
+        <td>
+          
+        </td>
+        <td>
+          
+            <!-- Next Page Button Sub-template -->
+<form class="next_form" action="/lite/" method="post">
+    <input type="submit" class='navbutton' value="Next Page &gt;">
+    <input type="hidden" name="q" value="app store revenue estimates small indie apps 2024 2025">
+    <input type="hidden" name="s" value="10">
+    <input type="hidden" name="nextParams" value="">
+    <input type="hidden" name="v" value="l">
+    <input type="hidden" name="o" value="json">
+    <input type="hidden" name="dc" value="12">
+    <input type="hidden" name="api" value="d.js">
+    <input type="hidden" name="vqd" value="4-26631341362145851886422161139913611396">
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    
+    
+    
+      <input name="kl" value="wt-wt" type="hidden">
+    
+    
+    
+    
+</form>
+          
+        </td>
+      </tr>
+    </table>
+  
+
+  
+
+  <p class='extra'>&nbsp;</p>
+
+  <table border="0">
+    
+  </table>
+
+  <table border="0">
+    
+      
+      <!-- Web results are present -->
+      
+        
+          
+
+            <tr class="result-sponsored">
+              
+                <!-- Sponsored result with counter -->
+                <td valign="top">
+                  
+                    1.&nbsp;
+                  
+                </td>
+                <td>
+                  <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fduckduckgo.com%2Fy.js%3Fad_domain%3Drevenuecat.com%26ad_provider%3Dbingv7aa%26ad_type%3Dtxad%26click_metadata%3DshJ1kRGqD6yXQf8uLziwWiyl%252D7ynyRrDizrCKGS4ui5dL2s3pB35mxeZwPl3mYCtMsbf3vKQOXhuTubUPrVGzEPRdU2q6_BtHKlv79ge0i00tZXIYSYir0jAtukmAXm3cnZlwYbmh4gNBLKH07rZfy41kVnt_hRoYuY6Kx%252Dbo4g.Hhk71vwIelLHmoY%252D6QhI4g%26rut%3D5ab4f5bbf4b2ed453f00c789538d244159c5ca4f7fc64d466b3b56c369d92623%26u3%3Dhttps%253A%252F%252Fwww.bing.com%252Faclick%253Fld%253De8Mt38HnnZO63JywDcz_2meDVUCUw1Hve3JAcGZd%252DXY0Mggg7_ljXLtnH2lkgVZuqjktYL4ZRqiVq7UgI87fUjFIONro%252DFHINtKg24278IMX%252DxN%252DtNxOdR7Hz97q5eWlP3VWgDW27SVzPflVn2JTVnI62qiNqTnU917dj4lsA1WOBzdPQU2KZi%252DJJexTg8OKIoYFumsnU3R4vF%252DnIsQsHxHbbz_aA%2526u%253DaHR0cHMlM2ElMmYlMmZ3d3cucmV2ZW51ZWNhdC5jb20lMmZmZWF0dXJlJTJmY2hhcnRzJTJmJTNmdXRtX3NvdXJjZSUzZGJpbmclMjZ1dG1fbWVkaXVtJTNkY3BjJTI2dXRtX2NhbXBhaWduJTNkZXVfZGF0YS1yZXBvcnRpbmclMjZ1dG1fY29udGVudCUzZGV1X2RhdGEtcmVwb3J0aW5nLWlvcyUyNnV0bV9hZCUzZCUyNnV0bV90ZXJtJTNkYXBwJTI1MjBzdG9yZSUyNTIwcmV2ZW51ZSUyNm1hdGNodHlwZSUzZHAlMjZkZXZpY2UlM2RjJTI2R2VvTG9jJTNkMTgyNDI3JTI2cGxhY2VtZW50JTNkJTI2bmV0d29yayUzZHMlMjZjYW1wYWlnbl9pZCUzZDUyMDY2ODY0OCUyNmFkc2V0X2lkJTNkMTMyNjAxMzM5NDE2MjYyMCUyNmFkX2lkJTNkJTI2aHN0a19jcmVhdGl2ZSUzZDgyODc2MDY0MTYwNTU1JTI2aHN0a19jYW1wYWlnbiUzZDUyMDY2ODY0OCUyNmhzdGtfbmV0d29yayUzZGJpbmdBZHMlMjZtc2Nsa2lkJTNkOWY4ZDhiYmFlNTRmMTkxYjA5NGVlMWEzZmUzNDk0YzMlMjZ1dG1fc291cmNlJTNkYmluZyUyNnV0bV9tZWRpdW0lM2RjcGMlMjZ1dG1fY2FtcGFpZ24lM2RldV9kYXRhLXJlcG9ydGluZyUyNnV0bV90ZXJtJTNkYXBwJTI1MjBzdG9yZSUyNTIwcmV2ZW51ZSUyNnV0bV9jb250ZW50JTNkZXVfZGF0YS1yZXBvcnRpbmctaW9z%2526rlid%253D9f8d8bbae54f191b094ee1a3fe3494c3%26vqd%3D4%2D39468971976301936042500146280326610122%26iurl%3D%257B1%257DIG%253DCE051A6722D041C5A3ACF4932F594EBF%2526CID%253D25CD8408AEA6608802B29360AF4E6141%2526ID%253DDevEx%252C5039.1&amp;rut=40587676ed56a18b48cb70d5c889b2fea2c36baad60af5d5d7f9bfc156496984" class='result-link'>RevenueCat - In-App Subscriptions Made Easy</a>
+                  (Sponsored link - <a
+                    href="https://duckduckgo.com/duckduckgo-help-pages/company/ads-by-microsoft-on-duckduckgo-private-search/"
+                    rel="nofollow" class="result-link">more info</a>)
+                </td>
+                
+            </tr>
+
+            
+              <tr class="result-sponsored">
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td class='result-snippet'>
+                  Powerful subscription analytics for the insights you need to build and grow better <b>apps</b>. Trusted by over 50,000 <b>apps</b> to power in-<b>app</b> subscriptions across iOS, Android, &amp; the Web.
+                </td>
+              </tr>
+            
+
+            
+              <tr class="result-sponsored">
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                  <span class='link-text'>revenuecat.com</span>
+                  
+                </td>
+              </tr>
+            
+
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+          
+
+          
+      
+        
+            <tr>
+              
+                <td valign="top">
+                  
+                    2.&nbsp;
+                  
+                </td>
+                <td>
+                  <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.sci%2Dtech%2Dtoday.com%2Fstats%2Fapp%2Drevenue%2Dstatistics%2F&amp;rut=4c1bd291db1f8c318c82be767f1483b978c4fc52948502d88aa81a7a4147b5ae" class='result-link'>App Revenue Statistics By Platform, Market And Facts (2026)</a>
+                </td>
+                
+            </tr>
+
+            
+              
+                <!-- Only show abstract separately if there's a click URL (not EOF) -->
+                <tr>
+                  <td>&nbsp;&nbsp;&nbsp;</td>
+                  <td class='result-snippet'>
+                    <b>App</b> <b>Revenue</b> Statistics: Global mobile <b>app</b> <b>revenue</b> is set to reach $585 billion in <b>2025</b>, growing 8-12% year over year.
+                  </td>
+                </tr>
+              
+            
+
+            
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                  <span class='link-text'>www.sci-tech-today.com/stats/app-revenue-statistics/</span>
+                  
+                    &nbsp;&nbsp;&nbsp;
+                    <span class='timestamp'>2026-03-02T00:00:00.0000000</span>
+                  
+                </td>
+              </tr>
+            
+
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+
+        
+      
+        
+            <tr>
+              
+                <td valign="top">
+                  
+                    3.&nbsp;
+                  
+                </td>
+                <td>
+                  <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.apple.com%2Fnewsroom%2Fpdfs%2F2024%2DApple%2DGlobal%2DEcosystem%2DReport%2DJune2025.pdf&amp;rut=1000377ea85397b18a1034ebe694d909b6bf80e29f389925fa275a4ca80f5462" class='result-link'><span class="result__type">PDF</span> The Global App Store and Its Growth</a>
+                </td>
+                
+            </tr>
+
+            
+              
+                <!-- Only show abstract separately if there's a click URL (not EOF) -->
+                <tr>
+                  <td>&nbsp;&nbsp;&nbsp;</td>
+                  <td class='result-snippet'>
+                    Technology research firm Omdia estimated that in-<b>app</b> ad <b>revenue</b> from ads placed by developers in their iOS <b>apps</b> was $150 billion globally in <b>2024</b>, with around $25 billion tied to games.xvi This <b>estimate</b> includes <b>revenue</b> generated from the publishing of advertisements within <b>apps</b> only and excludes advertising on mobile web (including mobile ...
+                  </td>
+                </tr>
+              
+            
+
+            
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                  <span class='link-text'>www.apple.com/newsroom/pdfs/2024-Apple-Global-Ecosystem-Report-June2025.pdf</span>
+                  
+                </td>
+              </tr>
+            
+
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+
+        
+      
+        
+            <tr>
+              
+                <td valign="top">
+                  
+                    4.&nbsp;
+                  
+                </td>
+                <td>
+                  <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.statista.com%2Ftopics%2F1729%2Fapp%2Dstores%2F&amp;rut=7c18304104f9559f0f9bb766c47c9d7ccd28f502b07f28bcb79d5b676901d722" class='result-link'>App stores - statistics &amp; facts | Statista</a>
+                </td>
+                
+            </tr>
+
+            
+              
+                <!-- Only show abstract separately if there's a click URL (not EOF) -->
+                <tr>
+                  <td>&nbsp;&nbsp;&nbsp;</td>
+                  <td class='result-snippet'>
+                    Mobile <b>app</b> downloads worldwide 2017-2029, by segment Number of iOS and Google Play <b>app</b> downloads as of Q1 <b>2024</b> Share of <b>apps</b> and games with over one million monthly downloads <b>2024</b>, by <b>store</b>
+                  </td>
+                </tr>
+              
+            
+
+            
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                  <span class='link-text'>www.statista.com/topics/1729/app-stores/</span>
+                  
+                    &nbsp;&nbsp;&nbsp;
+                    <span class='timestamp'>2025-12-17T00:00:00.0000000</span>
+                  
+                </td>
+              </tr>
+            
+
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+
+        
+      
+        
+            <tr>
+              
+                <td valign="top">
+                  
+                    5.&nbsp;
+                  
+                </td>
+                <td>
+                  <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fexpandedramblings.com%2Findex.php%2Fitunes%2Dapp%2Dstore%2Dstats%2F&amp;rut=b6a4ec46bb1684d0c687566fe092cedddf16653b1382d5b954e340bc3f5de91a" class='result-link'>Apple App Store Statistics (2026): Apps, Weekly Users, Developer ... - DMR</a>
+                </td>
+                
+            </tr>
+
+            
+              
+                <!-- Only show abstract separately if there's a click URL (not EOF) -->
+                <tr>
+                  <td>&nbsp;&nbsp;&nbsp;</td>
+                  <td class='result-snippet'>
+                    Updated Apple <b>App</b> <b>Store</b> stats for 2026: 850M weekly users (<b>2025</b>), $550B+ developer earnings since 2008, $1.3T ecosystem billings &amp; sales (<b>2024</b>), <b>app</b> review volume, fraud prevention, and <b>app</b> count <b>estimates</b>.
+                  </td>
+                </tr>
+              
+            
+
+            
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                  <span class='link-text'>expandedramblings.com/index.php/itunes-app-store-stats/</span>
+                  
+                    &nbsp;&nbsp;&nbsp;
+                    <span class='timestamp'>2026-02-26T00:00:00.0000000</span>
+                  
+                </td>
+              </tr>
+            
+
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+
+        
+      
+        
+            <tr>
+              
+                <td valign="top">
+                  
+                    6.&nbsp;
+                  
+                </td>
+                <td>
+                  <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.apptunix.com%2Fblog%2Fapple%2Dapp%2Dstore%2Dstatistics%2F&amp;rut=3d38c69ddc18df4ed64a19799df62b9b7b72da417c5dabcd19c64c26e333bb44" class='result-link'>iOS Apple App Store Statistics 2026 - apptunix.com</a>
+                </td>
+                
+            </tr>
+
+            
+              
+                <!-- Only show abstract separately if there's a click URL (not EOF) -->
+                <tr>
+                  <td>&nbsp;&nbsp;&nbsp;</td>
+                  <td class='result-snippet'>
+                    The iOS <b>App</b> <b>Store</b> hosts nearly 2 million <b>apps</b>, with thousands being published daily (around 1,249 per day), showing rapid ongoing expansion. The <b>App</b> <b>Store</b> is projected to generate about $138 billion in global <b>revenue</b> in <b>2025</b>, and total downloads are expected to exceed ~38 billion (2026), reflecting strong monetization and user demand. Gaming <b>apps</b> account for roughly 60 % of <b>App</b> <b>Store</b> <b>revenue</b> ...
+                  </td>
+                </tr>
+              
+            
+
+            
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                  <span class='link-text'>www.apptunix.com/blog/apple-app-store-statistics/</span>
+                  
+                    &nbsp;&nbsp;&nbsp;
+                    <span class='timestamp'>2026-04-10T00:00:00.0000000</span>
+                  
+                </td>
+              </tr>
+            
+
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+
+        
+      
+        
+            <tr>
+              
+                <td valign="top">
+                  
+                    7.&nbsp;
+                  
+                </td>
+                <td>
+                  <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fmac.eltima.com%2Fapp%2Dstore%2Dstats%2F&amp;rut=1cc969d9c524b08c824aaeacda2697ed6119a0a407fc10c8a69f2055dfb16851" class='result-link'>Top Apple&#x27;s App Store Statistics and Facts for 2025</a>
+                </td>
+                
+            </tr>
+
+            
+              
+                <!-- Only show abstract separately if there's a click URL (not EOF) -->
+                <tr>
+                  <td>&nbsp;&nbsp;&nbsp;</td>
+                  <td class='result-snippet'>
+                    In this article, you&#x27;ll discover key Apple&#x27;s <b>App</b> <b>Store</b> statistics for <b>2025</b> and metrics from top <b>app</b> categories to <b>revenue</b> insights.
+                  </td>
+                </tr>
+              
+            
+
+            
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                  <span class='link-text'>mac.eltima.com/app-store-stats/</span>
+                  
+                    &nbsp;&nbsp;&nbsp;
+                    <span class='timestamp'>2025-02-12T00:00:00.0000000</span>
+                  
+                </td>
+              </tr>
+            
+
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+
+        
+      
+        
+            <tr>
+              
+                <td valign="top">
+                  
+                    8.&nbsp;
+                  
+                </td>
+                <td>
+                  <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.businessofapps.com%2Fdata%2Fapp%2Drevenues%2F&amp;rut=7fefd4428a6dfa071c60c4ecfd17fcdbfd087ef09e7305548518a37a2d55c128" class='result-link'>App Revenue Data (2026) - Business of Apps</a>
+                </td>
+                
+            </tr>
+
+            
+              
+                <!-- Only show abstract separately if there's a click URL (not EOF) -->
+                <tr>
+                  <td>&nbsp;&nbsp;&nbsp;</td>
+                  <td class='result-snippet'>
+                    The mobile <b>app</b> industry has been active for over a decade now, generating billions of dollars in <b>revenue</b> for Apple, Google and thousands of mobile <b>app</b> developers. While originally not perceived as necessary by Apple or Google, which did not add <b>app</b> <b>stores</b> to the first versions of iOS and Android, it has become a key <b>revenue</b> stream for both of them. Even with less than 20 percent market share ...
+                  </td>
+                </tr>
+              
+            
+
+            
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                  <span class='link-text'>www.businessofapps.com/data/app-revenues/</span>
+                  
+                    &nbsp;&nbsp;&nbsp;
+                    <span class='timestamp'>2026-02-04T00:00:00.0000000</span>
+                  
+                </td>
+              </tr>
+            
+
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+
+        
+      
+        
+            <tr>
+              
+                <td valign="top">
+                  
+                    9.&nbsp;
+                  
+                </td>
+                <td>
+                  <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fscoop.market.us%2Fapp%2Drevenue%2Dstatistics%2F&amp;rut=5782a679a0946b413663ec1d0e2cd495f9ebc064b364bbea8540f4fe0424307e" class='result-link'>App Revenue Statistics and Facts (2026) - Market Scoop</a>
+                </td>
+                
+            </tr>
+
+            
+              
+                <!-- Only show abstract separately if there's a click URL (not EOF) -->
+                <tr>
+                  <td>&nbsp;&nbsp;&nbsp;</td>
+                  <td class='result-snippet'>
+                    <b>App</b> <b>Revenue</b> Statistics by Platform The mobile <b>app</b> <b>revenue</b> <b>estimate</b> is expected to reach $613 billion by <b>2025</b>. (Statista) There will be roughly 3.553 million <b>apps</b> for Android devices on the Google Play <b>Store</b> in 2023. Conversely, there are roughly 1.642 million <b>apps</b> in the Apple <b>App</b> <b>Store</b>. The applications market is growing, as there is a prediction that the mobile <b>app</b> <b>revenue</b> estimation will ...
+                  </td>
+                </tr>
+              
+            
+
+            
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                  <span class='link-text'>scoop.market.us/app-revenue-statistics/</span>
+                  
+                    &nbsp;&nbsp;&nbsp;
+                    <span class='timestamp'>2026-01-12T00:00:00.0000000</span>
+                  
+                </td>
+              </tr>
+            
+
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+
+        
+      
+        
+            <tr>
+              
+                <td valign="top">
+                  
+                    10.&nbsp;
+                  
+                </td>
+                <td>
+                  <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fnews.appfigures.com%2Ffree%2Drevenue%2Ddownload%2Destimates%2Dfor%2Dmillions%2Dof%2Dapps%2D278725&amp;rut=3ffdc5c9d799ccc81284ca6a5ed80c3a2935e0065e1fa351923363b3a6170f77" class='result-link'>Free Revenue &amp; Download Estimates for Millions of Apps</a>
+                </td>
+                
+            </tr>
+
+            
+              
+                <!-- Only show abstract separately if there's a click URL (not EOF) -->
+                <tr>
+                  <td>&nbsp;&nbsp;&nbsp;</td>
+                  <td class='result-snippet'>
+                    Comprehensive download and <b>revenue</b> <b>estimates</b> for the last month from all countries for all <b>apps</b> and games across the <b>App</b> <b>Store</b> and Google Play. Unmatched accuracy, leveraging our proprietary <b>App</b> Intelligence algorithms.
+                  </td>
+                </tr>
+              
+            
+
+            
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                  <span class='link-text'>news.appfigures.com/free-revenue-download-estimates-for-millions-of-apps-278725</span>
+                  
+                </td>
+              </tr>
+            
+
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+
+        
+      
+        
+            <tr>
+              
+                <td valign="top">
+                  
+                    11.&nbsp;
+                  
+                </td>
+                <td>
+                  <a rel="nofollow" href="//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.reddit.com%2Fr%2FiOSProgramming%2Fcomments%2F1cgo4cm%2Fshocking_report_reveals_average_app_monthly%2F&amp;rut=5db3bd68d9a78edd0dc31ce87fe650b59b72beb341ea818dee7a1472e5e7c402" class='result-link'>Shocking report reveals average app monthly revenue is &lt; $50 ... - Reddit</a>
+                </td>
+                
+            </tr>
+
+            
+              
+                <!-- Only show abstract separately if there's a click URL (not EOF) -->
+                <tr>
+                  <td>&nbsp;&nbsp;&nbsp;</td>
+                  <td class='result-snippet'>
+                    Hidden away in a <b>2024</b> report from <b>Revenue</b> Cat, is the figure of median <b>revenue</b> per <b>app</b> across all categories of less than $50 per month, 1 year after launch. After accounting for sales tax, Apple fees, and costs for equipment eg the latest devices to run modern software, releasable on the <b>app</b> <b>stores</b>, this report suggests <b>indie</b> <b>app</b> development is unprofitable for most developers with only 1 <b>app</b> ...
+                  </td>
+                </tr>
+              
+            
+
+            
+              <tr>
+                <td>&nbsp;&nbsp;&nbsp;</td>
+                <td>
+                  <span class='link-text'>www.reddit.com/r/iOSProgramming/comments/1cgo4cm/shocking_report_reveals_average_app_monthly/</span>
+                  
+                </td>
+              </tr>
+            
+
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+
+        
+      
+    
+
+    
+      
+      <tr>
+        <td colspan=2>
+          
+          
+            <!-- Next Page Button Sub-template -->
+<form class="next_form" action="/lite/" method="post">
+    <input type="submit" class='navbutton' value="Next Page &gt;">
+    <input type="hidden" name="q" value="app store revenue estimates small indie apps 2024 2025">
+    <input type="hidden" name="s" value="10">
+    <input type="hidden" name="nextParams" value="">
+    <input type="hidden" name="v" value="l">
+    <input type="hidden" name="o" value="json">
+    <input type="hidden" name="dc" value="12">
+    <input type="hidden" name="api" value="d.js">
+    <input type="hidden" name="vqd" value="4-26631341362145851886422161139913611396">
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    
+    
+    
+      <input name="kl" value="wt-wt" type="hidden">
+    
+    
+    
+    
+</form>
+          
+          
+        </td>
+      </tr>
+    
+  </table>
+
+  <p class='extra'>&nbsp;</p>
+
+  <form action="/lite/" method="post">
+      <input class='query' type="text" size="40" name="q" value="app store revenue estimates small indie apps 2024 2025" >
+      <input class='submit' type="submit" value="Search">
+      
+      
+      
+      
+      
+        <input name="kl" value="wt-wt" type="hidden">
+      
+  </form>
+
+  <p class='extra'>&nbsp;</p>
+
+  
+    <img src="//duckduckgo.com/t/sl_l"/>
+  
+  <div id='end-spacer'>&nbsp;</div>
+
+</body>
+</html>

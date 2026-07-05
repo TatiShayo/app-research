@@ -1,0 +1,3 @@
+﻿[11] QUERY: budget app market gap 2024 Africa
+ERROR: A positional parameter cannot be found that accepts argument 'https://lite.duckduckgo.com/lite/?q=budget%20app%20market%20gap%202024%20Africa'.
+

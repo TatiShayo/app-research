@@ -1,0 +1,3 @@
+﻿[8] QUERY: Kenya logistics app gap last mile delivery
+ERROR: A positional parameter cannot be found that accepts argument 'https://lite.duckduckgo.com/lite/?q=Kenya%20logistics%20app%20gap%20last%20mile%20delivery'.
+

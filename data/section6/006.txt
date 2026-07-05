@@ -1,0 +1,3 @@
+﻿[6] QUERY: AI app design human-looking best practices
+ERROR: A positional parameter cannot be found that accepts argument 'https://lite.duckduckgo.com/lite/?q=AI%20app%20design%20human-looking%20best%20practices'.
+

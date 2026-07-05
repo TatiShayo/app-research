@@ -1,0 +1,3 @@
+﻿[8] QUERY: invoicing app alternatives too expensive small business
+ERROR: A positional parameter cannot be found that accepts argument 'https://lite.duckduckgo.com/lite/?q=invoicing%20app%20alternatives%20too%20expensive%20small%20business'.
+

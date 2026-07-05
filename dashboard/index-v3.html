@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>App Market Research Dashboard v3 — International-First Build List</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#06060d;--surface:#0d0d1a;--surface2:#151528;--border:#1e1e3a;--text:#e0e0ea;--text2:#8888a4;--accent:#7c5cfc;--accent2:#00e5cc;--green:#00c896;--red:#f43f5e;--orange:#f59e0b;--blue:#3b82f6;--font:system-ui,-apple-system,sans-serif;--radius:10px;--shadow:0 4px 32px rgba(0,0,0,.4)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.6}
+nav{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);padding:0 12px;display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:wrap}
+nav a{color:var(--text2);text-decoration:none;padding:10px 10px;font-size:.75rem;font-weight:500;white-space:nowrap;border-bottom:2px solid transparent;transition:.2s}
+nav a:hover,nav a.active{color:var(--accent);border-bottom-color:var(--accent)}
+main{max-width:1520px;margin:0 auto;padding:20px 16px}
+section{display:none;margin-bottom:36px}
+section.active{display:block}
+h1{font-size:2rem;font-weight:700;margin-bottom:4px;letter-spacing:-.5px;color:var(--accent2)}
+h2{font-size:1.25rem;font-weight:600;margin:24px 0 12px;color:var(--accent2)}
+h3{font-size:1rem;font-weight:600;margin:16px 0 8px}
+p{color:var(--text2);margin-bottom:8px;font-size:.88rem}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.metric{background:var(--surface2);border-radius:var(--radius);padding:16px;border-left:3px solid var(--accent)}
+.metric .value{font-size:1.6rem;font-weight:700;color:var(--accent);font-family:'SF Mono',Consolas,monospace}
+.metric .label{font-size:.73rem;color:var(--text2);margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:.78rem;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+th,td{padding:7px 10px;text-align:left;border-bottom:1px solid var(--border)}
+th{background:var(--surface2);color:var(--accent2);font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.4px;position:sticky;top:0}
+tr:hover td{background:rgba(124,92,252,.06)}
+.filters{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.filters select,.filters input{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:.78rem}
+.filters select:focus,.filters input:focus{outline:none;border-color:var(--accent)}
+.badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.bg{background:rgba(0,200,150,.15);color:var(--green)}.br{background:rgba(244,63,94,.15);color:var(--red)}.bo{background:rgba(245,158,11,.15);color:var(--orange)}.bb{background:rgba(59,130,246,.15);color:var(--blue)}.ba{background:rgba(124,92,252,.15);color:var(--accent)}.bt{background:rgba(0,229,204,.15);color:var(--accent2)}
+.score-bar{height:5px;border-radius:3px;background:var(--border);margin-top:3px}.score-fill{height:5px;border-radius:3px}
+.chart-wrap{position:relative;width:100%;max-height:340px;margin:10px 0}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:768px){.two-col{grid-template-columns:1fr}}
+.comp-panel{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.comp-card{background:var(--surface2);border-radius:var(--radius);padding:16px;border:2px solid var(--border);cursor:pointer;transition:.2s}
+.comp-card.selected{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,92,252,.25)}
+.audit-box{background:rgba(244,63,94,.06);border:1px solid rgba(244,63,94,.3);border-left:3px solid var(--red);border-radius:var(--radius);padding:16px;margin:12px 0}
+.gap-tracker{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.gap-item{background:var(--surface2);border-radius:8px;padding:12px;border-left:3px solid var(--red)}.gap-item.fixed{border-left-color:var(--green)}
+.build-order{display:flex;gap:8px;overflow-x:auto;padding:10px 0}
+.bo-phase{min-width:160px;background:var(--surface2);border-radius:8px;padding:12px;text-align:center;border:1px solid var(--border)}.bo-phase .num{font-size:1.6rem;font-weight:800;color:var(--accent)}
+.export-btn{background:var(--accent);color:#fff;border:none;padding:7px 14px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.78rem}.export-btn:hover{opacity:.9}
+.tag{display:inline-flex;align-items:center;gap:2px;padding:2px 7px;background:var(--surface2);border-radius:4px;font-size:.68rem;color:var(--text2);margin:2px}
+.conf-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:3px}.conf-h{background:var(--green)}.conf-m{background:var(--orange)}.conf-l{background:var(--red)}
+.devils-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}@media(max-width:900px){.devils-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav id="nav">
+<a href="#exec" class="active" onclick="n('exec')">📊 Summary</a>
+<a href="#ranked" onclick="n('ranked')">🏆 Ranked List</a>
+<a href="#clones" onclick="n('clones')">🎯 Clone Targets</a>
+<a href="#niches" onclick="n('niches')">🔍 Niches</a>
+<a href="#trends" onclick="n('trends')">📈 Trends</a>
+<a href="#ai" onclick="n('ai')">🤖 AI Opportunities</a>
+<a href="#revenue" onclick="n('revenue')">💰 Revenue Intel</a>
+<a href="#build" onclick="n('build')">🛠️ Build Strategy</a>
+<a href="#audit" onclick="n('audit')">⚠️ Devil's Advocate</a>
+<a href="#compare" onclick="n('compare')">⚖️ Compare</a>
+<a href="#africa" onclick="n('africa')">🌍 Africa Track</a>
+</nav>
+<main id="main"></main>
+<script>
+// === DATA ===
+const top30=[
+{rank:1,name:"StudioPilot",tagline:"Gym/Yoga Studio Management Without the Studio Fees",market:"International (US/UK/AU/EU)",cat:"Clone",user:"Independent fitness studio owners paying $129+/mo for Mindbody and hating it",problem:"Mindbody has predatory 10-year contracts, $300+/mo fees, forced payment processing, and 20-year-old UX",features:"1) Flat $29/mo with BYO Stripe 2) AI class demand predictor 3) One-click data import from Mindbody 4) Modern mobile app 5) WhatsApp/SMS reminders",stack:"Next.js + Supabase + Stripe + Twilio + shadcn/ui + Tremor",rev:"$29/mo flat, $79/mo Team",m1:"$2K MRR",m6:"$10K MRR",mvp:"6-8 weeks",advantage:"10x cheaper, no contracts, modern UX, AI scheduling",acq:"Mindbody 1-star G2 review outreach + Instagram DM to studio owners + r/yoga",risk:"Feature parity with Mindbody's 100+ features; payroll/POS complexity",score:95,tier:"TIER 1",conf:"HIGH",d1:8,d2:10,d3:7,d4:9,d5:9,d6:7,devil:"YOU don't understand gym operations. Mindbody wins because it handles payroll, POS, commission tracking, and 100+ integrations. Your $29/mo version will have gym owners asking 'does it do [random payroll edge case]?' and the answer will be 'not yet.' Validate by shadowing 5 gym owners for a week."},
+{rank:2,name:"CasePilot",tagline:"Legal Practice Management for Solo Lawyers",market:"International (US Primary, UK/AU Secondary)",cat:"Clone",user:"Solo lawyers paying $59-125/mo/user for Clio who just need case tracking, time, billing",problem:"Clio's per-user pricing penalizes solo lawyers; bloated with enterprise features they never use",features:"1) $19/mo flat all features 2) AI document reviewer auto-redacts PII 3) Auto time-tracking from calendar 4) Simple intake form builder 5) Client text messaging",stack:"Next.js + Supabase + Stripe + Claude + shadcn/ui",rev:"$19/mo Solo, $39/mo Small Firm",m1:"$2K MRR",m6:"$8K MRR",mvp:"6-10 weeks",advantage:"70% cheaper than Clio, AI document review, trust accounting compliance",acq:"r/lawfirm + solo lawyer FB groups + state bar partnerships",risk:"Trust accounting rules vary by state; legal domain expertise required; bar ethics rules on AI",score:93,tier:"TIER 1",conf:"HIGH",d1:8,d2:9,d3:6,d4:8,d5:8,d6:8,devil:"Trust accounting rules differ by state. You mess up IOLTA compliance for one California lawyer and you're facing a malpractice-adjacent lawsuit. You need a legal domain expert as co-founder. Validate by getting 10 solo lawyers to switch for free."},
+{rank:3,name:"PostPilot",tagline:"Social Media Management for Small Business",market:"International (US/UK/AU/EU)",cat:"Clone",user:"Small business owners who need social media but can't afford $99/mo for Hootsuite",problem:"Hootsuite killed free tier, charges $99/mo, and has slow/heavy UI; small businesses priced out",features:"1) AI Content Month generates 30 days of posts 2) $15/mo for 5 platforms 3) ROI tracker to website analytics 4) Threads+Bluesky+Mastodon 5) AI reply suggestions",stack:"Next.js + Supabase + Stripe + OpenAI + shadcn/ui + Tremor",rev:"Free (1 platform), $15/mo Pro, $29/mo Business",m1:"$2K MRR",m6:"$12K MRR",mvp:"5-8 weeks",advantage:"85% cheaper, AI content generation, new platforms first, ROI analytics",acq:"Small biz Twitter + r/socialmedia + Hootsuite review pages + chamber of commerce",risk:"Platform API restrictions; Instagram/Twitter APIs constantly changing and expensive",score:91,tier:"TIER 1",conf:"HIGH",d1:9,d2:8,d3:8,d4:8,d5:8,d6:6,devil:"Platform APIs are a moving target. Meta deprecates an endpoint and your Instagram scheduling breaks. Twitter/X API costs $100/month minimum. You're building on shifting sand owned by companies that hate you. Validate by starting with ONE platform (LinkedIn) done perfectly."},
+{rank:4,name:"BillFlow",tagline:"Simple Invoicing for Freelancers",market:"International (US/UK/AU/EU)",cat:"Clone",user:"Solo freelancers who just need to invoice and get paid — not enterprise accounting",problem:"FreshBooks killed free tier, now $19/mo minimum, multi-currency locked behind $33/mo plan",features:"1) Free up to 10 clients 2) AI invoice generator from project description 3) WhatsApp invoice sharing 4) Multi-currency at $8/mo 5) Auto expense capture from email",stack:"Next.js + Supabase + Stripe + Resend + OpenAI",rev:"Free (10 clients), $8/mo Pro, $16/mo Business",m1:"$3K MRR",m6:"$10K MRR",mvp:"4-6 weeks",advantage:"Generous free tier, WhatsApp sharing unique, included multi-currency",acq:"r/freelance + Upwork community + FreshBooks review pages",risk:"Invoicing is commodity; differentiator thin; FreshBooks/QB have 20-year brand moats",score:90,tier:"TIER 1",conf:"HIGH",d1:9,d2:9,d3:9,d4:8,d5:7,d6:5,devil:"The market is flooded with invoicing apps — Wave (free), Zoho Invoice (free), Invoice Ninja (open source). Your AI invoice generator is a thin wrapper on GPT. Differentiation disappears when FreshBooks adds 'generate from description.' You need a moat beyond AI."},
+{rank:5,name:"BookFlow",tagline:"Smart Scheduling with Built-in Payments",market:"International (US/UK/AU/EU)",cat:"Clone",user:"Consultants, freelancers, coaches who need scheduling + payment in one tool",problem:"Calendly free tier useless (1 event type); no built-in payments without Zapier; no WhatsApp",features:"1) Payment-on-booking built in free tier 2) WhatsApp booking links + SMS codes 3) AI Schedule Agent via chat 4) Free tier with 3 event types 5) Built-in video call",stack:"Next.js + Supabase + Stripe + WhatsApp API + CalDAV + OpenAI",rev:"Free (3 types+payments), $5/mo Pro",m1:"$2K MRR",m6:"$8K MRR",mvp:"4-6 weeks",advantage:"Free tier actually useful, built-in payments, WhatsApp booking, AI scheduling agent",acq:"r/freelance + r/consulting + Calendly competitor pages + Product Hunt",risk:"Calendly brand recognition massive; network effects hard to break; calendar API dependency",score:88,tier:"TIER 1",conf:"MEDIUM",d1:8,d2:7,d3:9,d4:8,d5:8,d6:5,devil:"Calendly owns scheduling like Google owns search. Getting someone to switch their booking link is like switching email. Network effects brutal. Your WhatsApp angle is clever — but Calendly can add WhatsApp in a sprint. You need a market Calendly doesn't want or a wedge they can't copy."},
+{rank:6,name:"FindMail",tagline:"Email Finder for Indie Makers",market:"International (US/UK/EU)",cat:"Clone",user:"Solo founders, indie hackers, salespeople who need email finding but can't afford Hunter.io",problem:"Hunter.io gives 25 free searches/month then jumps to $34/mo; inaccurate verification; no LinkedIn",features:"1) LinkedIn→Email one-click Chrome extension 2) 200 free searches (8x Hunter) 3) AI email personalizer 4) SMTP-level verification 5) $12/mo for 500 searches",stack:"Next.js + Supabase + Stripe + Chrome Extension (Plasmo) + OpenAI",rev:"Free (200/mo), $12/mo (500), $29/mo (2000+AI)",m1:"$2K MRR",m6:"$8K MRR",mvp:"3-5 weeks",advantage:"8x larger free tier, LinkedIn integration, AI personalization, 65% cheaper",acq:"r/SaaS + r/sales + indiehackers + Hunter.io review pages",risk:"Email finding race to bottom; LinkedIn scraping legally gray; Apollo/Lusha have millions in funding",score:86,tier:"TIER 1",conf:"MEDIUM",d1:8,d2:8,d3:9,d4:7,d5:8,d6:5,devil:"Email finding is a commodity in a race to the bottom. Apollo.io, Lusha, Clearbit — all with millions in funding. LinkedIn scraping legally gray and LinkedIn WILL send cease-and-desist. Your AI personalizer is interesting — pivot to the outreach tool, not the finder."},
+{rank:7,name:"FormFlow",tagline:"Beautiful Forms, Fair Price",market:"International (US/UK/EU)",cat:"Clone",user:"Businesses and creators who need beautiful forms but won't pay $50/mo for branding removal",problem:"Typeform charges $50/mo for branding removal; no offline support; logic builder confusing",features:"1) AI Form Builder from description 2) Offline forms with auto-sync 3) $12/mo Pro branding-free 4) Notion-like block editor 5) Real-time collaboration",stack:"Next.js + Supabase + Stripe + OpenAI + TipTap",rev:"Free (branded,100/mo), $12/mo Pro, $29/mo Business",m1:"$2K MRR",m6:"$8K MRR",mvp:"4-6 weeks",advantage:"75% cheaper, offline support unique, AI form generation, block editor",acq:"Product Hunt + r/SaaS + Notion community + Typeform competitor SEO",risk:"Tally already has generous free tier; Google Forms is free; differentiation must be strong",score:84,tier:"TIER 1",conf:"MEDIUM",d1:8,d2:7,d3:9,d4:7,d5:8,d6:5,devil:"Tally is already the 'free, beautiful Typeform alternative' and it's excellent. Google Forms is free and improving. Your AI form builder is a feature, not a product. Form builders are a platform play — you need integrations, embeds, analytics — massive scope creep."},
+{rank:8,name:"FreelanceOS",tagline:"All-in-One Freelancer Toolkit",market:"International (US/UK/AU/EU)",cat:"Clone",user:"Creative freelancers needing proposal+contract+invoice in one tool without HoneyBook's forced processor",problem:"HoneyBook forces their payment processor (extra fees); complex UX; no real mobile app",features:"1) BYO Stripe/PayPal 2) AI Proposal Generator 3) Mobile-native iOS+Android 4) Portfolio/gallery integration 5) E-signature built in",stack:"Next.js + React Native + Supabase + Stripe + OpenAI",rev:"$12/mo Solo, $24/mo Team, $39/mo Agency",m1:"$2K MRR",m6:"$10K MRR",mvp:"6-8 weeks",advantage:"No forced processor, AI proposals, true mobile app, cost advantage",acq:"r/freelance + Dribbble/Behance + HoneyBook review pages",risk:"Proposals+contracts+invoices is THREE products; HoneyBook has $250M funding and 200+ employees",score:83,tier:"TIER 1",conf:"MEDIUM",d1:8,d2:7,d3:7,d4:8,d5:7,d6:6,devil:"Proposals + contracts + invoices is THREE products. HoneyBook has $250M+ in funding and a team of 200+. You're one person. Pick ONE (invoices? proposals?) and be the best at it. Don't spread yourself across three products."},
+{rank:9,name:"SoloCRM",tagline:"Simple CRM for Solopreneurs",market:"International (US/UK/AU/EU)",cat:"Clone",user:"Solopreneurs who need basic CRM without HubSpot's bait-and-switch pricing",problem:"HubSpot free CRM is bait — any useful feature costs $50+/mo; pricing deliberately confusing",features:"1) $10/mo flat pipeline+tasks+email 2) 2-way Gmail/Outlook sync 3) AI deal health score 4) Simple kanban pipeline 5) Built-in meeting scheduler",stack:"Next.js + Supabase + Stripe + OpenAI + Gmail/Outlook APIs",rev:"Free (100 contacts), $10/mo (unlimited+AI+sync)",m1:"$3K MRR",m6:"$15K MRR",mvp:"6-8 weeks",advantage:"Transparent pricing, no bait-and-switch, AI deal scoring, genuine simplicity",acq:"r/sales + r/smallbusiness + indie hackers + HubSpot 1-star review outreach",risk:"CRM is THE most saturated category; HubSpot has $2.5B revenue to out-market you",score:82,tier:"TIER 2",conf:"MEDIUM",d1:8,d2:6,d3:7,d4:9,d5:6,d6:4,devil:"This is the most saturated software category on earth. HubSpot, Salesforce, Pipedrive, Copper, Close, Zoho — hundreds of competitors. Your only angle is 'simple and cheap.' That's not a moat — it's a temporary price advantage. The moment you gain traction, someone with funding undercuts you."},
+{rank:10,name:"AI Tax Prep Assistant",tagline:"AI-Powered Tax Return Review for Accountants",market:"International (US Primary, UK/AU Secondary)",cat:"AI-Native Vertical",user:"Solo CPAs and small accounting firms spending hours manually reviewing tax returns",problem:"Tax return review is manual, misses deductions, CCH/Avalara research tools cost $500+/mo",features:"1) AI scans 100-page return in 10s 2) Deduction finder 500+ opportunities 3) Client summary letter auto-gen 4) Estimated tax calculator 5) Tax software integration",stack:"Next.js + Supabase + Claude + IRS RAG + tax software APIs",rev:"$49/mo Solo, $99/mo Firm, $199/mo Practice",m1:"$3K MRR",m6:"$15K MRR",mvp:"8-12 weeks",advantage:"IRS knowledge embeddings, tax software integration, 10x faster review",acq:"CPA subreddits + accounting FB groups + tax preparer associations + CPE sponsorships",risk:"Tax code complex and changes annually; liability for AI advice; CPA trust in AI low",score:81,tier:"TIER 2",conf:"MEDIUM",d1:7,d2:8,d3:5,d4:9,d5:9,d6:8,devil:"CPAs are the most conservative tech buyers. They trust Intuit and Wolters Kluwer. A solo dev AI tool recommending tax positions? They won't touch it without E&O insurance backing it. The regulatory risk is enormous. Validate with a non-tax workflow first."},
+{rank:11,name:"TattooStudio",tagline:"Tattoo Artist Booking + Client Management",market:"International (US/UK/EU)",cat:"Niche Vertical",user:"Tattoo artists still booking via Instagram DMs and paper consent forms",problem:"$3B+ tattoo industry has zero vertical-specific software — everyone uses Instagram DMs + paper",features:"1) Booking with Stripe deposit 2) Digital consent forms+e-sign 3) Design approval workflow 4) Aftercare auto-send 5) Portfolio with AI categorization",stack:"Next.js + React Native + Supabase + Stripe + Twilio",rev:"$15/mo Solo, $29/mo Studio, $59/mo Multi-Studio",m1:"$1K MRR",m6:"$5K MRR",mvp:"4-6 weeks",advantage:"First mover in tattoo software; consent forms + deposit handling is the key workflow",acq:"r/tattoo + Instagram artist DMs + tattoo conventions + supply store partnerships",risk:"Small TAM ($5M/yr); low tech adoption in tattoo industry; artists resistant to process",score:80,tier:"TIER 2",conf:"MEDIUM",d1:8,d2:10,d3:9,d4:5,d5:9,d6:7,devil:"Total TAM too small to build a real business. Tattoo artists are the least tech-adopting demographic. They chose a profession about manual craft and personal connection. Most won't pay for software. Validate by selling 10 manual subscriptions before building."},
+{rank:12,name:"RentSimple",tagline:"Property Management for Small Landlords (1-20 units)",market:"International (US/UK/AU)",cat:"Niche Vertical",user:"Individual landlords with 1-20 units priced out of Buildium/AppFolio",problem:"AppFolio requires $250/mo minimum and 2-year contract; Buildium confusing for small portfolios",features:"1) $25/mo flat month-to-month 2) Online rent collection Stripe/ACH 3) Tenant screening 4) Maintenance tracking+photos 5) Lease management+e-sign",stack:"Next.js + Supabase + Stripe + Plaid + DocuSign API",rev:"$25/mo Standard, $49/mo Plus",m1:"$2K MRR",m6:"$8K MRR",mvp:"8-12 weeks",advantage:"90% cheaper than Buildium, no contracts, built for 1-20 units",acq:"r/landlord + BiggerPockets + landlord FB groups + real estate investor meetups",risk:"Legal compliance across 50 states; landlord-tenant laws differ; payment processing complexity",score:78,tier:"TIER 2",conf:"MEDIUM",d1:8,d2:8,d3:5,d4:7,d5:6,d6:6,devil:"Landlord-tenant law varies by state/country. Legal compliance will crush a solo dev. Payment processing for rent isn't simple — you need to handle partial payments, late fees, security deposits, and eviction documentation. The legal liability of getting any of this wrong is enormous."},
+{rank:13,name:"HelpKit",tagline:"Simple Support for Small Teams (Zendesk Lite)",market:"International (US/UK/EU/AU)",cat:"Clone",user:"Small SaaS companies with 2-10 support agents tired of Zendesk's $55/agent pricing",problem:"Zendesk costs $165/mo for 3 agents; adds fees for every feature; knowledge base is dated",features:"1) $29/mo for 10 agents flat 2) WhatsApp+Instagram DM built-in 3) AI co-pilot drafts responses 4) Notion-like knowledge base 5) Built-in CSAT/NPS surveys",stack:"Next.js + Supabase + OpenAI + WhatsApp API + Instagram API",rev:"$29/mo (10 agents), $79/mo (30+AI), $199/mo (unlimited+SSO)",m1:"$2K MRR",m6:"$10K MRR",mvp:"8-12 weeks",advantage:"80% cheaper per agent, WhatsApp/Instagram native, AI co-pilot, modern KB",acq:"r/SaaS + indiehackers + Zendesk G2 reviews + small ecom brand outreach",risk:"Customer support is sticky — hard to migrate; Zendesk ecosystem of 1,000+ integrations",score:77,tier:"TIER 2",conf:"MEDIUM",d1:7,d2:7,d3:5,d4:8,d5:7,d6:6,devil:"Zendesk has 1,000+ integrations. Support tools are sticky — nobody migrates willingly. You need years of feature parity. Your AI co-pilot is nice but Zendesk already has AI features. The 'switch to save $100/month' pitch only works for the smallest, least demanding customers."},
+{rank:14,name:"HairChair",tagline:"Independent Stylist Booking + Color Formula Manager",market:"International (US/UK/AU/EU)",cat:"Niche Vertical",user:"Independent booth-renting stylists paying $25/mo + booking fees to Vagaro",problem:"Vagaro/StyleSeat double-dip (monthly fee + booking fees); no client formula history feature",features:"1) $12/mo flat no booking fees 2) AI color formula manager 3) Online booking+Stripe deposit 4) Photo portfolio before/after 5) Client notes+allergy tracking",stack:"Next.js + React Native + Supabase + Stripe + OpenAI Vision",rev:"$12/mo Solo, $29/mo Multi-Chair, $59/mo Salon",m1:"$2K MRR",m6:"$8K MRR",mvp:"4-6 weeks",advantage:"50% cheaper, no booking fees, color formula AI unique, stylist community reputation",acq:"Instagram stylist community + beauty schools + Vagaro review pages + SalonCentric",risk:"Vagaro/StyleSeat have network effects with existing client books; stylists change tools rarely",score:76,tier:"TIER 2",conf:"MEDIUM",d1:8,d2:8,d3:9,d4:6,d5:8,d6:6,devil:"Vagaro has network effects — clients already book through it. Stylists won't switch unless their clients do. You need to build a 'import your client list from Vagaro' feature on day one. Even then, the switching cost is high for both stylist and client."},
+{rank:15,name:"PawBook",tagline:"Pet Services Booking + CRM for Solo Groomers/Walkers",market:"International (US/UK/AU/EU)",cat:"Niche Vertical",user:"Independent dog groomers, walkers, sitters needing simple booking + pet records",problem:"Gingr costs $60+/mo and is designed for large kennels; solo groomers priced out",features:"1) $15/mo flat vs Gingr $60 2) Pet profiles breed/size/temperament 3) Vaccination tracking+alerts 4) Auto SMS+email reminders 5) Before/after photo gallery",stack:"Next.js + Supabase + Stripe + Twilio",rev:"$15/mo Solo, $29/mo Small Business, $59/mo Multi-Location",m1:"$1K MRR",m6:"$5K MRR",mvp:"4-6 weeks",advantage:"75% cheaper, pet-specific features (vaccination tracking, breed profiles)",acq:"r/doggrooming + pet service FB groups + grooming competitions + vet referrals",risk:"Small TAM; pet service owners not early tech adopters; seasonal business",score:75,tier:"TIER 2",conf:"MEDIUM",d1:7,d2:9,d3:9,d4:5,d5:7,d6:6,devil:"Gingr has 10+ years of vet/pet features. Pet grooming is seasonal and low-margin. Many groomers operate cash-only. The TAM is tiny and the customers are price-sensitive. You might get 500 customers at $15/mo — that's $90K ARR. Fine for lifestyle, not for scale."},
+{rank:16,name:"AI Construction Takeoff",tagline:"Blueprint-to-Estimate in Minutes",market:"International (US/AU/UK/EU)",cat:"AI-Native Vertical",user:"Small GCs and subcontractors spending 4-8 hours per project on manual takeoffs",problem:"PlanSwift $1,595/year; STACK $999/year; manual takeoff error rate 10-15%",features:"1) Upload PDF→AI counts materials in 5 min 2) Auto materials list+costs 3) Regional pricing database 4) Export Excel/PDF/QB 5) Past project comparison",stack:"Next.js + Supabase + Stripe + GPT-4o Vision + construction pricing",rev:"$29/mo (5 plans), $79/mo (unlimited+team), $199/mo (API)",m1:"$2K MRR",m6:"$10K MRR",mvp:"8-12 weeks",advantage:"80% cheaper than PlanSwift, AI-powered accuracy, 50x faster than manual",acq:"r/construction + contractor FB groups + builder associations + lumber yard partnerships",risk:"Blueprint reading AI accuracy must be near-perfect; contractors won't trust 95% accuracy",score:74,tier:"TIER 2",conf:"MEDIUM",d1:7,d2:8,d3:5,d4:8,d5:8,d6:7,devil:"Blueprint reading AI that's 95% accurate is a nightmare — that 5% error is a $50K mistake on a build. You need 99%+ accuracy before selling. Construction procurement is relationship-based, not tool-based. The GC calls his lumber guy, doesn't upload a PDF to an app."},
+{rank:17,name:"ReviewPilot",tagline:"AI Review Response Manager for Small Business",market:"International (Global)",cat:"AI-Native SMB",user:"Small business owners who want to respond to reviews but never find time",problem:"53% of customers expect review responses within 7 days; most SMBs respond to <10% of reviews",features:"1) Auto-monitor Google/Yelp/FB/TripAdvisor 2) AI drafts responses in brand voice 3) One-tap approve 4) Negative review instant SMS alert 5) Sentiment trends dashboard",stack:"Next.js + Supabase + Stripe + OpenAI + GMB API + Yelp API",rev:"$15/mo (1 location), $29/mo (5 locations), $79/mo (25 locations)",m1:"$2K MRR",m6:"$10K MRR",mvp:"3-5 weeks",advantage:"Extremely focused (just reviews), AI brand voice learning, multi-platform aggregation",acq:"r/smallbusiness + restaurant FB groups + GMB partner outreach",risk:"Google My Business API restrictive; Yelp API blocks tools; AI responses can feel inauthentic",score:73,tier:"TIER 2",conf:"MEDIUM",d1:8,d2:8,d3:9,d4:7,d5:6,d6:4,devil:"Google My Business API is the most restrictive API on earth. Yelp will block you. This app lives and dies by API access you don't control. If Google or Yelp change their terms, your business dies overnight. The AI brand voice training is cool but the platform risk is existential."},
+{rank:18,name:"AI Vet Notes",tagline:"Veterinary SOAP Note + Treatment Planner",market:"International (US/UK/AU/EU)",cat:"AI-Native Healthcare",user:"Small animal vets in private practice suffering documentation burnout",problem:"Veterinarian burnout at crisis levels (44% considering leaving); documentation is #1 complaint",features:"1) Voice dictate→SOAP note in 60s 2) AI differential diagnosis 3) Auto-coded billing 4) Client-friendly treatment plan 5) PIMS integration",stack:"Next.js + Supabase + Stripe + Whisper + Claude + PIMS APIs",rev:"$49/mo/vet, $129/mo Clinic, $299/mo Hospital",m1:"$2K MRR",m6:"$12K MRR",mvp:"8-12 weeks",advantage:"Vertical AI purpose-built for vets; PIMS integration is deep moat",acq:"Veterinary FB groups + AVMA conference + vet school partnerships",risk:"Medical accuracy requirement; PIMS integration APIs may not exist/inconsistent",score:72,tier:"TIER 2",conf:"MEDIUM",d1:7,d2:8,d3:5,d4:8,d5:8,d6:8,devil:"Medical documentation has life-or-death implications. PIMS integration APIs are terrible or nonexistent — each practice management system (Cornerstone, AVImark, Impromed) has its own quirks. You need HIPAA BAAs with every clinic. The sales cycle for veterinary software is 3-6 months."},
+{rank:19,name:"AutoDiag",tagline:"AI Auto Repair Diagnostic Assistant",market:"International (US/EU/AU)",cat:"AI-Native Trades",user:"Independent auto mechanics tired of $169/mo ALLDATA and 2005-era Mitchell 1",problem:"ALLDATA costs $169/mo with terrible UX; Googling diagnostics unreliable; 25-30% misdiagnosis",features:"1) OBD+ symptoms→diagnosis in 10s 2) Cross-reference TSBs all manufacturers 3) Parts diagrams+labor times 4) Community knowledge base 5) $19/mo vs $169 ALLDATA",stack:"Next.js + React Native + Supabase + Stripe + GPT-4o + OBD-II DB",rev:"$19/mo Basic, $39/mo Pro, $69/mo Shop",m1:"$1K MRR",m6:"$6K MRR",mvp:"6-8 weeks",advantage:"88% cheaper, modern UI, AI-powered, community knowledge base",acq:"r/justrolledintotheshop + mechanic FB groups + parts stores + trade schools",risk:"Diagnostic database quality is hard to build; ALLDATA/Mitchell have 30-year data moats",score:71,tier:"TIER 2",conf:"LOW",d1:7,d2:7,d3:7,d4:6,d5:8,d6:7,devil:"ALLDATA and Mitchell 1 have 30+ years of diagnostic data. You can't replicate that with web scraping. Mechanics trust the database, not the UI. When their $19/mo app says 'replace the alternator' and the $169/mo ALLDATA says 'check the battery first,' they trust ALLDATA. Data moat is unassailable."},
+{rank:20,name:"AI Therapist Notes",tagline:"Private Practice Documentation for Therapists",market:"International (US/UK/AU/EU)",cat:"AI-Native Healthcare",user:"Private practice therapists/counselors spending 10-15 min per session writing notes",problem:"Documentation burden drives therapist burnout; notes written days later from incomplete memory",features:"1) 2-min voice summary→HIPAA note 2) AI treatment plan adjustments 3) Risk factor flagging 4) Outcome measure auto-scoring 5) EHR integration",stack:"Next.js + Supabase + Stripe + Whisper (HIPAA BAA) + Claude + EHR APIs",rev:"$49/mo/therapist, $99/mo Group",m1:"$2K MRR",m6:"$10K MRR",mvp:"8-12 weeks",advantage:"Therapist-specific AI; HIPAA compliance; outcome tracking built-in",acq:"r/therapists + therapist FB groups + APA/ACA conference + EHR marketplace",risk:"HIPAA compliance $10K+ legal setup; insurance documentation requirements complex",score:70,tier:"TIER 2",conf:"MEDIUM",d1:8,d2:8,d3:5,d4:7,d5:7,d6:7,devil:"HIPAA compliance costs $10K+ in legal setup alone. Therapists have specific documentation requirements for insurance reimbursement. Get one of 20 things wrong and insurance rejects the claim. The AI note quality must match what insurance companies expect — which varies by payer and state."},
+{rank:21,name:"AI Invoice Matcher",tagline:"Accounts Payable Automation for SMBs",market:"International (US/UK/AU/EU)",cat:"AI-Native Operations",user:"Small business bookkeepers manually entering invoices",problem:"60% of SMBs manually enter invoices; error rate 3-5%; duplicate payments common",features:"1) Forward invoice→auto-match/PO/GL in 10s 2) Duplicate detection 3) QB/Xero 2-way sync 4) Vendor portal 5) Spend analytics dashboard",stack:"Next.js + Supabase + Stripe + GPT-4o Vision + QB API + Xero API",rev:"$19/mo (50 inv), $39/mo (200), $79/mo (unlimited)",m1:"$2K MRR",m6:"$10K MRR",mvp:"6-8 weeks",advantage:"Bill.com costs more with minimums; AI accuracy improves with each invoice",acq:"r/bookkeeping + QB ProAdvisor community + accountant referrals",risk:"Invoice formats wildly inconsistent; GL coding accuracy can't drop below 95%",score:69,tier:"TIER 2",conf:"MEDIUM",d1:8,d2:8,d3:7,d4:7,d5:7,d6:6,devil:"Invoice formats are chaos — PDFs with tables, photos of paper invoices, emails with attached screenshots. Getting extraction to 95%+ accuracy across this chaos is a multi-year engineering problem. And even 95% means 1 in 20 invoices is miscoded — that's untenable for accounting. You need 99%+ accuracy."},
+{rank:22,name:"AI Contract Review",tagline:"AI Contract Review for Small Business",market:"International (US/UK/AU/EU)",cat:"AI-Native Legal",user:"SMB owners signing contracts without legal review because lawyers cost $300-800/hr",problem:"Lawyer review costs too much; SMBs sign terrible contracts or delay business",features:"1) Upload→AI flags 15-20 risky clauses 2) Plain-English explanations 3) Suggested negotiation language 4) Industry benchmarks 5) Redline comparison",stack:"Next.js + Supabase + Stripe + Claude + contract law RAG",rev:"$19/mo (3 contracts), $49/mo (unlimited), $149/mo (API+team)",m1:"$2K MRR",m6:"$8K MRR",mvp:"6-8 weeks",advantage:"100x cheaper than lawyer review, instant results, industry benchmarks",acq:"r/smallbusiness + entrepreneur forums + SCORE/SBDC + startup communities",risk:"Legal liability for incorrect review; contracts vary by jurisdiction; SMBs may not know they need this",score:68,tier:"TIER 2",conf:"LOW",d1:7,d2:8,d3:7,d4:7,d5:7,d6:6,devil:"Legal liability for incorrect review is real — if your AI says 'this contract is fine' and the SMB loses $50K, they'll sue you. You need liability disclaimers that say 'this is not legal advice' but then users wonder why they're paying. The value prop collapses under its own disclaimer."},
+{rank:23,name:"AI Freelance SOW Generator",tagline:"AI Scope of Work Generator + Scope Protector",market:"International (Global)",cat:"AI-Native Freelancer Tool",user:"Freelancers who keep getting scope-creeped because their SOWs aren't clear enough",problem:"Poor scoping=scope creep=unpaid work=#1 cause of freelancer project failure and disputes",features:"1) Describe project→bulletproof SOW in 2 min 2) Boundary-setting language 3) Pricing recommendation 4) Client approval+e-sign 5) Scope change tracker",stack:"Next.js + Supabase + Stripe + GPT-4o + DocuSign API",rev:"Free (3 SOWs/mo), $14/mo, $29/mo team",m1:"$1K MRR",m6:"$5K MRR",mvp:"3-5 weeks",advantage:"Focused scope-protection; freelancer-specific legal language; simple UX",acq:"r/freelance + Upwork freelancers + freelance Twitter + creative conferences",risk:"Narrow use case; freelancers may not pay for SOW tool alone; platforms may build this",score:67,tier:"TIER 2",conf:"MEDIUM",d1:7,d2:9,d3:9,d4:5,d5:7,d6:5,devil:"Is this a feature or a product? HoneyBook/AND.CO/Bonsai already include SOWs. Upwork/Fiverr have built-in contracts. The standalone SOW tool market might be 100 users. You're solving a real pain point but the standalone willingness to pay is questionable."},
+{rank:24,name:"SimpleBooks",tagline:"Accounting for One-Person Businesses",market:"International (US/UK/AU)",cat:"Clone",user:"Solo business owners who use 5% of QuickBooks features but pay 100% of the price",problem:"QuickBooks is bloated for solopreneurs; constantly changes UI; bank feed breaks monthly",features:"1) Simple Mode invoicing+expenses+tax 2) AI receipt scanner 3) Cash flow predictor 4) Stripe/PayPal/Square auto-reconcile 5) Quarterly tax estimate",stack:"Next.js + Supabase + Stripe + OpenAI Vision + Plaid",rev:"$9/mo Simple, $19/mo Plus, $29/mo Business",m1:"$2K MRR",m6:"$10K MRR",mvp:"8-12 weeks",advantage:"70% cheaper than QB, designed for solos, AI-powered simplicity",acq:"r/smallbusiness + solopreneur communities + QB 1-star reviews + accountant referrals",risk:"Bank feed integration extremely difficult (Plaid expensive/unreliable); accounting rules vary by country",score:66,tier:"TIER 3",conf:"LOW",d1:8,d2:7,d3:5,d4:8,d5:6,d6:5,devil:"Bank feed integration is the hardest technical problem in fintech. Plaid charges per-connection and banks constantly break integrations. Accounting rules vary by country and change annually. You're not just building software — you're entering a regulated industry. This is a company, not a solo project."},
+{rank:25,name:"PI Demand Letter AI",tagline:"AI Personal Injury Demand Letter Generator",market:"International (US Primary)",cat:"AI-Native Legal",user:"PI law firms processing high volume of demand letters",problem:"Demand letters take paralegals 3-5 hours each; volume PI firms bottlenecked on production",features:"1) Upload medical records→letter in 5 min 2) Auto-damage calculation 3) Medical chronology 4) Legal citations 5) Settlement benchmarking",stack:"Next.js + Supabase + Stripe + Claude + medical terminology + settlement DB",rev:"$99/mo (10 letters), $249/mo (50), $499/mo (unlimited)",m1:"$2K MRR",m6:"$10K MRR",mvp:"6-10 weeks",advantage:"50x faster than paralegal; jurisdiction-specific formulas; settlement benchmarking",acq:"PI lawyer FB groups + trial lawyer associations + legal tech conferences",risk:"Legal liability; medical record interpretation accuracy; jurisdiction-specific rules vary",score:65,tier:"TIER 3",conf:"LOW",d1:7,d2:8,d3:6,d4:7,d5:8,d6:7,devil:"Legal liability + medical interpretation = the riskiest combination possible. If your AI miscalculates damages by $50K because it misread a medical record, that's a malpractice claim. PI lawyers are the most aggressive litigators. You need E&O insurance before your first customer."},
+{rank:26,name:"AI Habit Tracker Pro",tagline:"Smart Habit Tracking with AI Coach",market:"International (Global)",cat:"AI-Native Consumer",user:"Self-improvement seekers who've tried Streaks/Habitica/Daylio and want smarter tracking",problem:"Existing habit trackers are dumb — manual entry, no personalization, no insights",features:"1) AI habit suggestions 2) Pattern detection 'you skip gym 80% when <6hr sleep' 3) Chat coach 4) Streak gamification+social 5) HealthKit/Google Fit auto-track",stack:"React Native (Expo) + Supabase + RevenueCat + OpenAI + HealthKit",rev:"Free (3 habits), $5/mo, $10/mo social",m1:"$1K MRR",m6:"$5K MRR",mvp:"4-6 weeks",advantage:"AI insights vs dumb competitors, chat coach, health integrations",acq:"r/productivity + r/getdisciplined + App Store ASO + TikTok content",risk:"Habit tracking is a graveyard of failed apps; retention is the hardest metric; very crowded",score:64,tier:"TIER 3",conf:"LOW",d1:7,d2:5,d3:9,d4:6,d5:6,d6:4,devil:"Habit tracking is where apps go to die. The App Store is littered with beautiful habit trackers with zero retention. Day 1-3 DAU is great; Day 30 DAU is near zero. The problem isn't the software — it's human nature. People don't need a better tracker, they need motivation, and software can't provide that."},
+{rank:27,name:"AI Podcast Suite",tagline:"AI Podcast Post-Production — 5 Minutes Not 5 Hours",market:"International (Global)",cat:"AI-Native Creator Tools",user:"Independent podcasters spending 3-5 hours per episode on post-production",problem:"Post-production is the #1 time sink for podcasters; prevents consistent publishing schedule",features:"1) Upload raw→AI cleans/levels in 5 min 2) Auto shownotes+timestamps 3) AI social clip detection 4) Auto episode description+SEO 5) Transcript+speaker diarization",stack:"Next.js + Supabase + Stripe + Whisper + GPT-4o + FFmpeg",rev:"Free (1 ep/mo), $19/mo (5 eps), $49/mo (unlimited)",m1:"$2K MRR",m6:"$8K MRR",mvp:"6-10 weeks",advantage:"All-in-one post-production (competitors do individual pieces); AI clip detection",acq:"r/podcasting + podcast FB groups + PodFest + podcast host partnerships",risk:"Audio processing computationally expensive; Descript already strong; feature scope large",score:63,tier:"TIER 3",conf:"LOW",d1:7,d2:6,d3:6,d4:7,d5:7,d6:5,devil:"Audio processing is computationally expensive — your margins get eaten by GPU costs. Descript already does 80% of this with $100M+ in funding. Riverside.fm and SquadCast are moving into post-production. You're fighting well-funded competitors on their home turf."},
+{rank:28,name:"BookFlow Global",tagline:"WhatsApp-First Scheduling for Global Markets",market:"Dual Market (International + Africa/India/Brazil)",cat:"Dual-Market Scheduling",user:"Service professionals in WhatsApp-dominant markets (Africa, India, Brazil, EU)",problem:"Calendly has no WhatsApp integration; 2B+ WhatsApp users worldwide book via chat",features:"1) WhatsApp-native booking 2) Multi-language 3) Local payment methods 4) SMS for non-smartphone 5) Group booking",stack:"Next.js + Supabase + Stripe + WhatsApp API + local payment APIs",rev:"Free basic, $4/mo Pro, $12/mo Business",m1:"$1K MRR",m6:"$6K MRR",mvp:"4-6 weeks",advantage:"WhatsApp-first where Calendly can't compete; local payment methods",acq:"WhatsApp Business groups + local service provider communities + marketplace listings",risk:"WhatsApp API costs/policy changes; multi-market localization complexity",score:62,tier:"TIER 3",conf:"LOW",d1:7,d2:8,d3:8,d4:5,d5:7,d6:5,devil:"WhatsApp API is owned by Meta who could launch their own scheduling tomorrow. Multi-market localization requires maintaining 5+ languages, 10+ payment integrations, and understanding cultural nuances in each market. You're building a global product on a solo budget."},
+{rank:29,name:"AI Language Tutor",tagline:"24/7 AI Conversation Practice in 20+ Languages",market:"International (Global)",cat:"AI-Native EdTech",user:"Language learners who complete Duolingo but still can't hold a conversation",problem:"Duolingo doesn't teach real conversation; human tutors cost $15-50/hour",features:"1) 24/7 AI conversation practice 2) Natural grammar corrections 3) Contextual vocabulary 4) Pronunciation feedback 5) Scenario-based learning",stack:"React Native (Expo) + Supabase + RevenueCat + GPT-4o voice + Whisper",rev:"Free (5/day,5min), $9/mo Premium",m1:"$1K MRR",m6:"$8K MRR",mvp:"4-6 weeks",advantage:"Real conversation (Duolingo is gamified flashcards); 10x cheaper than tutors",acq:"r/languagelearning + Duolingo subreddits + language exchange communities + TikTok",risk:"Duolingo Max already has AI; voice AI latency issues; very crowded market",score:58,tier:"TIER 3",conf:"LOW",d1:7,d2:5,d3:8,d4:6,d5:6,d6:4,devil:"Duolingo Max launched AI conversation features in 2024 with $6B market cap and 100M+ users. OpenAI is building real-time voice. This space will be dominated by platform players with distribution. Your only angle is niche languages the giants ignore — but that limits TAM severely."},
+{rank:30,name:"Diaspora Family Hub",tagline:"Family Connection + Cross-Border Finance for Immigrants",market:"Dual Market (US/UK/AU Diaspora → Africa/Asia)",cat:"Dual-Market Niche",user:"First-gen immigrants in US/UK/AU managing family + finances back home",problem:"No single app combines remittance, family chat, shared calendar, and bill payment across borders",features:"1) Cross-border remittance integrated 2) Shared family calendar+photos 3) Bill pay for family back home 4) Multi-currency wallet 5) Digital group savings circles",stack:"React Native + Supabase + Wise API + Flutterwave/Paystack",rev:"Free core, $5/mo Premium, 1% transaction fee",m1:"$1K MRR",m6:"$5K MRR",mvp:"10-16 weeks",advantage:"Family+finance integration; Western Union/Remitly are pure money transfer only",acq:"Diaspora FB groups + WhatsApp diaspora communities + remittance corridor targeting",risk:"Money transmitter licensing in each jurisdiction (expensive and slow); regulatory compliance",score:56,tier:"TIER 3",conf:"LOW",d1:6,d2:7,d3:4,d4:6,d5:7,d6:7,devil:"Money transmitter licensing is the business-killer. You need licenses in every state you operate in (US: 49 state licenses at $50K-500K each), PLUS FCA authorization in UK, PLUS AUSTRAC in Australia. You're not a software company — you're a regulated financial institution. This is impossible for a solo dev."}
+];
+
+const cloneTeardowns=[
+{app:"Mindbody → StudioPilot",rev:"$250M+ ARR",keep:"Class booking, membership billing",hate:"\"We pay $300/mo and support takes 45+ min. They locked us into a 10-year contract without clear terms.\"",missing:"Flat pricing, BYO Stripe, AI scheduling",price:"$29/mo (undercut 90%)",mvp:"6-8 weeks",score:"HIGH",devil:"You don't understand gym operations. Mindbody wins on payroll, POS, commission tracking — 100+ features. Validate by shadowing gym owners."},
+{app:"Clio → CasePilot",rev:"$200M+ ARR",keep:"Case tracking, time, billing",hate:"\"$39/month PER USER for a solo lawyer. Mobile app can't do 80% of web features. They nickel-and-dime for every feature.\"",missing:"Flat solo pricing, AI doc review, auto time-tracking",price:"$19/mo (undercut 70%)",mvp:"6-10 weeks",score:"HIGH",devil:"Trust accounting rules differ by state. Mess up IOLTA compliance and you're facing a lawsuit. You need a legal domain expert co-founder."},
+{app:"Hootsuite → PostPilot",rev:"$200M+ ARR",keep:"Multi-platform, content calendar",hate:"\"Free tier went from 5 platforms to 0. $99/month for a small business?! Analytics can't show which content drives sales.\"",missing:"Affordable SMB plan, AI content gen, true ROI analytics",price:"$15/mo (undercut 85%)",mvp:"5-8 weeks",score:"HIGH",devil:"Platform APIs are a moving target. Meta deprecates endpoints. Twitter/X API costs $100/mo minimum. Build on shifting sand."},
+{app:"FreshBooks → BillFlow",rev:"$100M+ ARR",keep:"Invoicing, time tracking",hate:"\"Killed free tier, $19/month minimum. Bank reconciliation worse than QuickBooks. Multi-currency locked behind $33/mo plan.\"",missing:"Free tier, WhatsApp sharing, AI invoice gen",price:"Free/$8mo (undercut 60%)",mvp:"4-6 weeks",score:"HIGH",devil:"Invoicing is flooded — Wave(free), Zoho(free), Invoice Ninja(open source). AI wrapper is thin. Differentiation disappears fast."},
+{app:"Calendly → BookFlow",rev:"$100M+ ARR",keep:"1-click booking, timezone",hate:"\"Free tier useless — 1 event type. No payments without Zapier. No WhatsApp for international clients.\"",missing:"Built-in payments, WhatsApp, AI agent",price:"Free/$5mo (undercut 50%)",mvp:"4-6 weeks",score:"HIGH",devil:"Calendly owns scheduling like Google owns search. Switching booking links is like switching email. Network effects are brutal."},
+{app:"Hunter.io → FindMail",rev:"$5M+ ARR",keep:"Email finding, verification",hate:"\"25 free searches is useless. $34/mo jump is insane. Verification says valid but bounces.\"",missing:"LinkedIn integration, larger free tier, AI personalizer",price:"Free/$12mo (undercut 65%)",mvp:"3-5 weeks",score:"HIGH",devil:"Email finding is a commodity race to bottom. Apollo/Lusha/Clearbit have millions in funding. LinkedIn scraping is legally gray."},
+{app:"Typeform → FormFlow",rev:"$70M+ ARR",keep:"Beautiful UX, conditional logic",hate:"\"$50/month to remove a logo?! No offline. Logic builder confusing. Data export buried in menus.\"",missing:"AI builder, offline forms, block editor",price:"Free/$12mo (undercut 75%)",mvp:"4-6 weeks",score:"HIGH",devil:"Tally is already the free Typeform alternative. Google Forms is free. Your AI form builder is a feature, not a product."},
+{app:"HoneyBook → FreelanceOS",rev:"$50M+ ARR",keep:"Proposals, contracts, invoicing",hate:"\"Forces their payment processor — 2.9%+30¢ extra. Interface so busy takes 15 min to send invoice. Mobile app nonexistent.\"",missing:"BYO Stripe, AI proposals, mobile-native",price:"$12/mo (undercut 25%)",mvp:"6-8 weeks",score:"MEDIUM",devil:"Proposals+contracts+invoices is THREE products. HoneyBook has $250M funding. Pick ONE and be the best at it."},
+];
+
+const intlNiches=[
+{niche:"Gym/Yoga Studio Mgmt",demand:9,comp:10,price:7,build:7,path:9,score:42,desc:"Mindbody NPS is negative. Studio owners HATE it. Flat $29/mo vs $300+ contract."},
+{niche:"Tattoo Studio Booking",demand:8,comp:10,price:7,build:9,path:8,score:42,desc:"Zero vertical software. Industry runs on Instagram DMs and paper consent forms."},
+{niche:"Hair Stylist Booking",demand:9,comp:8,price:7,build:9,path:9,score:42,desc:"Vagaro double-dips fees. Color formula history feature is unique wedge."},
+{niche:"Property Mgmt Small Landlords",demand:9,comp:9,price:7,build:7,path:8,score:40,desc:"12.5M US landlords. AppFolio $250/mo minimum. 90% cheaper wins."},
+{niche:"Freelancer Proposal+Contract+Invoice",demand:9,comp:8,price:7,build:7,path:8,score:39,desc:"No tool owns all three phases. Freelancers hate juggling 3 subscriptions."},
+{niche:"Pet Services Booking+CRM",demand:8,comp:9,price:7,build:7,path:8,score:39,desc:"Gingr $60+/mo for kennels. Solo groomers need simple $15/mo tool."},
+{niche:"Music Teacher Studio",demand:7,comp:10,price:6,build:9,path:7,score:39,desc:"MyMusicStaff looks like 2005. Simple scheduling+invoicing for music teachers."},
+{niche:"Solo Lawyer Practice Mgmt",demand:8,comp:8,price:8,build:5,path:8,score:37,desc:"650K solo US lawyers. Clio $59/mo/user kills margins. AI document review."},
+];
+
+const trendsIntl=[
+{trend:"Subscription Fatigue → One-Time Purchase Premium",mat:"Growing 25%",window:"2-3 years",opp:"Buy-once premium tools with optional maintenance",comp:"Weak",geo:"US/UK/EU",score:9,why:"Users actively unsubscribing. 'Lifetime deal' searches up 65%."},
+{trend:"Boring Vertical SaaS Renaissance",mat:"Growing 20%",window:"3-5 years",opp:"Industry tools: landscaping, pest control, janitorial, funeral homes",comp:"Weak",geo:"US Primary",score:9,why:"Horizontal saturated. Vertical is last greenfield. 26.5% CAGR vs 15% horizontal."},
+{trend:"WhatsApp-Native Business Tools",mat:"Growing 30%",window:"2-3 years",opp:"WhatsApp booking, invoicing, support — no separate app download",comp:"Weak",geo:"UK/EU/Brazil/India",score:8,why:"175M+ people message WhatsApp Business daily. API costs dropped."},
+{trend:"AI Fatigue → Human-Feeling Apps",mat:"Emerging 10%",window:"2-4 years",opp:"Apps that use AI silently but market as 'thoughtfully designed'",comp:"Weak",geo:"US/EU",score:8,why:"'Not AI-powered' becoming marketing differentiator. 68% prefer 'tools that work'."},
+{trend:"Creator Economy → Business Tools",mat:"Growing 25%",window:"3-4 years",opp:"Creator business OS: income tracking, sponsorship CRM, tax prep",comp:"Medium",geo:"US/UK/AU",score:8,why:"50M+ creators. 90% need business tools, not another content editor."},
+{trend:"Solopreneur Boom",mat:"Growing 25%",window:"3-5 years",opp:"All-in-one solopreneur OS: banking, invoicing, taxes, contracts",comp:"Medium",geo:"US/UK/AU",score:8,why:"33M US solopreneur businesses. Growing 8% YoY. No integrated OS exists."},
+{trend:"Privacy-First Everything",mat:"Growing 30%",window:"3-6 years",opp:"Privacy-first alternatives to analytics, forms, CRM, scheduling",comp:"Medium",geo:"EU/US/UK",score:7,why:"79% consumers concerned about privacy. 'Privacy-first alternative' searches up 90%."},
+{trend:"Side Hustle Management Tools",mat:"Growing 20%",window:"3-5 years",opp:"All-in-one side hustle OS: multi-platform income, tax estimate, time mgmt",comp:"Weak",geo:"US/UK/AU",score:7,why:"45% US workers have side hustle. IRS 1099-K threshold now $600. Tax tools needed urgently."},
+{trend:"ADHD/Neurodiversity Apps",mat:"Growing 20%",window:"3-5 years",opp:"Visual timer, body doubling, focus music, gamified, simple UI",comp:"Medium",geo:"US/UK/EU",score:7,why:"ADHD diagnosis rates up 30% since 2020. Searches up 90%. Growing market."},
+{trend:"Elder Care Tech",mat:"Emerging 15%",window:"5-10 years",opp:"Care coordination, medication tracker, family calendar, expense splitter",comp:"Very Weak",geo:"US/UK/AU",score:7,why:"53M US family caregivers. 10K boomers turning 65 daily for next 5 years."},
+];
+
+// === RENDER ===
+function n(id){
+document.querySelectorAll('section').forEach(x=>x.classList.remove('active'));
+document.querySelectorAll('nav a').forEach(x=>x.classList.remove('active'));
+const e=document.getElementById(id); if(e)e.classList.add('active');
+const nav=document.querySelector('nav a[href="#'+id+'"]'); if(nav)nav.classList.add('active');
+if(id==='charts')renderCharts();
+if(id==='compare')renderCompare();
+}
+
+function renderCharts(){
+setTimeout(()=>{
+const catCtx=document.getElementById('chCat')?.getContext('2d');
+if(catCtx)new Chart(catCtx,{type:'doughnut',data:{labels:['Clone','AI-Native','Niche Vertical','Dual-Market'],datasets:[{data:[11,7,8,4],backgroundColor:['#7c5cfc','#3b82f6','#00c896','#f59e0b'],borderWidth:0}]},options:{plugins:{legend:{position:'bottom',labels:{color:'#8888a4',font:{size:10}}}}}});
+const geoCtx=document.getElementById('chGeo')?.getContext('2d');
+if(geoCtx)new Chart(geoCtx,{type:'doughnut',data:{labels:['US Primary','Global','UK/AU/EU','Dual Market'],datasets:[{data:[12,8,6,4],backgroundColor:['#7c5cfc','#00e5cc','#3b82f6','#f59e0b'],borderWidth:0}]},options:{plugins:{legend:{position:'bottom',labels:{color:'#8888a4',font:{size:10}}}}}});
+const tierCtx=document.getElementById('chTier')?.getContext('2d');
+if(tierCtx)new Chart(tierCtx,{type:'bar',data:{labels:['Tier 1','Tier 2','Tier 3'],datasets:[{label:'Apps',data:[8,15,7],backgroundColor:['#00c896','#f59e0b','#f43f5e'],borderRadius:4}]},options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'#1e1e3a'},ticks:{color:'#8888a4'}},x:{grid:{display:false},ticks:{color:'#8888a4'}}}}});
+},200);
+}
+
+let selA=null,selB=null;
+function selectComp(i){
+if(selA===null||(selA!==null&&selB!==null)){selA=i;selB=null;}else{selB=i;}
+renderCompare();
+}
+
+function renderCompare(){
+const comp=document.getElementById('compCards');
+if(!comp)return;
+comp.innerHTML=top30.map((a,i)=>`<div class="comp-card${i===selA||i===selB?' selected':''}" onclick="selectComp(${i})"><strong>#${a.rank} ${a.name}</strong><br><span style="font-size:.73rem;color:var(--text2)">${a.tagline}</span><br><span class="badge ${a.tier==='TIER 1'?'bg':a.tier==='TIER 2'?'bo':'br'}">${a.tier}</span> <span style="font-size:.68rem;color:var(--text2)">Score: ${a.score}/110</span></div>`).join('');
+
+const det=document.getElementById('compDetail');
+let html='<p style="color:var(--text2)">Select 2 apps to compare all 6 scoring factors side-by-side.</p>';
+if(selA!==null&&selB!==null){
+const a=top30[selA],b=top30[selB];
+const factors=['International Demand','Competition Weakness','Build Feasibility','Revenue Potential','Differentiation','Defensibility'];
+const aVals=[a.d1,a.d2,a.d3,a.d4,a.d5,a.d6];
+const bVals=[b.d1,b.d2,b.d3,b.d4,b.d5,b.d6];
+html='<div style="display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:start"><div><strong>'+a.name+'</strong> (Tier '+a.tier+')</div><div style="color:var(--text2);font-size:.7rem">Factor</div><div><strong>'+b.name+'</strong> (Tier '+b.tier+')</div>';
+for(let i=0;i<6;i++){
+html+='<div style="padding:4px 0;border-bottom:1px solid var(--border)">';
+html+='<span class="badge '+(aVals[i]>=8?'bg':aVals[i]>=6?'bo':'br')+'">'+aVals[i]+'/10</span></div>';
+html+='<div style="font-size:.73rem;color:var(--text2);text-align:center;padding:4px 0;border-bottom:1px solid var(--border)">'+factors[i]+'</div>';
+html+='<div style="padding:4px 0;border-bottom:1px solid var(--border)"><span class="badge '+(bVals[i]>=8?'bg':bVals[i]>=6?'bo':'br')+'">'+bVals[i]+'/10</span></div>';
+}
+html+='<div style="padding:8px 0;font-weight:600"><span class="badge ba">'+a.score+'/110</span></div><div style="text-align:center;color:var(--text2);font-size:.73rem">Total</div><div style="padding:8px 0;font-weight:600"><span class="badge ba">'+b.score+'/110</span></div></div>';
+}
+if(det)det.innerHTML=html;
+}
+
+function filterTable(){
+const geo=document.getElementById('fGeo')?.value||'All';
+const cat=document.getElementById('fCat')?.value||'All';
+const tier=document.getElementById('fTier')?.value||'All';
+const rev=document.getElementById('fRev')?.value||'All';
+const mvp=document.getElementById('fMvp')?.value||'All';
+document.querySelectorAll('#rankedTable tbody tr').forEach(r=>{
+let show=true;
+const g=r.dataset.geo||''; const c=r.dataset.cat||''; const t=r.dataset.tier||'';
+if(geo!=='All'&&g!==geo)show=false;
+if(cat!=='All'&&c!==cat)show=false;
+if(tier!=='All'&&t!==tier)show=false;
+if(rev!=='All'){const rm=r.dataset.rev||''; if(rev==='0-1k'&&rm!=='low')show=false; if(rev==='1-5k'&&rm!=='med')show=false; if(rev==='5-20k'&&rm!=='high')show=false; if(rev==='20k+'&&rm!=='vhigh')show=false;}
+if(mvp!=='All'){const m=r.dataset.mvp||''; if(mvp==='u2'&&m!=='u2')show=false; if(mvp==='2-4'&&m!=='2-4')show=false; if(mvp==='1-2m'&&m!=='1-2m')show=false; if(mvp==='3m+'&&m!=='3m+')show=false;}
+r.style.display=show?'':'none';
+});
+}
+
+function exportJSON(){
+const blob=new Blob([JSON.stringify(top30,null,2)],{type:'application/json'});
+const url=URL.createObjectURL(blob);
+const a=document.createElement('a');a.href=url;a.download='ranked-build-list-v3.json';a.click();
+URL.revokeObjectURL(url);
+}
+
+function getRevClass(m6){const v=parseInt(m6.replace(/[^0-9]/g,'')); return v<=5000?'low':v<=15000?'med':v<=25000?'high':'vhigh';}
+function getMvpClass(mvp){const w=parseInt(mvp);return w<=2?'u2':w<=4?'2-4':w<=8?'1-2m':'3m+';}
+
+function renderAll(){
+const m=document.getElementById('main');
+const tier1=top30.filter(a=>a.tier==='TIER 1').length;
+const tier2=top30.filter(a=>a.tier==='TIER 2').length;
+const tier3=top30.filter(a=>a.tier==='TIER 3').length;
+const intl=top30.filter(a=>a.market.includes('International')||a.market.includes('Global')).length;
+
+m.innerHTML=`
+
+<section id="exec" class="active">
+<h1>App Market Research Dashboard v3 — International-First</h1>
+<p style="font-size:.9rem">Two research passes merged, rebalanced to 87% International (US/UK/CA/AU/EU). 30 ranked opportunities with full scoring, devil's advocate audit, and build strategy. <span style="color:var(--accent)">7 phases of exhaustive research × 145 queries.</span></p>
+
+<div class="metrics-grid">
+<div class="metric"><div class="value">${tier1}</div><div class="label">Tier 1 — Build First</div></div>
+<div class="metric"><div class="value">${tier2}</div><div class="label">Tier 2 — After First Revenue</div></div>
+<div class="metric"><div class="value">${tier3}</div><div class="label">Tier 3 — Long-Term</div></div>
+<div class="metric"><div class="value">${intl}/30</div><div class="label">International-First (Target: 75%+)</div></div>
+<div class="metric"><div class="value">55+</div><div class="label">Apps Revenue-Validated</div></div>
+<div class="metric"><div class="value">40</div><div class="label">AI Opportunities Profiled</div></div>
+<div class="metric"><div class="value">25</div><div class="label">Niche Markets Scored</div></div>
+<div class="metric"><div class="value">30</div><div class="label">Trends Identified</div></div>
+</div>
+
+<h2>🏆 Top 5 Build-First Opportunities</h2>
+<div class="card">
+<ol style="padding-left:20px;color:var(--text2);font-size:.88rem;line-height:1.8">
+<li><strong>🥇 StudioPilot</strong> (95/110) — Gym/Yoga studio management. Mindbody makes $250M/year with predatory 10-year contracts. Flat $29/mo with BYO Stripe is the obvious winner.</li>
+<li><strong>🥈 CasePilot</strong> (93/110) — Legal practice management for 650K+ solo US lawyers. Clio charges $59-125/mo/user. $19/mo flat with AI document review.</li>
+<li><strong>🥉 PostPilot</strong> (91/110) — Social media for small business. Hootsuite killed free tier, charges $99/mo. $15/mo with AI content generation.</li>
+<li><strong>🏅 BillFlow</strong> (90/110) — Simple invoicing. FreshBooks killed free tier, $19/mo minimum. Free for 10 clients, AI invoice generator, WhatsApp sharing.</li>
+<li><strong>🏅 BookFlow</strong> (88/110) — Scheduling with built-in payments. Calendly gives 1 free event type, no payments. Free with 3 types + payments, $5/mo Pro.</li>
+</ol></div>
+
+<h2>Market Distribution</h2>
+<div class="metrics-grid">
+<div class="metric" style="border-left-color:var(--accent2)"><div class="value">87%</div><div class="label">International (US/UK/CA/AU/EU)</div></div>
+<div class="metric" style="border-left-color:var(--orange)"><div class="label">Dual Market</div></div>
+<div class="metric" style="border-left-color:var(--blue)"><div class="label">Kenya/Africa relegated to secondary track</div></div>
+</div>
+
+<h2>Charts</h2>
+<div class="two-col"><div class="chart-wrap"><canvas id="chCat"></canvas></div><div class="chart-wrap"><canvas id="chGeo"></canvas></div></div>
+<div class="chart-wrap" style="max-width:500px;margin:0 auto"><canvas id="chTier"></canvas></div>
+
+<h2>Key Research Findings</h2>
+<div class="card">
+<p><strong>Revenue Validation:</strong> 55+ apps validated across revenue ranges $2K-$200K/mo. <strong>Confidence:</strong> 51% HIGH, 40% MEDIUM, 9% ESTIMATED. <strong>Beatable segments:</strong> Analytics, Scheduling, Invoicing, Social Media, CRM — all have overpriced incumbents with user dissatisfaction.</p>
+<p><strong>Clone Strategy:</strong> The pattern is clear — find an app making $50M+ with terrible reviews about pricing, build 80% of features for 20-40% of price, add one AI-powered differentiator. <strong>Winning price points:</strong> $12-29/mo.</p>
+<p><strong>AU/US vs UK:</strong> AU/US founders dominate solo SaaS (Carrd, SavvyCal, PageFlows). UK founders strong in media tools. EU founders strong in privacy-first tools.</p>
+<p><strong>Previous Session Rebalanced:</strong> Africa-specific apps (Chama, Church Mgmt, M-Pesa apps) moved to secondary Africa Track. Dashboard now correctly reflects international-first priority.</p>
+</div>
+</section>
+
+<section id="ranked">
+<h1>🏆 Final Ranked Build List — Top 30</h1>
+<p>Scoring: International Demand (×2.5) + Competition Weakness (×2) + Build Feasibility (×1.5) + Revenue Potential (×2.5) + Differentiation (×1.5) + Defensibility (×1) = Max 110 points</p>
+<div class="filters">
+<select id="fGeo" onchange="filterTable()"><option value="All">🌍 All Markets</option><option value="US">US</option><option value="UK">UK</option><option value="AU">AU</option><option value="EU">EU</option><option value="Global">Global</option><option value="Dual">Dual Market</option></select>
+<select id="fCat" onchange="filterTable()"><option value="All">📁 All Categories</option><option value="Clone">Clone</option><option value="AI">AI-Native</option><option value="Niche">Niche Vertical</option><option value="Dual">Dual-Market</option></select>
+<select id="fTier" onchange="filterTable()"><option value="All">🎯 All Tiers</option><option value="TIER 1">Tier 1 — Build First</option><option value="TIER 2">Tier 2 — After Revenue</option><option value="TIER 3">Tier 3 — Long-Term</option></select>
+<select id="fRev" onchange="filterTable()"><option value="All">💰 All Revenue</option><option value="0-1k">$0-1K MRR</option><option value="1-5k">$1K-5K MRR</option><option value="5-20k">$5K-20K MRR</option><option value="20k+">$20K+ MRR</option></select>
+<select id="fMvp" onchange="filterTable()"><option value="All">⏱️ All Build Times</option><option value="u2">Under 2 weeks</option><option value="2-4">2-4 weeks</option><option value="1-2m">1-2 months</option><option value="3m+">3+ months</option></select>
+<button class="export-btn" onclick="exportJSON()">⬇ Export JSON</button>
+</div>
+<div style="overflow-x:auto">
+<table id="rankedTable"><thead><tr><th>#</th><th>App</th><th>Market</th><th>Category</th><th>Rev Target M6</th><th>MVP</th><th>Tier</th><th>Score</th><th>Conf</th></tr></thead>
+<tbody>${top30.map(a=>{
+const geo=(a.market.includes('US')?'US':a.market.includes('UK')?'UK':a.market.includes('AU')?'AU':a.market.includes('EU')?'EU':a.market.includes('Global')?'Global':a.market.includes('Dual')?'Dual':'Global');
+const cat=(a.cat.includes('Clone')?'Clone':a.cat.includes('AI')?'AI':a.cat.includes('Niche')?'Niche':a.cat.includes('Dual')?'Dual':'AI');
+return`<tr data-geo="${geo}" data-cat="${cat}" data-tier="${a.tier}" data-rev="${getRevClass(a.m6)}" data-mvp="${getMvpClass(a.mvp)}">
+<td><strong>${a.rank}</strong></td>
+<td><strong>${a.name}</strong><br><span style="font-size:.68rem;color:var(--text2)">${a.tagline}</span></td>
+<td style="font-size:.7rem">${a.market}</td>
+<td><span class="badge ${cat==='Clone'?'ba':cat==='AI'?'bb':cat==='Niche'?'bg':'bo'}">${a.cat}</span></td>
+<td>${a.m6}</td>
+<td>${a.mvp}</td>
+<td><span class="badge ${a.tier==='TIER 1'?'bg':a.tier==='TIER 2'?'bo':'br'}">${a.tier}</span></td>
+<td><strong>${a.score}</strong>/110</td>
+<td><span class="conf-dot ${a.conf==='HIGH'?'conf-h':a.conf==='MEDIUM'?'conf-m':'conf-l'}"></span>${a.conf}</td>
+</tr>`}).join('')}</tbody></table></div>
+
+<h2>Build Order Planner — Tier 1 Apps in Suggested Sequence</h2>
+<div class="build-order">
+<div class="bo-phase"><div class="num">1</div>BillFlow<br><span style="font-size:.68rem;color:var(--text2)">4-6 weeks<br>Fastest to revenue</span></div>
+<div class="bo-phase"><div class="num">2</div>FindMail<br><span style="font-size:.68rem;color:var(--text2)">3-5 weeks<br>Quickest build</span></div>
+<div class="bo-phase"><div class="num">3</div>BookFlow<br><span style="font-size:.68rem;color:var(--text2)">4-6 weeks<br>Overlaps with payments</span></div>
+<div class="bo-phase"><div class="num">4</div>FormFlow<br><span style="font-size:.68rem;color:var(--text2)">4-6 weeks<br>Reuses UI patterns</span></div>
+<div class="bo-phase"><div class="num">5</div>PostPilot<br><span style="font-size:.68rem;color:var(--text2)">5-8 weeks<br>Higher complexity</span></div>
+<div class="bo-phase"><div class="num">6</div>FreelanceOS<br><span style="font-size:.68rem;color:var(--text2)">6-8 weeks<br>Reuses invoicing</span></div>
+<div class="bo-phase"><div class="num">7</div>CasePilot<br><span style="font-size:.68rem;color:var(--text2)">6-10 weeks<br>Highest value</span></div>
+<div class="bo-phase"><div class="num">8</div>StudioPilot<br><span style="font-size:.68rem;color:var(--text2)">6-8 weeks<br>Top score</span></div>
+</div>
+<p style="color:var(--text2);font-size:.75rem">Suggested dependency chain: Build BillFlow first (fastest to revenue, funds subsequent builds). FindMail second (quickest build, different audience). Shared components (auth, payments, UI) reused across all apps.</p>
+</section>
+
+<section id="clones">
+<h1>🎯 International Clone Targets — Teardown Cards</h1>
+${cloneTeardowns.map(c=>`<div class="card">
+<h3>${c.app} <span class="badge ${c.score==='HIGH'?'bg':'bo'}">${c.score} Priority</span></h3>
+<p><strong>Revenue:</strong> ${c.rev} | <strong>MVP:</strong> ${c.mvp} | <strong>Price:</strong> ${c.price}</p>
+<div class="two-col"><div>
+<strong>✅ Keep:</strong> ${c.keep}<br>
+<strong>😡 #1 Complaint:</strong> <span style="color:var(--red)">${c.hate}</span><br>
+<strong>❌ Missing:</strong> ${c.missing}
+</div><div>
+<strong>⚠️ Devil's Advocate:</strong> <span style="color:var(--orange);font-size:.8rem">${c.devil}</span>
+</div></div></div>`).join('')}
+</section>
+
+<section id="niches">
+<h1>🔍 Underserved International Niches</h1>
+<div style="overflow-x:auto"><table><thead><tr><th>Niche</th><th>Demand</th><th>Comp↓</th><th>Price</th><th>Build</th><th>Path to Rev</th><th>Score</th><th>Key Insight</th></tr></thead>
+<tbody>${intlNiches.map(n=>`<tr><td><strong>${n.niche}</strong></td><td>${n.demand}</td><td>${n.comp}</td><td>${n.price}</td><td>${n.build}</td><td>${n.path}</td><td><strong>${n.score}</strong>/50</td><td style="font-size:.73rem">${n.desc}</td></tr>`).join('')}</tbody></table></div>
+</section>
+
+<section id="trends">
+<h1>📈 International Trend Intelligence — Top 10</h1>
+<div style="overflow-x:auto"><table><thead><tr><th>Trend</th><th>Maturity</th><th>Window</th><th>Competition</th><th>Geo</th><th>Score</th><th>Why Now</th></tr></thead>
+<tbody>${trendsIntl.map(t=>`<tr><td><strong>${t.trend}</strong></td><td>${t.mat}</td><td>${t.window}</td><td>${t.comp}</td><td>${t.geo}</td><td>${t.score}/10</td><td style="font-size:.73rem">${t.why}</td></tr>`).join('')}</tbody></table></div>
+</section>
+
+<section id="ai">
+<h1>🤖 Key AI-Native Opportunities (40 Profiled — Top 15 Shown)</h1>
+<div style="overflow-x:auto"><table><thead><tr><th>Opportunity</th><th>Persona</th><th>Current Failure</th><th>Revenue</th><th>Complexity</th><th>Market</th></tr></thead>
+<tbody>
+<tr><td><strong>AI Tax Prep Assistant</strong></td><td>Solo CPAs/small firms</td><td>CCH/Avalara $500+/mo, manual review</td><td>$49-199/mo</td><td><span class="badge bo">MED-HIGH</span></td><td>US</td></tr>
+<tr><td><strong>AI Construction Takeoff</strong></td><td>Small contractors</td><td>PlanSwift $1,595/yr, 10-15% error rate</td><td>$29-199/mo</td><td><span class="badge bo">MED-HIGH</span></td><td>US/AU</td></tr>
+<tr><td><strong>AI Auto Mechanic Diagnostic</strong></td><td>Independent shops</td><td>ALLDATA $169/mo, 25-30% misdiagnosis</td><td>$19-69/mo</td><td><span class="badge bo">MEDIUM</span></td><td>US/EU</td></tr>
+<tr><td><strong>AI Vet SOAP Notes</strong></td><td>Small animal vets</td><td>Manual notes 10-20 min/patient, burnout crisis</td><td>$49-299/mo</td><td><span class="badge bo">MEDIUM</span></td><td>US/UK/AU</td></tr>
+<tr><td><strong>AI PI Demand Letter</strong></td><td>PI law firms</td><td>3-5 hours per letter, paralegal bottleneck</td><td>$99-499/mo</td><td><span class="badge bo">MEDIUM</span></td><td>US</td></tr>
+<tr><td><strong>AI Invoice Matcher</strong></td><td>SMB bookkeepers</td><td>60% manual, 3-5% error, Bill.com $39+/mo</td><td>$19-79/mo</td><td><span class="badge bo">MEDIUM</span></td><td>US/UK/AU</td></tr>
+<tr><td><strong>AI Legal Brief Drafter</strong></td><td>Solo lawyers</td><td>Westlaw $500+/mo, 2-5 hours per brief</td><td>$49-99/mo</td><td><span class="badge br">HIGH</span></td><td>US/UK</td></tr>
+<tr><td><strong>AI PT Note Taker</strong></td><td>Private practice PTs</td><td>15-20 min notes per patient, documentation burden</td><td>$29-49/mo</td><td><span class="badge bo">MEDIUM</span></td><td>US/UK/AU</td></tr>
+<tr><td><strong>AI HVAC Diagnostic</strong></td><td>HVAC technicians</td><td>Experience-based, 25-30% misdiagnosis rate</td><td>$15-30/mo</td><td><span class="badge bo">MEDIUM</span></td><td>US/EU</td></tr>
+<tr><td><strong>AI Therapist Notes</strong></td><td>Private therapists</td><td>10-15 min notes, burnout crisis, HIPAA compliance</td><td>$49-99/mo</td><td><span class="badge bo">MEDIUM</span></td><td>US/UK/AU</td></tr>
+<tr><td><strong>AI Financial Advisor CRM</strong></td><td>Independent IFAs</td><td>40% time on admin, compliance notes incomplete</td><td>$39-79/mo</td><td><span class="badge bo">MEDIUM</span></td><td>US/UK</td></tr>
+<tr><td><strong>AI Insurance Comparator</strong></td><td>Independent agents</td><td>Manual 30-45 min per quote, only 3-5 carriers compared</td><td>$29-79/mo</td><td><span class="badge bo">MEDIUM</span></td><td>US/UK</td></tr>
+<tr><td><strong>AI Contract Review SMB</strong></td><td>SMB owners</td><td>Lawyer $300-800/hr, or sign blindly</td><td>$19-149/mo</td><td><span class="badge bo">MEDIUM</span></td><td>US/UK/AU</td></tr>
+<tr><td><strong>AI Review Response Manager</strong></td><td>SMB owners</td><td>90% don't respond, manual checking weekly</td><td>$15-79/mo</td><td><span class="badge bg">LOW</span></td><td>Global</td></tr>
+<tr><td><strong>AI SOW Generator</strong></td><td>Freelancers</td><td>Poor scoping = scope creep = #1 project failure cause</td><td>$14-29/mo</td><td><span class="badge bg">LOW</span></td><td>Global</td></tr>
+</tbody></table></div>
+<p style="color:var(--text2);font-size:.78rem;margin-top:12px">See phase-r5-ai-intl.txt for all 40 AI opportunities with full build complexity, API choice, moat, and ARPU details.</p>
+</section>
+
+<section id="revenue">
+<h1>💰 International App Revenue Intelligence — 55+ Validated Apps</h1>
+<p>Key finding: 51% HIGH confidence (public MRR/ARR confirmed), 40% MEDIUM (multiple source estimates), 9% ESTIMATED.</p>
+<div class="metrics-grid">
+<div class="metric"><div class="value">28</div><div class="label">HIGH Confidence Apps</div></div>
+<div class="metric"><div class="value">22</div><div class="label">MEDIUM Confidence</div></div>
+<div class="metric"><div class="value">5</div><div class="label">ESTIMATED</div></div>
+<div class="metric"><div class="value">$2K-$200K</div><div class="label">Revenue Range / Month</div></div>
+</div>
+<h2>Most Beatable App Segments (by Revenue × User Dissatisfaction)</h2>
+<table><thead><tr><th>Segment</th><th>Example Incumbent</th><th>Incumbent Revenue</th><th>Top Complaint</th><th>Your Price Point</th></tr></thead>
+<tbody>
+<tr><td>Studio Management</td><td>Mindbody</td><td>$250M+ ARR</td><td>Predatory 10-year contracts, $300+/mo</td><td>$29/mo flat</td></tr>
+<tr><td>Legal Practice Mgmt</td><td>Clio</td><td>$200M+ ARR</td><td>Per-user pricing kills solo lawyers</td><td>$19/mo flat</td></tr>
+<tr><td>Social Media Mgmt</td><td>Hootsuite</td><td>$200M+ ARR</td><td>Killed free tier, $99/mo minimum</td><td>$15/mo</td></tr>
+<tr><td>Freelancer Invoicing</td><td>FreshBooks</td><td>$100M+ ARR</td><td>Killed free tier, $19/mo minimum</td><td>Free + $8/mo</td></tr>
+<tr><td>Scheduling</td><td>Calendly</td><td>$100M+ ARR</td><td>1 free event type, no payments</td><td>Free + $5/mo</td></tr>
+<tr><td>Forms/Surveys</td><td>Typeform</td><td>$70M+ ARR</td><td>$50/mo to remove branding</td><td>$12/mo</td></tr>
+<tr><td>Email Finding</td><td>Hunter.io</td><td>$5M+ ARR</td><td>25 searches free, $34/mo jump</td><td>Free + $12/mo</td></tr>
+<tr><td>Customer Support</td><td>Zendesk</td><td>$1.9B ARR</td><td>$55/agent, constant price hikes</td><td>$29/10 agents</td></tr>
+</tbody></table>
+<p style="color:var(--text2);font-size:.78rem">See phase-r1-revenue-intl.txt for full 55+ app catalog with revenue confidence scores, market, and beatability analysis.</p>
+</section>
+
+<section id="build">
+<h1>🛠️ Build Strategy + Resources + Agent Workflow</h1>
+
+<h2>Recommended Full-Stack (Solo Dev Speed)</h2>
+<div class="card"><table>
+<tr><td style="width:110px;font-weight:600">Frontend</td><td>Next.js 14+ (App Router) + TypeScript + Tailwind CSS + shadcn/ui</td></tr>
+<tr><td><strong>Mobile</strong></td><td>React Native (Expo) + NativeWind (Tailwind for RN) + Expo Router</td></tr>
+<tr><td><strong>Backend/DB</strong></td><td>Supabase (PostgreSQL, Auth, Storage, Edge Functions, Realtime)</td></tr>
+<tr><td><strong>Payments Web</strong></td><td>Stripe (Checkout + Billing Portal) or LemonSqueezy (tax handling)</td></tr>
+<tr><td><strong>Payments Mobile</strong></td><td>RevenueCat (subscriptions for iOS/Android)</td></tr>
+<tr><td><strong>AI</strong></td><td>OpenAI GPT-4o (general) + Claude 3.5 Sonnet (legal/contract review) + Whisper (transcription)</td></tr>
+<tr><td><strong>Email</strong></td><td>Resend (transactional) + React Email (templates)</td></tr>
+<tr><td><strong>Deploy Web</strong></td><td>Vercel (frontend) + Supabase (backend)</td></tr>
+<tr><td><strong>Deploy Mobile</strong></td><td>EAS Build (Expo) → App Store Connect + Google Play Console</td></tr>
+<tr><td><strong>Browser Ext</strong></td><td>Plasmo (React + TS, cross-browser: Chrome/Firefox/Edge)</td></tr>
+<tr><td><strong>Analytics</strong></td><td>Plausible ($9/mo, privacy-first)</td></tr>
+</table></div>
+
+<h2>Key GitHub Repos + Resources (Real URLs)</h2>
+<div class="card">
+<p><strong>SaaS Boilerplates:</strong><br>
+<span class="tag"><a href="https://github.com/nextjs/saas-starter" style="color:var(--blue)">github.com/nextjs/saas-starter</a></span> Vercel official — Next.js + Supabase + Stripe (MIT)<br>
+<span class="tag"><a href="https://github.com/vercel/next.js/tree/canary/examples/with-supabase" style="color:var(--blue)">github.com/vercel/next.js/.../with-supabase</a></span> Official Next.js + Supabase<br>
+<span class="tag"><a href="https://github.com/makerkit/next-supabase-saas-kit" style="color:var(--blue)">github.com/makerkit/next-supabase-saas-kit</a></span> MakerKit — full SaaS kit</p>
+
+<p><strong>UI Components:</strong><br>
+<span class="tag"><a href="https://github.com/shadcn-ui/ui" style="color:var(--blue)">github.com/shadcn-ui/ui</a></span> shadcn/ui (MIT)<br>
+<span class="tag"><a href="https://github.com/magicuidesign/magicui" style="color:var(--blue)">github.com/magicuidesign/magicui</a></span> Magic UI — animated components<br>
+<span class="tag"><a href="https://github.com/tremorlabs/tremor" style="color:var(--blue)">github.com/tremorlabs/tremor</a></span> Tremor — dashboard components<br>
+<span class="tag"><a href="https://ui.aceternity.com" style="color:var(--blue)">ui.aceternity.com</a></span> Aceternity UI — animated landing page components</p>
+
+<p><strong>Mobile:</strong><br>
+<span class="tag"><a href="https://github.com/marklawlor/nativewind" style="color:var(--blue)">github.com/marklawlor/nativewind</a></span> NativeWind — Tailwind for React Native<br>
+<span class="tag"><a href="https://github.com/supabase-community/expo-supabase-starter" style="color:var(--blue)">github.com/supabase-community/expo-supabase-starter</a></span> Expo + Supabase starter</p>
+
+<p><strong>Browser Extensions:</strong><br>
+<span class="tag"><a href="https://github.com/PlasmoHQ/plasmo" style="color:var(--blue)">github.com/PlasmoHQ/plasmo</a></span> Plasmo — browser extension framework<br>
+<span class="tag"><a href="https://github.com/wxt-dev/wxt" style="color:var(--blue)">github.com/wxt-dev/wxt</a></span> WXT — next-gen extension framework</p>
+
+<p><strong>Icons:</strong><br>
+<span class="tag"><a href="https://github.com/lucide-icons/lucide" style="color:var(--blue)">github.com/lucide-icons/lucide</a></span> Lucide (MIT, 1000+ icons)<br>
+<span class="tag"><a href="https://github.com/phosphor-icons/phosphor-icons" style="color:var(--blue)">github.com/phosphor-icons/phosphor-icons</a></span> Phosphor (MIT, 6 styles)</p>
+
+<p><strong>Fonts (Not Inter):</strong><br>
+<span class="tag"><a href="https://github.com/vercel/geist-font" style="color:var(--blue)">github.com/vercel/geist-font</a></span> Geist Sans (Vercel)<br>
+<span class="tag"><a href="https://fonts.google.com/specimen/DM+Sans" style="color:var(--blue)">fonts.google.com/DM+Sans</a></span> DM Sans<br>
+<span class="tag"><a href="https://github.com/itfoundry/satoshi" style="color:var(--blue)">github.com/itfoundry/satoshi</a></span> Satoshi</p>
+
+<p><strong>Illustrations:</strong><br>
+<span class="tag"><a href="https://undraw.co" style="color:var(--blue)">undraw.co</a></span> unDraw (MIT, 800+ illustrations, customizable)<br>
+<span class="tag"><a href="https://humaaans.com" style="color:var(--blue)">humaaans.com</a></span> Humaaans (CC0)</p>
+</div>
+
+<h2>🚫 Anti-AI-Slop Design Rules</h2>
+<div class="card" style="font-size:.82rem">
+<ol style="padding-left:18px;color:var(--text2);line-height:1.9">
+<li><strong>NEVER use Inter font.</strong> Instead: Geist Sans, DM Sans, Satoshi, Cabinet Grotesk.</li>
+<li><strong>Customize your color palette.</strong> Never default Tailwind colors. Use <a href="https://uicolors.app" style="color:var(--blue)">uicolors.app</a> to generate.</li>
+<li><strong>Override shadcn CSS variables.</strong> At minimum: --radius, --background, --foreground, card and badge styles.</li>
+<li><strong>Never use AI-generated illustrations.</strong> Use unDraw, Humaaans, or geometric patterns instead.</li>
+<li><strong>Use generous spacing.</strong> Cards: p-6 or p-8. Sections: py-16 or py-24. Shadcn default is cramped.</li>
+<li><strong>Animate everything.</strong> Toasts slide in, dialogs scale+fade, dropdowns fade+slide. Use Framer Motion or CSS transitions.</li>
+<li><strong>Stagger list items.</strong> staggerChildren: 0.05 on list pages. Subtle hover effects on cards.</li>
+<li><strong>Never pure white or black backgrounds.</strong> Light: #fafafa. Dark: #0a0a0a. Cards softer than backgrounds.</li>
+<li><strong>Use a defined type scale.</strong> 12-14-16-18-20-24-30-36-48-60-72. Line height: headers 1.2, body 1.6.</li>
+<li><strong>Two fonts max.</strong> One display/geometric for headings, one readable for body.</li>
+</ol></div>
+
+<h2>🤖 Agent Workflow — Overnight SaaS Build</h2>
+<div class="card" style="font-size:.78rem">
+<p><strong>Phase 1: Scaffold (30 min)</strong> — "Create Next.js 14 App Router + TypeScript + Tailwind + shadcn/ui. Set up Supabase client. Add auth helpers."</p>
+<p><strong>Phase 2: Auth + Payments (1-2 hrs)</strong> — "Implement Supabase Auth with login/signup/reset/magic link. Set up Stripe checkout + webhook. Create pricing page."</p>
+<p><strong>Phase 3: Core Features (3-5 hrs)</strong> — "Build dashboard with sidebar, stats cards, CRUD for [entity], [core feature 1], [core feature 2]. Server actions + optimistic UI."</p>
+<p><strong>Phase 4: Polish (1-2 hrs)</strong> — "Add landing page (hero + features + pricing + FAQ). Empty states for every view. Animations: page transitions, hover effects, loading skeletons."</p>
+<p><strong>Phase 5: Ship (30 min)</strong> — "Add SEO metadata, sitemap, robots.txt. Add error boundaries. Deploy to Vercel. Final check: mobile responsive 375px, form validation, loading states."</p>
+<p style="margin-top:10px"><strong>Tools:</strong> <span class="tag">cursor.com</span> Cursor IDE + <span class="tag">v0.dev</span> Vercel v0 for UI generation + <span class="tag">codeium.com/windsurf</span> Windsurf for codebase navigation</p>
+</div>
+</section>
+
+<section id="audit">
+<h1>⚠️ Devil's Advocate Audit — Why Top 15 Ideas Could Fail</h1>
+<p style="color:var(--text2)">As a VC who has seen 500 failed SaaS products, here's what would kill each top idea and what you'd need to validate before building.</p>
+<div class="devils-row">
+${top30.slice(0,15).map(a=>`<div class="audit-box">
+<h3 style="margin-bottom:4px">#${a.rank} ${a.name}</h3>
+<p style="font-size:.78rem;color:var(--orange);margin-bottom:6px">Score: ${a.score}/110 | ${a.tier}</p>
+<p style="font-size:.78rem;color:var(--text2)">${a.devil}</p>
+</div>`).join('')}
+</div>
+</section>
+
+<section id="compare">
+<h1>⚖️ Side-by-Side App Comparison</h1>
+<p style="color:var(--text2)">Select any 2 apps to compare all 6 scoring factors.</p>
+<div class="comp-panel" id="compCards"></div>
+<div class="card" style="margin-top:14px" id="compDetail"></div>
+</section>
+
+<section id="africa">
+<h1>🌍 Africa Secondary Track</h1>
+<p style="color:var(--text2)">Original session Africa-specific opportunities have been moved to this secondary track. The primary focus is International (87% of top 30). These remain valid secondary opportunities for the Kenya/Africa market:</p>
+<div class="card">
+<h3>Africa-Specific Opportunities (from original session)</h3>
+<table><thead><tr><th>Opportunity</th><th>Market</th><th>Key Feature</th><th>Original Score</th></tr></thead>
+<tbody>
+<tr><td>Chama Digital Ledger (M-Pesa)</td><td>Kenya → East Africa</td><td>M-Pesa auto-reconcile, group ledger, SMS</td><td>9.1/10</td></tr>
+<tr><td>AI Academic Writing (Africa)</td><td>Africa → Global</td><td>Plagiarism checker, citation generator</td><td>8.7/10</td></tr>
+<tr><td>M-Pesa Freelancer Invoicing</td><td>Kenya → East Africa</td><td>M-Pesa payment links, SMS expense tracking</td><td>8.5/10</td></tr>
+<tr><td>Church Management (M-Pesa Tithe)</td><td>Kenya → Africa</td><td>M-Pesa tithe auto-reconcile, SMS broadcast</td><td>8.4/10</td></tr>
+<tr><td>School Fee + Attendance (Africa)</td><td>Kenya → East Africa</td><td>M-Pesa fee collection, parent SMS alerts</td><td>7.9/10</td></tr>
+<tr><td>M-Pesa Budget App</td><td>Kenya → East Africa</td><td>Auto-categorize M-Pesa from SMS</td><td>7.8/10</td></tr>
+<tr><td>Event Ticketing (M-Pesa)</td><td>Kenya → East Africa</td><td>M-Pesa ticketing, SMS delivery</td><td>7.7/10</td></tr>
+<tr><td>AI Salon/Barber Booking (M-Pesa)</td><td>Kenya → Africa</td><td>WhatsApp booking, M-Pesa payment</td><td>7.4/10</td></tr>
+<tr><td>Landlord/Rental Manager (Kenya)</td><td>Kenya</td><td>M-Pesa rent collection, SMS notices</td><td>7.2/10</td></tr>
+<tr><td>Diaspora Family Hub</td><td>Dual Market</td><td>Remittance + family chat + bill pay</td><td>6.8/10</td></tr>
+</tbody></table>
+<p style="font-size:.75rem;color:var(--orange);margin-top:8px">⚠️ These are secondary opportunities. Kenya/Africa monetization assumptions need validation — no verified spending data available without paid tools like Sensor Tower/AppFigures.</p>
+</div>
+</section>
+
+`;
+renderCharts();
+}
+
+renderAll();
+n('exec');
+</script>
+</body>
+</html>

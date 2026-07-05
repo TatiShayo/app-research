@@ -1,0 +1,3 @@
+﻿[13] QUERY: lifetime deal pricing strategy indie developer
+ERROR: A positional parameter cannot be found that accepts argument 'https://lite.duckduckgo.com/lite/?q=lifetime%20deal%20pricing%20strategy%20indie%20developer'.
+

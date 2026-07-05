@@ -1,0 +1,3 @@
+﻿[5] QUERY: niche app monopoly no competition overcharging users
+ERROR: A positional parameter cannot be found that accepts argument 'https://lite.duckduckgo.com/lite/?q=niche%20app%20monopoly%20no%20competition%20overcharging%20users'.
+

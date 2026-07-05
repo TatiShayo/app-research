@@ -1,0 +1,3 @@
+﻿[7] QUERY: how to price app for Kenya Africa 2024
+ERROR: A positional parameter cannot be found that accepts argument 'https://lite.duckduckgo.com/lite/?q=how%20to%20price%20app%20for%20Kenya%20Africa%202024'.
+

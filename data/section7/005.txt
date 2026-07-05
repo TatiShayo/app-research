@@ -1,0 +1,3 @@
+﻿[5] QUERY: Kenya SME software pain points 2024
+ERROR: A positional parameter cannot be found that accepts argument 'https://lite.duckduckgo.com/lite/?q=Kenya%20SME%20software%20pain%20points%202024'.
+

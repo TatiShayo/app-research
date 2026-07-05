@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>App Market Research Dashboard — Solopreneur Intelligence</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #0a0a0f; --surface: #12121a; --surface2: #1a1a28;
+  --border: #252540; --text: #e2e2ea; --text2: #9090a8;
+  --accent: #6c5ce7; --accent2: #00cec9; --green: #00b894; --red: #e17055;
+  --orange: #fdcb6e; --blue: #74b9ff;
+  --font-mono: 'SF Mono', 'Consolas', 'Monaco', monospace;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --radius: 10px; --shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:var(--font); line-height:1.6; }
+nav {
+  position:sticky; top:0; z-index:100; background:var(--surface);
+  border-bottom:1px solid var(--border); padding:0 24px;
+  display:flex; align-items:center; gap:4px; overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+nav a {
+  color:var(--text2); text-decoration:none; padding:14px 16px;
+  font-size:0.82rem; font-weight:500; white-space:nowrap;
+  border-bottom:2px solid transparent; transition:all 0.2s;
+}
+nav a:hover, nav a.active { color:var(--accent); border-bottom-color:var(--accent); }
+main { max-width:1400px; margin:0 auto; padding:32px 24px; }
+section { margin-bottom:48px; display:none; }
+section.active { display:block; }
+h1 { font-size:2.4rem; font-weight:700; margin-bottom:8px; letter-spacing:-0.5px; }
+h2 { font-size:1.5rem; font-weight:600; margin:32px 0 16px; color:var(--accent2); }
+h3 { font-size:1.1rem; font-weight:600; margin:24px 0 12px; color:var(--text); }
+p { color:var(--text2); margin-bottom:12px; }
+
+.card {
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:24px; margin-bottom:20px; box-shadow:var(--shadow);
+}
+.metrics-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:16px; }
+.metric {
+  background:var(--surface2); border-radius:var(--radius); padding:20px;
+  border-left:3px solid var(--accent);
+}
+.metric .value { font-size:2rem; font-weight:700; color:var(--accent); font-family:var(--font-mono); }
+.metric .label { font-size:0.82rem; color:var(--text2); margin-top:4px; }
+
+table {
+  width:100%; border-collapse:collapse; font-size:0.85rem;
+  border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;
+}
+th, td { padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); }
+th { background:var(--surface2); color:var(--accent2); font-weight:600; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.5px; }
+tr:hover td { background:var(--surface2); }
+
+.chart-wrap { position:relative; width:100%; max-height:400px; margin:16px 0; }
+.chart-wrap canvas { width:100% !important; }
+
+.filters { display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; align-items:center; }
+.filters input, .filters select {
+  background:var(--surface2); border:1px solid var(--border); color:var(--text);
+  padding:8px 14px; border-radius:6px; font-size:0.85rem;
+}
+.filters input:focus, .filters select:focus { outline:none; border-color:var(--accent); }
+
+.badge {
+  display:inline-block; padding:3px 10px; border-radius:20px; font-size:0.72rem;
+  font-weight:600; text-transform:uppercase; letter-spacing:0.5px;
+}
+.badge-green { background:rgba(0,184,148,0.15); color:var(--green); }
+.badge-red { background:rgba(225,112,85,0.15); color:var(--red); }
+.badge-orange { background:rgba(253,203,110,0.15); color:var(--orange); }
+.badge-blue { background:rgba(116,185,255,0.15); color:var(--blue); }
+.badge-accent { background:rgba(108,92,231,0.15); color:var(--accent); }
+.badge-teal { background:rgba(0,206,201,0.15); color:var(--accent2); }
+
+.score-bar { height:8px; border-radius:4px; background:var(--border); margin-top:4px; }
+.score-fill { height:8px; border-radius:4px; background:var(--accent); }
+
+.tag { display:inline-flex; align-items:center; gap:4px; padding:4px 10px; background:var(--surface2); border-radius:4px; font-size:0.75rem; color:var(--text2); margin:2px; }
+.tag::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--accent2); }
+
+.section-nav-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:16px; margin-top:24px; }
+.section-nav-card {
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:24px; cursor:pointer; transition:all 0.2s;
+}
+.section-nav-card:hover { border-color:var(--accent); transform:translateY(-2px); }
+.section-nav-card .num { font-size:2.2rem; font-weight:800; color:var(--accent); font-family:var(--font-mono); }
+.section-nav-card .title { font-size:1rem; font-weight:600; margin:8px 0 4px; }
+.section-nav-card .desc { font-size:0.82rem; color:var(--text2); }
+
+.heatmap-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:8px; }
+.heatmap-cell {
+  background:var(--surface2); border-radius:6px; padding:12px; text-align:center;
+  font-size:0.75rem; min-height:70px; display:flex; flex-direction:column; justify-content:center;
+}
+.heatmap-cell.high { background:rgba(0,184,148,0.25); border:1px solid var(--green); }
+.heatmap-cell.med { background:rgba(253,203,110,0.15); border:1px solid var(--orange); }
+.heatmap-cell.low { background:rgba(225,112,85,0.12); border:1px solid var(--red); }
+.heatmap-cell .label { font-weight:600; color:var(--text); }
+.heatmap-cell .score { font-size:1.5rem; font-weight:700; font-family:var(--font-mono); }
+
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+@media (max-width:768px) { .two-col { grid-template-columns:1fr; } }
+
+.timeline { position:relative; padding-left:32px; }
+.timeline::before { content:''; position:absolute; left:12px; top:0; bottom:0; width:2px; background:var(--border); }
+.timeline-item { position:relative; margin-bottom:28px; padding-left:24px; }
+.timeline-item::before { content:''; position:absolute; left:-24px; top:4px; width:12px; height:12px; border-radius:50%; background:var(--accent); }
+.timeline-item .phase { font-weight:700; color:var(--accent2); }
+.timeline-item .desc { font-size:0.85rem; color:var(--text2); margin-top:4px; }
+
+.resource-card {
+  background:var(--surface2); border-radius:var(--radius); padding:16px;
+  display:flex; gap:12px; align-items:flex-start; margin-bottom:10px;
+}
+.resource-card .icon { font-size:1.4rem; }
+.resource-card .info strong { display:block; color:var(--accent2); margin-bottom:4px; }
+.resource-card .info span { font-size:0.8rem; color:var(--text2); }
+
+.source-ddg { color:var(--orange); font-size:0.7rem; }
+.source-ai { color:var(--blue); font-size:0.7rem; }
+.source-key { display:flex; gap:16px; margin-bottom:12px; font-size:0.75rem; }
+.source-key span { display:flex; align-items:center; gap:4px; }
+.source-key span::before { content:''; display:inline-block; width:8px; height:8px; border-radius:50%; }
+.source-dot-ddg { background:var(--orange); }
+.source-dot-ai { background:var(--blue); }
+
+.progress-bar { height:6px; background:var(--border); border-radius:3px; margin:4px 0; }
+.progress-fill { height:6px; border-radius:3px; }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+<a href="#exec" class="active" onclick="showSection('exec')">Executive Summary</a>
+<a href="#section1" onclick="showSection('section1')">1. Revenue Intelligence</a>
+<a href="#section2" onclick="showSection('section2')">2. Trends</a>
+<a href="#section3" onclick="showSection('section3')">3. Niches</a>
+<a href="#section4" onclick="showSection('section4')">4. Clone Targets</a>
+<a href="#section5" onclick="showSection('section5')">5. AI Opportunities</a>
+<a href="#section6" onclick="showSection('section6')">6. Build Stack</a>
+<a href="#section7" onclick="showSection('section7')">7. Africa/Kenya</a>
+<a href="#section8" onclick="showSection('section8')">8. Pricing</a>
+<a href="#section9" onclick="showSection('section9')">9. App Build List</a>
+</nav>
+
+<main id="main"></main>
+
+<script>
+// ====== DATA ======
+const DDG = 'source-ddg', AI = 'source-ai';
+
+const keyMetrics = {
+  globalAppRev: ['$585B', 'Global app revenue 2025', DDG],
+  appStoreRev: ['$138B', 'App Store projected 2025', DDG],
+  aiAppGrowth: ['$5B+', 'AI app IAP revenue 2025 (tripled)', DDG],
+  medianAppRev: ['<$50/mo', 'Median revenue 1yr post-launch', DDG],
+  productivityGrowth: ['+80%', 'Productivity category YoY growth', DDG],
+  soloDevExample: ['$10K/mo', '28 apps by 1 dev', DDG]
+};
+
+const section1Data = [
+  { app:'Sweatcoin', cat:'Health', platform:'iOS/Android', estRev:'$500K-$2M/mo', dl:'50M+', rpd:'$0.01-0.04', team:'Company', model:'Freemium + Ads', rating:'4.2', updated:'Active', weakness:'Low RPD, ads-heavy', source:AI },
+  { app:'Forest', cat:'Productivity', platform:'iOS/Android', estRev:'$200K-$500K/mo', dl:'30M+', rpd:'$0.01', team:'Small team', model:'One-time $3.99', rating:'4.7', updated:'Active', weakness:'Limited feature set', source:AI },
+  { app:'Notion', cat:'Productivity', platform:'Cross-platform', estRev:'$100M+/yr', dl:'100M+', rpd:'$1+', team:'Company', model:'Freemium', rating:'4.6', updated:'Active', weakness:'Complex for casual users', source:DDG },
+  { app:'GoodNotes', cat:'Education', platform:'iOS', estRev:'$30M+/yr', dl:'20M+', rpd:'$1.50', team:'Company', model:'One-time/Sub', rating:'4.7', updated:'Active', weakness:'iOS only', source:AI },
+  { app:'Agenda', cat:'Productivity', platform:'iOS/macOS', estRev:'$100K-$500K/mo', dl:'1M+', rpd:'$0.10-0.50', team:'Small team', model:'Freemium sub', rating:'4.4', updated:'Active', weakness:'macOS-centric', source:AI },
+  { app:'Calm', cat:'Health', platform:'iOS/Android', estRev:'$150M+/yr', dl:'100M+', rpd:'$1.50', team:'Company', model:'Subscription', rating:'4.5', updated:'Active', weakness:'Saturated market', source:DDG },
+  { app:'Babbel', cat:'Education', platform:'iOS/Android', estRev:'$50M+/yr', dl:'50M+', rpd:'$1', team:'Company', model:'Subscription', rating:'4.5', updated:'Active', weakness:'Generic language approach', source:AI },
+  { app:'Duolingo', cat:'Education', platform:'iOS/Android', estRev:'$530M+/yr', dl:'500M+', rpd:'$1.06', team:'Company', model:'Freemium sub', rating:'4.7', updated:'Active', weakness:'Ad-heavy free tier', source:DDG },
+  { app:'Todoist', cat:'Productivity', platform:'Cross', estRev:'$20M+/yr', dl:'40M+', rpd:'$0.50', team:'Small team', model:'Freemium sub', rating:'4.5', updated:'Active', weakness:'Feature-complete but stale', source:AI },
+  { app:'Strides', cat:'Productivity', platform:'iOS', estRev:'$50K-$200K/mo', dl:'2M+', rpd:'$0.03-0.10', team:'Small team', model:'Freemium sub', rating:'4.6', updated:'Active', weakness:'iOS only, limited analytics', source:AI },
+  { app:'Streaks', cat:'Productivity', platform:'iOS', estRev:'$100K-$500K/mo', dl:'5M+', rpd:'$0.02-0.10', team:'Solo', model:'One-time $5.99', rating:'4.7', updated:'Active', weakness:'No Android, basic features', source:AI },
+  { app:'Fantastical', cat:'Productivity', platform:'iOS/macOS', estRev:'$5M-$10M/yr', dl:'5M+', rpd:'$1-2', team:'Company', model:'Subscription', rating:'4.6', updated:'Active', weakness:'Overpriced ($5/mo calendar)', source:AI },
+  { app:'Procreate', cat:'Creative', platform:'iOS', estRev:'$50M+/yr', dl:'30M+', rpd:'$1.67', team:'Small team', model:'One-time $12.99', rating:'4.8', updated:'Active', weakness:'No Android', source:DDG },
+  { app:'Headspace', cat:'Health', platform:'iOS/Android', estRev:'$100M+/yr', dl:'70M+', rpd:'$1.43', team:'Company', model:'Subscription', rating:'4.5', updated:'Active', weakness:'Premium pricing ($13/mo)', source:AI },
+  { app:'Peak', cat:'Education', platform:'iOS/Android', estRev:'$10M-$20M/yr', dl:'50M+', rpd:'$0.20-0.40', team:'Company', model:'Freemium sub', rating:'4.4', updated:'Active', weakness:'Losing to Elevate', source:AI },
+  { app:'Elevate', cat:'Education', platform:'iOS/Android', estRev:'$15M-$30M/yr', dl:'40M+', rpd:'$0.38-0.75', team:'Company', model:'Subscription', rating:'4.6', updated:'Active', weakness:'Limited free tier', source:AI },
+  { app:'CARROT Weather', cat:'Weather', platform:'iOS/Android', estRev:'$5M-$10M/yr', dl:'5M+', rpd:'$1-2', team:'Small team', model:'Subscription', rating:'4.7', updated:'Active', weakness:'Niche (snark), expensive tiers', source:AI },
+  { app:'Dark Sky', cat:'Weather', platform:'iOS (discontinued)', estRev:'N/A (acquired)', dl:'10M+', rpd:'$0.40', team:'Small team', model:'One-time $3.99', rating:'4.8', updated:'Discontinued', weakness:'Apple acquisition killed it', source:AI },
+  { app:'Apollo (Reddit)', cat:'Social', platform:'iOS', estRev:'$1M-$3M/yr (was)', dl:'5M+', rpd:'$0.20-0.60', team:'Solo', model:'Subscription', rating:'4.8', updated:'Discontinued', weakness:'Reddit API pricing killed it', source:DDG },
+  { app:'Things 3', cat:'Productivity', platform:'iOS/macOS', estRev:'$10M-$20M/yr', dl:'5M+', rpd:'$2-4', team:'Small team', model:'One-time per platform', rating:'4.7', updated:'Active', weakness:'Expensive, Apple-only', source:AI },
+  { app:'Bear', cat:'Productivity', platform:'iOS/macOS', estRev:'$5M-$15M/yr', dl:'5M+', rpd:'$1-3', team:'Small team', model:'Subscription', rating:'4.6', updated:'Active', weakness:'Apple-only, markdown only', source:AI },
+  { app:'Day One', cat:'Lifestyle', platform:'iOS/macOS/Android', estRev:'$5M-$10M/yr', dl:'15M+', rpd:'$0.33-0.67', team:'Company', model:'Subscription', rating:'4.5', updated:'Active', weakness:'Acquired, auto-renewal complaints', source:AI },
+  { app:'Pocket Casts', cat:'Entertainment', platform:'iOS/Android', estRev:'$3M-$8M/yr', dl:'10M+', rpd:'$0.30-0.80', team:'Small team', model:'Freemium sub', rating:'4.5', updated:'Active', weakness:'Acquired multiple times, unstable', source:AI },
+  { app:'Working Copy', cat:'Developer', platform:'iOS', estRev:'$500K-$2M/yr', dl:'500K+', rpd:'$1-4', team:'Solo', model:'One-time + IAP', rating:'4.7', updated:'Active', weakness:'iOS only, niche audience', source:AI },
+  { app:'Castro', cat:'Entertainment', platform:'iOS', estRev:'$200K-$1M/yr', dl:'1M+', rpd:'$0.20-1', team:'Small team', model:'Subscription', rating:'4.3', updated:'Intermittent', weakness:'Frequent outages, solo dev struggles', source:AI },
+  { app:'Tweek', cat:'Productivity', platform:'iOS/Android/Web', estRev:'$50K-$200K/mo', dl:'1M+', rpd:'$0.05-0.20', team:'Small team', model:'Freemium', rating:'4.5', updated:'Active', weakness:'Limited free tier', source:AI },
+  { app:'Otter.ai', cat:'Productivity', platform:'iOS/Android/Web', estRev:'$20M-$50M/yr', dl:'10M+', rpd:'$2-5', team:'Company', model:'Freemium sub', rating:'4.3', updated:'Active', weakness:'Privacy concerns, expensive', source:AI },
+  { app:'Spark Mail', cat:'Productivity', platform:'Cross', estRev:'$10M-$30M/yr', dl:'10M+', rpd:'$1-3', team:'Company', model:'Freemium sub', rating:'4.5', updated:'Active', weakness:'Privacy concerns (Ukrainian devs)', source:AI },
+  { app:'Pixelmator', cat:'Creative', platform:'iOS/macOS', estRev:'$10M-$25M/yr', dl:'5M+', rpd:'$2-5', team:'Small team', model:'One-time/Sub', rating:'4.6', updated:'Active', weakness:'Acquired by Apple', source:AI },
+  { app:'Halide', cat:'Creative', platform:'iOS', estRev:'$1M-$5M/yr', dl:'1M+', rpd:'$1-5', team:'Small team', model:'Subscription', rating:'4.7', updated:'Active', weakness:'Niche (pro photographers)', source:AI },
+];
+
+const section2Trends = [
+  { trend:'AI-Integrated Productivity', evidence:'80% YoY category growth, AI IAP tripled to $5B', maturity:'Growing', geo:'Global', window:'1-3 years', score:9, source:DDG },
+  { trend:'Micro-SaaS for Vertical Industries', evidence:'B2B SaaS $250B market, micro-SaaS founders hitting $10K MRR', maturity:'Growing', geo:'Global', window:'2-5 years', score:8, source:AI },
+  { trend:'African Digital Payments (M-Pesa ecosystem)', evidence:'Kenya mobile money penetration >70%, M-Pesa API v2 open', maturity:'Growing', geo:'Africa/Kenya', window:'2-4 years', score:8, source:AI },
+  { trend:'AI Writing/Niche Content Tools', evidence:'AI writing market growing 25% CAGR, academic niche underserved', maturity:'Early', geo:'Global', window:'1-3 years', score:8, source:AI },
+  { trend:'Mental Health & Wellness Apps', evidence:'Digital therapeutics market $15B by 2028', maturity:'Growing', geo:'Global', window:'1-3 years', score:7, source:AI },
+  { trend:'Diaspora Remittance & Connection', evidence:'Africa diaspora remittances $100B+/yr, apps missing', maturity:'Early', geo:'Africa/Diaspora', window:'3-5 years', score:7, source:AI },
+  { trend:'Solo Freelancer Tools', evidence:'Freelance economy 1.5B workers globally, specialized tools lacking', maturity:'Growing', geo:'Global', window:'2-4 years', score:8, source:AI },
+  { trend:'AgriTech for Smallholder Farmers', evidence:'Africa has 33M smallholder farms, <5% use digital tools', maturity:'Early', geo:'Africa', window:'5-10 years', score:6, source:AI },
+  { trend:'Gen Z Creator Economy Tools', evidence:'Gen Z 40% aspire to be creators, editing/monetization tools needed', maturity:'Early', geo:'Global', window:'2-4 years', score:7, source:AI },
+  { trend:'AI Document Processing', evidence:'Document AI market $5B+ in 2025, growing fast', maturity:'Growing', geo:'Global', window:'1-3 years', score:8, source:AI },
+  { trend:'Language Learning (African languages)', evidence:'Swahili 200M+ speakers, no quality app exists', maturity:'Early', geo:'Africa/Diaspora', window:'5+ years', score:6, source:AI },
+  { trend:'School Management (Africa)', evidence:'50M+ African students, most schools use paper', maturity:'Early', geo:'Africa', window:'3-7 years', score:7, source:AI },
+  { trend:'Last-Mile Logistics (Africa)', evidence:'E-commerce growing 25% in Africa, delivery broken', maturity:'Early', geo:'Africa/Kenya', window:'3-5 years', score:7, source:AI },
+  { trend:'Chama/Group Savings Digitization', evidence:'Chamas hold $4B+ in Kenya alone, all manual', maturity:'Early', geo:'Kenya/East Africa', window:'2-5 years', score:7, source:AI },
+  { trend:'Subscription App Economy', evidence:'Non-game IAP revenue grew 12.5% YoY to $150B', maturity:'Growing', geo:'Global', window:'2-4 years', score:8, source:DDG },
+  { trend:'AI-Powered Health Diagnostics', evidence:'Health apps fastest growing consumer category', maturity:'Early', geo:'Global', window:'1-3 years', score:7, source:AI },
+  { trend:'Ethical/African AI Tools', evidence:'Swahili LLMs emerging, culturally adapted AI', maturity:'Very Early', geo:'Africa', window:'5+ years', score:5, source:AI },
+  { trend:'WhatsApp Business Ecosystem', evidence:'WhatsApp Business 200M+ MAU, API pricing accessible', maturity:'Early', geo:'Global/India/Africa', window:'2-4 years', score:7, source:AI },
+  { trend:'Code Generation Niche Tools', evidence:'Beyond Copilot: specialized code tools for specific frameworks', maturity:'Early', geo:'Global', window:'1-3 years', score:7, source:AI },
+  { trend:'B2B Invoicing for Africa', evidence:'M-Pesa integration missing in most invoicing apps', maturity:'Early', geo:'Africa/Kenya', window:'2-4 years', score:7, source:AI },
+  { trend:'Church Management (Africa)', evidence:'Churches are largest community orgs in Africa, no digital', maturity:'Early', geo:'Africa', window:'3-7 years', score:6, source:AI },
+  { trend:'Gen Z Finance/Budgeting', evidence:'Gen Z seeking financial literacy tools, existing apps too corporate', maturity:'Growing', geo:'Global', window:'2-4 years', score:7, source:AI },
+  { trend:'Legal Tech for SMEs', evidence:'Solo lawyers/small firms lack affordable practice mgmt', maturity:'Growing', geo:'Global', window:'3-5 years', score:6, source:AI },
+  { trend:'Construction Trades Management', evidence:'Electricians/plumbers lack good mobile tools', maturity:'Early', geo:'Global', window:'3-5 years', score:6, source:AI },
+  { trend:'AI Scheduling Agents', evidence:'Meeting scheduling still broken, AI agents emerging', maturity:'Early', geo:'Global', window:'1-2 years', score:7, source:AI },
+];
+
+const section3Niches = [
+  { niche:'Chama/Savings Group Management', demand:9, competition:2, pricing:6, build:8, advantage:9, desc:'Kenya\'s $4B informal savings sector is entirely offline. M-Pesa integration + group ledger + loan tracking. No serious competitor.', geo:'Kenya/East Africa', model:'Freemium + per-group sub', buildTime:'4-8 weeks', source:AI },
+  { niche:'M-Pesa Integrated Invoicing', demand:8, competition:3, pricing:7, build:7, advantage:9, desc:'Freelancers in Kenya need simple invoicing with M-Pesa payment links. Wave, QuickBooks, FreshBooks all miss M-Pesa.', geo:'Kenya/Africa', model:'Freemium + paid plan', buildTime:'3-6 weeks', source:AI },
+  { niche:'AI Academic Writing Assistant (Africa)', demand:8, competition:4, pricing:7, build:6, advantage:9, desc:'University students in Africa need AI writing help adapted to local academic standards, not Western-focused tools. Anti-plagiarism + formatting.', geo:'Africa/Global', model:'Subscription $5-10/mo', buildTime:'4-8 weeks', source:AI },
+  { niche:'Smallholder Farm Manager', demand:7, competition:3, pricing:5, build:6, advantage:7, desc:'33M African smallholders lack crop planning, market prices, weather alerts. USSD + app hybrid. M-Pesa payments for inputs.', geo:'Africa', model:'Freemium + marketplace cut', buildTime:'8-12 weeks', source:AI },
+  { niche:'Church Management System (Africa)', demand:7, competition:2, pricing:6, build:7, advantage:8, desc:'African churches manage thousands of members, tithes, events on paper. Planning Center is $100+ and US-centric. M-Pesa giving + SMS.', geo:'Africa/Diaspora', model:'Per-member pricing + M-Pesa cut', buildTime:'6-10 weeks', source:AI },
+  { niche:'School Admin for African Schools', demand:8, competition:3, pricing:6, build:5, advantage:7, desc:'50M+ students, most schools use Excel or paper. Fee tracking, attendance, parent SMS, exam results. Localized for East African curriculum.', geo:'Kenya/East Africa', model:'Per-student/month', buildTime:'8-14 weeks', source:AI },
+  { niche:'Diaspora Remittance + Family Hub', demand:8, competition:3, pricing:7, build:6, advantage:8, desc:'Africans abroad send $100B+/yr home. No app combines remittance, family chat, shared finances, and event planning for diaspora families.', geo:'Africa/Diaspora (UK,US)', model:'Transaction % + premium', buildTime:'10-16 weeks', source:AI },
+  { niche:'Last-Mile Delivery Coordinator', demand:7, competition:3, pricing:6, build:6, advantage:7, desc:'E-commerce in Kenya struggling with delivery. Boda-boda rider network + route optimization + M-Pesa payment on delivery.', geo:'Kenya/East Africa', model:'Per-delivery %', buildTime:'8-12 weeks', source:AI },
+  { niche:'Healthcare Appointment & Records', demand:8, competition:3, pricing:6, build:5, advantage:6, desc:'African clinics use paper records. Simple EMR + SMS appointment reminders + M-Pesa payment. No HIPAA complexity in local market.', geo:'Kenya/Africa', model:'Per-clinic subscription', buildTime:'10-16 weeks', source:AI },
+  { niche:'AI-Powered Habit Tracker', demand:7, competition:5, pricing:7, build:8, advantage:6, desc:'Habit trackers are saturated but none use AI to personalize goals, detect patterns, and coach. Streaks + Strides competition is weak on AI.', geo:'Global', model:'Freemium sub $4-8/mo', buildTime:'4-6 weeks', source:AI },
+  { niche:'Freelancer Time/Budget Tracker', demand:7, competition:4, pricing:7, build:8, advantage:7, desc:'Toggl + Harvest are enterprise. Solo freelancers need simpler time tracking + invoice generation + M-Pesa/Stripe payment.', geo:'Global/Africa', model:'Free + paid $5/mo', buildTime:'3-5 weeks', source:AI },
+  { niche:'Swahili Language Learning', demand:6, competition:2, pricing:5, build:8, advantage:8, desc:'200M+ Swahili speakers, no quality learning app. Duolingo Swahili is terrible. Audio + cultural content + diaspora audience.', geo:'Africa/Diaspora', model:'Freemium sub $3-7/mo', buildTime:'4-8 weeks', source:AI },
+  { niche:'AI Customer Service for African SMEs', demand:7, competition:2, pricing:7, build:7, advantage:8, desc:'WhatsApp-first AI chatbot for African small businesses. Multi-language (Swahili, English, French). Zendesk is too expensive/complex.', geo:'Africa', model:'Per-bot $15-50/mo', buildTime:'6-10 weeks', source:AI },
+  { niche:'Budget App for African Users', demand:7, competition:3, pricing:6, build:8, advantage:8, desc:'YNAB/Mint don\'t support M-Pesa, cash transactions, chama contributions. Localized budgeting with mobile money tracking.', geo:'Kenya/Africa', model:'Freemium sub $2-5/mo', buildTime:'4-6 weeks', source:AI },
+  { niche:'Construction Trades Business App', demand:6, competition:3, pricing:7, build:7, advantage:5, desc:'Electricians/plumbers need quoting, scheduling, invoicing. Existing tools are desktop-only or overpriced. Mobile-first simple app.', geo:'Global', model:'Freemium sub $10-20/mo', buildTime:'6-10 weeks', source:AI },
+  { niche:'AI Document Redaction for Legal', demand:6, competition:3, pricing:8, build:6, advantage:5, desc:'Small law firms need document processing, redaction, contract review. Existing tools $100+/mo. AI makes this 10x cheaper to build.', geo:'Global', model:'Per-document or sub $20-50/mo', buildTime:'6-10 weeks', source:AI },
+  { niche:'Attendance Tracking for African Schools', demand:7, competition:2, pricing:5, build:9, advantage:8, desc:'RFID/QR-based student attendance + parent SMS alerts. Simple MVP. Most schools still use paper registers. M-Pesa fee integration.', geo:'Kenya/Africa', model:'Per-student $0.50/mo', buildTime:'4-6 weeks', source:AI },
+  { niche:'Solo Lawyer Practice Management', demand:6, competition:3, pricing:8, build:6, advantage:6, desc:'Clio is $39+/mo. Solo lawyers need simpler: case tracking, document templates, billing, deadline calendar. $15-25/mo sweet spot.', geo:'Global', model:'Subscription $15-25/mo', buildTime:'6-10 weeks', source:AI },
+  { niche:'Event/RSVP with M-Pesa Ticketing', demand:7, competition:2, pricing:7, build:8, advantage:8, desc:'Eventbrite doesn\'t support M-Pesa. Kenyan events need local payment + SMS tickets + WhatsApp sharing. Huge gap.', geo:'Kenya/East Africa', model:'Per-ticket % + premium', buildTime:'4-7 weeks', source:AI },
+  { niche:'AI-Powered Journal with Insights', demand:6, competition:4, pricing:7, build:8, advantage:7, desc:'Day One lacks AI. A journal that analyzes mood patterns, suggests prompts, generates summaries. Premium AI feature = pricing power.', geo:'Global', model:'Freemium sub $5-10/mo', buildTime:'4-6 weeks', source:AI },
+];
+
+const section4Clones = [
+  { app:'Fantastical', weakness:'$57/yr for a CALENDAR. Bloated features most people don\'t use. Natural language input is good but not worth $5/mo.', keep:['Natural language parsing','Beautiful UI','Widgets'], angle:'$2/mo calendar with AI scheduling agent, WhatsApp integration for Kenya', pricing:'$2/mo vs $5/mo', buildTime:'6-8 weeks', rev:'$50K-$200K/yr', geo:'Global/Africa', source:AI },
+  { app:'Clio (Legal)', weakness:'$39+/mo minimum, complex for solo lawyers. Small firm owners rage on Twitter about pricing.', keep:['Case management core','Document templates','Time tracking'], angle:'$15/mo for solo practitioners, AI document drafting, mobile-first', pricing:'$15/mo vs $39/mo', buildTime:'8-12 weeks', rev:'$100K-$500K/yr', geo:'Global', source:AI },
+  { app:'Toggl Track', weakness:'Enterprise features overwhelm freelancers. UI cluttered. Free tier restrictions aggressive.', keep:['One-click timer','Project grouping','Reports'], angle:'Simple time tracker + auto-invoice generation + M-Pesa/Stripe payment', pricing:'Free + $5/mo', buildTime:'3-5 weeks', rev:'$50K-$200K/yr', geo:'Global/Africa', source:AI },
+  { app:'Headspace', weakness:'$13/mo is steep. Content feels corporate after acquisition. Limited cultural/regional content.', keep:['Meditation core','Sleep stories','UI polish'], angle:'$5/mo, African wellness content, Swahili meditations, M-Pesa pricing', pricing:'$5/mo vs $13/mo', buildTime:'6-10 weeks', rev:'$50K-$500K/yr', geo:'Africa/Diaspora', source:AI },
+  { app:'QuickBooks (Africa)', weakness:'$15+/mo, no M-Pesa, Kenyan tax compliance missing, overkill for tiny businesses.', keep:['Expense tracking','Basic reporting','Invoice generation'], angle:'$3/mo, M-Pesa auto-sync, KRA tax filings, SMS receipts', pricing:'$3/mo vs $15/mo', buildTime:'6-10 weeks', rev:'$100K-$1M/yr', geo:'Kenya/East Africa', source:AI },
+  { app:'Eventbrite (Africa)', weakness:'No M-Pesa, no local payment methods, high fees (2%+), complex for small events.', keep:['Event pages','Ticket types','RSVP tracking'], angle:'1% fee + M-Pesa + SMS tickets + WhatsApp sharing', pricing:'1% vs 2%+', buildTime:'4-7 weeks', rev:'$50K-$500K/yr', geo:'Kenya/East Africa', source:AI },
+  { app:'YNAB', weakness:'$15/mo, no African bank/mobile money, learning curve steep, cult-like community off-putting', keep:['Zero-based budgeting','Goal tracking','Categories'], angle:'$3/mo, M-Pesa/cash support, simpler UI, African financial context', pricing:'$3/mo vs $15/mo', buildTime:'4-6 weeks', rev:'$50K-$300K/yr', geo:'Africa', source:AI },
+  { app:'Planning Center', weakness:'$14-100+/mo, US-centric (tax forms, addresses), complex for African churches', keep:['Member database','Event planning','Giving tracking'], angle:'$5-20/mo, M-Pesa tithing, SMS member comms, Kiswahili', pricing:'$5-20/mo vs $14-100/mo', buildTime:'6-10 weeks', rev:'$50K-$500K/yr', geo:'Africa/Diaspora', source:AI },
+  { app:'Calendly', weakness:'Free tier too limited. Premium $10/mo for basic features. No WhatsApp integration.', keep:['Scheduling links','Timezone handling','Calendar sync'], angle:'$5/mo, WhatsApp booking links, M-Pesa payment for consultations', pricing:'$5/mo vs $10/mo', buildTime:'4-6 weeks', rev:'$100K-$500K/yr', geo:'Global/Africa', source:AI },
+  { app:'Trello', weakness:'Acquired by Atlassian, stagnating. Power-ups are expensive. Free tier increasingly limited.', keep:['Kanban board','Simple UX','Collaboration'], angle:'AI-powered board with auto-categorization, M-Pesa task payments', pricing:'Free + $4/mo', buildTime:'6-10 weeks', rev:'$100K-$1M/yr', geo:'Global/Africa', source:AI },
+  { app:'Babbel', weakness:'$14/mo, generic approach. No African languages. European language focus only.', keep:['Structured courses','Speech recognition','Progress tracking'], angle:'$5/mo, Swahili/Luo/Kikuyu focus, cultural content, diaspora audience', pricing:'$5/mo vs $14/mo', buildTime:'8-14 weeks', rev:'$50K-$300K/yr', geo:'Africa/Diaspora', source:AI },
+  { app:'Wave Accounting', weakness:'Free but no M-Pesa, no African tax support. Limited customization. No mobile app focus.', keep:['Free tier','Simple accounting','Invoice basics'], angle:'Free tier + M-Pesa + African tax + SMS invoicing', pricing:'Free + $3/mo premium', buildTime:'8-12 weeks', rev:'$100K-$1M/yr', geo:'Africa', source:AI },
+];
+
+const section5AI = [
+  { opp:'AI Chama Management', persona:'Chama treasurers', alt:'Paper records', aiAngle:'Auto-reconcile M-Pesa, predict group savings, flag late payers', rev:'$5-10/group/mo', api:'OpenAI GPT + M-Pesa API', moat:'Local-first, M-Pesa data', build:'Medium (6-8wk)', geo:'Kenya', source:AI },
+  { opp:'AI Swahili Writing Assistant', persona:'Students, content creators', alt:'Grammarly (no Swahili)', aiAngle:'Swahili grammar check, tone adjustment, translation', rev:'$3-7/mo', api:'GPT-4 + fine-tuned Swahili', moat:'Language data moat', build:'Medium (8-12wk)', geo:'East Africa/Diaspora', source:AI },
+  { opp:'AI Invoice Extractor for African SMEs', persona:'Small business owners', alt:'Manual data entry', aiAngle:'Photo-to-invoice OCR, auto-categorize expenses, M-Pesa sync', rev:'$5-15/mo', api:'GPT-4 Vision + OCR', moat:'African receipt formats', build:'Medium (5-8wk)', geo:'Africa', source:AI },
+  { opp:'AI Church Sermon Transcriber', persona:'Church pastors, media teams', alt:'Manual transcription', aiAngle:'Auto-transcribe sermons, translate Swahili/English, generate clips', rev:'$10-30/church/mo', api:'Whisper + GPT-4', moat:'Religious content domain', build:'Medium (6-10wk)', geo:'Africa/Diaspora', source:AI },
+  { opp:'AI Content Repurposer for Creators', persona:'YouTubers, TikTok creators', alt:'Manual editing', aiAngle:'Video→blog post→tweets→newsletter in one click', rev:'$15-30/mo', api:'GPT-4 + Whisper + DALL-E', moat:'Workflow integration', build:'Hard (10-16wk)', geo:'Global', source:AI },
+  { opp:'AI Health Symptom Checker (Africa)', persona:'Patients in underserved areas', alt:'No access to doctors', aiAngle:'Symptom triage, recommend clinic, Swahili/English, offline', rev:'Freemium + $2/mo', api:'GPT-4 + medical knowledge base', moat:'Offline + local languages', build:'Hard (12-16wk)', geo:'Africa', source:AI },
+  { opp:'AI Research Paper Assistant', persona:'University students, researchers', alt:'Manual literature review', aiAngle:'Summarize papers, find citations, format references, check plagiarism', rev:'$5-10/mo', api:'GPT-4 + Semantic Scholar API', moat:'Academic workflow', build:'Medium (6-10wk)', geo:'Global/Africa', source:AI },
+  { opp:'AI Customer Support Bot (WhatsApp)', persona:'African small businesses', alt:'No support or expensive', aiAngle:'WhatsApp chatbot, Swahili/English/French, order tracking, FAQs', rev:'$15-50/mo', api:'GPT-4 + WhatsApp Business API', moat:'Local language + WhatsApp-first', build:'Medium (6-10wk)', geo:'Africa', source:AI },
+  { opp:'AI Grant Writing Assistant (Africa)', persona:'NGOs, startups, researchers', alt:'Expensive consultants', aiAngle:'Auto-draft grant proposals, match to funding opportunities', rev:'$20-50/mo', api:'GPT-4 + grant database', moat:'African grant ecosystem data', build:'Medium (8-12wk)', geo:'Africa', source:AI },
+  { opp:'AI CV/Resume Optimizer (Africa)', persona:'Job seekers', alt:'Generic templates', aiAngle:'ATS-optimized CV generation, cover letter, interview prep, Kenyan job board integration', rev:'$3-7/mo', api:'GPT-4 + job board APIs', moat:'Local job market data', build:'Easy (3-5wk)', geo:'Kenya/Africa', source:AI },
+  { opp:'AI Document Translator (African languages)', persona:'Businesses, NGOs, govt', alt:'Human translators ($expensive)', aiAngle:'Swahili/Kikuyu/Luo ↔ English, preserve formatting', rev:'$15-30/mo', api:'GPT-4 + fine-tuning', moat:'African language pairs', build:'Medium (8-12wk)', geo:'Africa', source:AI },
+  { opp:'AI Meeting Note Taker (Africa-focused)', persona:'Teams, freelancers', alt:'Otter.ai ($16/mo, no Africa focus)', aiAngle:'Transcribe, summarize, action items, WhatsApp meeting bot', rev:'$5-10/mo', api:'Whisper + GPT-4', moat:'WhatsApp + M-Pesa integration', build:'Medium (6-10wk)', geo:'Africa/Global', source:AI },
+  { opp:'AI Personal Finance Coach (Africa)', persona:'Young professionals', alt:'No personalized advice', aiAngle:'Analyze M-Pesa/bank SMS, recommend savings, chama optimization', rev:'$3-5/mo', api:'GPT-4 + SMS parsing', moat:'M-Pesa data + local context', build:'Medium (6-10wk)', geo:'Kenya/Africa', source:AI },
+  { opp:'AI Lesson Plan Generator', persona:'Teachers', alt:'Manual planning', aiAngle:'Generate lesson plans, worksheets, quizzes aligned to Kenyan CBC curriculum', rev:'$5-15/mo', api:'GPT-4 + curriculum data', moat:'Local curriculum alignment', build:'Medium (6-8wk)', geo:'Kenya/East Africa', source:AI },
+  { opp:'AI Legal Document Analyzer (Africa)', persona:'Solo lawyers, SMEs', alt:'Expensive legal review', aiAngle:'Contract review, clause extraction, risk flagging for African jurisdictions', rev:'$20-50/mo', api:'GPT-4 + legal templates', moat:'African legal frameworks', build:'Hard (10-16wk)', geo:'Africa', source:AI },
+];
+
+const section7Africa = [
+  { opp:'Chama Digital Ledger', localDemand:'Very High', whyFails:'No M-Pesa integration in Western apps', mpesaReq:'Yes - core feature', arpuKES:'KSh 200-500/mo', competition:'None serious', geo:'Kenya/East Africa', expansion:'Easy - same concept across Africa', source:AI },
+  { opp:'M-Pesa Till Manager', localDemand:'High', whyFails:'Square/PayPal have no M-Pesa', mpesaReq:'Yes - core feature', arpuKES:'KSh 300-800/mo', competition:'Mookh (small)', geo:'Kenya', expansion:'Medium - country-specific', source:AI },
+  { opp:'School Fee Tracker with M-Pesa', localDemand:'Very High', whyFails:'Western SIS too complex/expensive', mpesaReq:'Yes - core feature', arpuKES:'KSh 50/student/mo', competition:'Eneza, Zeraki', geo:'Kenya/East Africa', expansion:'Medium - curriculum varies', source:AI },
+  { opp:'Boda-Boda Delivery Network', localDemand:'Very High', whyFails:'Uber/Glovo pricing doesn\'t fit Kenya', mpesaReq:'Yes - payment', arpuKES:'% per delivery', competition:'Sendy (struggling), Glovo', geo:'Kenya', expansion:'Hard - operations heavy', source:AI },
+  { opp:'Church Tithe via M-Pesa', localDemand:'Very High', whyFails:'Planning Center is US-only', mpesaReq:'Yes - core feature', arpuKES:'KSh 500-2000/mo', competition:'None', geo:'Kenya/Africa', expansion:'Easy - same concept', source:AI },
+  { opp:'SME Bookkeeping with KRA Filing', localDemand:'High', whyFails:'QuickBooks no KRA integration', mpesaReq:'Yes', arpuKES:'KSh 300-1000/mo', competition:'Some local startups', geo:'Kenya', expansion:'Hard - tax differs per country', source:AI },
+  { opp:'Farm Input Marketplace', localDemand:'High', whyFails:'Amazon-style marketplace doesn\'t fit', mpesaReq:'Yes', arpuKES:'Commission %', competition:'Twiga Foods (B2B)', geo:'Kenya/East Africa', expansion:'Medium - logistics heavy', source:AI },
+  { opp:'Diaspora Funeral/Ceremony Fund', localDemand:'High', whyFails:'GoFundMe no M-Pesa, no African context', mpesaReq:'Yes', arpuKES:'Platform %', competition:'M-Changa', geo:'Kenya/Diaspora', expansion:'Medium', source:AI },
+  { opp:'Swahili Kids Learning App', localDemand:'Medium', whyFails:'ABC Mouse is English-only', mpesaReq:'Optional', arpuKES:'KSh 200-500/mo', competition:'Ubongo Kids (free)', geo:'East Africa/Diaspora', expansion:'Medium - content heavy', source:AI },
+  { opp:'Matatu Route & Payment App', localDemand:'Very High', whyFails:'Google Maps doesn\'t have matatu data', mpesaReq:'Optional', arpuKES:'Freemium + ads', competition:'Little, SWVL (left)', geo:'Kenya', expansion:'Hard - operations heavy', source:AI },
+  { opp:'Freelancer Job Board (Kenya)', localDemand:'High', whyFails:'Upwork/Fiverr Kenya presence small', mpesaReq:'Yes', arpuKES:'Commission %', competition:'None major', geo:'Kenya', expansion:'Hard - network effects', source:AI },
+  { opp:'NGO/Donor Reporting Tool', localDemand:'Medium', whyFails:'Salesforce too expensive', mpesaReq:'No', arpuKES:'$20-100/mo', competition:'Some', geo:'Africa', expansion:'Easy', source:AI },
+  { opp:'WhatsApp Bulk Messaging for Business', localDemand:'Very High', whyFails:'Meta restricts, local providers expensive', mpesaReq:'No', arpuKES:'KSh 1000-5000/mo', competition:'Many small players', geo:'Africa', expansion:'Medium', source:AI },
+  { opp:'Land Rates/Rent Payment Reminder', localDemand:'Medium', whyFails:'Western property apps don\'t apply', mpesaReq:'Yes', arpuKES:'KSh 100-300/mo', competition:'None', geo:'Kenya', expansion:'Hard - property laws vary', source:AI },
+  { opp:'Hospital Queue Management', localDemand:'High', whyFails:'Western EMR systems $1000+/mo', mpesaReq:'Yes', arpuKES:'KSh 500-2000/mo', competition:'None quality', geo:'Kenya/Africa', expansion:'Easy', source:AI },
+];
+
+const pricingData = {
+  consumer: { model:'Freemium + Subscription', tiers:'Free / $5 / $12', best:'Annual $60-80', freemiumConv:'3-5%', ltv:'$120-240' },
+  b2bTools: { model:'Subscription (per seat)', tiers:'$10 / $25 / $50', best:'Annual $120-300', freemiumConv:'5-8%', ltv:'$600-2400' },
+  africaMarket: { model:'Freemium + M-Pesa micro', tiers:'Free / KSh 300 / KSh 800', best:'Monthly $2-5', freemiumConv:'2-4%', ltv:'$30-120' },
+  aiTools: { model:'Subscription + Usage credits', tiers:'$8 / $20 / $Pro', best:'Monthly $10-30', freemiumConv:'4-7%', ltv:'$200-600' },
+};
+
+const top20Ranked = [
+  { rank:1, name:'Chama Digital Ledger + M-Pesa', user:'Chama treasurers in Kenya', features:'Group ledger, M-Pesa auto-reconcile, SMS reminders, loan tracking, reports', stack:'React Native + Supabase + M-Pesa API + OpenAI', rev:'$5-10/group/mo', mvp:'4-8 weeks', firstRev:'$500 MRR by month 3', advantage:'Zero competition, $4B market', risk:'M-Pesa API changes, trust adoption', score:8.9, geo:'Kenya', cat:'Fintech' },
+  { rank:2,name:'AI Academic Writing Assistant (Africa)', user:'University students', features:'AI writing, plagiarism check, citation generator, formatting, research summarizer', stack:'Next.js + Supabase + OpenAI GPT-4 + Stripe/M-Pesa', rev:'$5-10/mo', mvp:'4-8 weeks', firstRev:'$1000 MRR by month 4', advantage:'Grammarly+Turnitin gap for Africa', risk:'AI detection policies, competition', score:8.5, geo:'Africa/Global', cat:'EdTech' },
+  { rank:3,name:'M-Pesa Integrated Freelancer Invoicing', user:'Kenyan freelancers & SMEs', features:'Invoice generation, M-Pesa payment links, expense tracking, tax summary, client mgmt', stack:'React Native + Node.js + M-Pesa API + Supabase', rev:'Free + $5/mo', mvp:'3-6 weeks', firstRev:'$500 MRR by month 3', advantage:'Wave/QuickBooks gap for M-Pesa', risk:'M-Pesa API latency, KRA changes', score:8.4, geo:'Kenya/East Africa', cat:'Finance' },
+  { rank:4,name:'Church Management System (Africa)', user:'African churches', features:'Member DB, M-Pesa tithe, SMS announcements, event planning, attendance', stack:'React Native + Supabase + M-Pesa API + Twilio', rev:'$10-30/church/mo', mvp:'6-10 weeks', firstRev:'$1000 MRR by month 4', advantage:'Planning Center costs 5x more, no Africa', risk:'Church adoption speed, offline needs', score:8.2, geo:'Africa/Diaspora', cat:'SaaS' },
+  { rank:5,name:'Fantastical Clone — AI Calendar + WhatsApp', user:'Professionals, teams', features:'Natural language scheduling, AI booking agent, WhatsApp booking, M-Pesa payments', stack:'Next.js + Supabase + OpenAI + WhatsApp API', rev:'$2/mo vs Fantastical $5', mvp:'6-8 weeks', firstRev:'$1000 MRR by month 4', advantage:'80% of features at 40% price + Africa angle', risk:'Calendar APIs, Google/Apple lock-in', score:8.1, geo:'Global/Africa', cat:'Productivity' },
+  { rank:6,name:'AI CV/Resume Optimizer (Africa)', user:'Job seekers', features:'ATS-optimized CV, cover letter AI, interview prep, job board integration', stack:'Next.js + OpenAI GPT-4 + job board scrapers', rev:'$3-7/mo', mvp:'3-5 weeks', firstRev:'$500 MRR by month 2', advantage:'High unemployment = massive demand', risk:'Fast-moving AI landscape, free alternatives', score:8.0, geo:'Kenya/Africa', cat:'Career' },
+  { rank:7,name:'School Fee & Attendance Tracker (Africa)', user:'Private schools', features:'Fee tracking, M-Pesa payments, attendance, parent SMS, report cards', stack:'React Native + Supabase + M-Pesa API + Twilio', rev:'$50-200/school/mo', mvp:'8-14 weeks', firstRev:'$2000 MRR by month 5', advantage:'50M students, most on paper', risk:'Long sales cycles, curriculum variations', score:7.8, geo:'Kenya/East Africa', cat:'EdTech' },
+  { rank:8,name:'Smallholder Farm Manager + Market Prices', user:'Smallholder farmers', features:'Crop planning, weather alerts, market prices, input ordering, M-Pesa payments', stack:'React Native + Python + M-Pesa + weather APIs', rev:'Freemium + marketplace %', mvp:'8-12 weeks', firstRev:'$500 MRR by month 5', advantage:'33M farmers, <5% digital', risk:'Low smartphone penetration, literacy', score:7.6, geo:'Africa', cat:'AgriTech' },
+  { rank:9,name:'Event Ticketing with M-Pesa (Africa)', user:'Event organizers', features:'Event page, M-Pesa ticketing, SMS tickets, WhatsApp sharing, attendance scan', stack:'Next.js + Supabase + M-Pesa API + Twilio', rev:'1% per ticket', mvp:'4-7 weeks', firstRev:'$1000 MRR by month 4', advantage:'Eventbrite doesn\'t support M-Pesa', risk:'Seasonal demand, event organizer trust', score:7.6, geo:'Kenya/East Africa', cat:'Events' },
+  { rank:10,name:'AI Habit Tracker with Coaching', user:'Self-improvement seekers', features:'AI habit suggestions, pattern detection, chat coach, streaks, social accountability', stack:'React Native + Supabase + OpenAI + RevenueCat', rev:'$4-8/mo', mvp:'4-6 weeks', firstRev:'$1000 MRR by month 4', advantage:'Streaks/Strides lack AI', risk:'Crowded category, user retention', score:7.5, geo:'Global', cat:'Health' },
+  { rank:11,name:'Solo Lawyer Practice Management', user:'Solo/small law firms', features:'Case tracking, document templates, time, billing, deadline calendar, client portal', stack:'Next.js + Supabase + OpenAI + Stripe', rev:'$15-25/mo', mvp:'6-10 weeks', firstRev:'$2000 MRR by month 5', advantage:'Clio $39+ alternative at $15', risk:'Legal domain expertise needed', score:7.4, geo:'Global', cat:'LegalTech' },
+  { rank:12,name:'M-Pesa Budgeting App for Africa', user:'Young African professionals', features:'Auto-categorize M-Pesa, SMS parsing, savings goals, chama tracking, reports', stack:'React Native + Supabase + M-Pesa + SMS parser', rev:'$2-5/mo', mvp:'4-6 weeks', firstRev:'$500 MRR by month 3', advantage:'YNAB/Mint no M-Pesa support', risk:'SMS parsing reliability, bank APIs', score:7.3, geo:'Kenya/Africa', cat:'Finance' },
+  { rank:13,name:'AI WhatsApp Customer Support Bot', user:'African SMEs', features:'WhatsApp bot, Swahili/English, order tracking, FAQ, human handoff', stack:'Node.js + OpenAI + WhatsApp Business API', rev:'$15-50/mo/bot', mvp:'6-10 weeks', firstRev:'$1000 MRR by month 4', advantage:'Zendesk $50+ too expensive', risk:'WhatsApp policy changes, AI accuracy', score:7.2, geo:'Africa', cat:'AI/Support' },
+  { rank:14,name:'Swahili Language Learning App', user:'Diaspora, language learners', features:'Interactive lessons, speech recognition, cultural content, gamification', stack:'React Native + OpenAI Whisper + Supabase', rev:'$3-7/mo', mvp:'4-8 weeks', firstRev:'$500 MRR by month 5', advantage:'Duolingo Swahili is terrible', risk:'Small TAM, content creation heavy', score:7.1, geo:'Africa/Diaspora', cat:'EdTech' },
+  { rank:15,name:'Construction Trades Job Manager', user:'Electricians, plumbers', features:'Quoting, scheduling, invoicing, photo notes, client management, simple CRM', stack:'React Native + Supabase + Stripe', rev:'$10-20/mo', mvp:'6-10 weeks', firstRev:'$1000 MRR by month 5', advantage:'Desktop tools don\'t work on job sites', risk:'Vertical marketing challenges', score:7.0, geo:'Global', cat:'Vertical SaaS' },
+  { rank:16,name:'Diaspora Family Hub — Remit + Connect', user:'African diaspora families', features:'Remittance, family chat, shared calendar, event planning, photo sharing', stack:'React Native + Supabase + remittance API + M-Pesa', rev:'% transaction + $5/mo', mvp:'10-16 weeks', firstRev:'$2000 MRR by month 6', advantage:'Combines remittance + social, no competitor', risk:'Remittance licensing, money transmitter laws', score:6.9, geo:'Africa/Diaspora', cat:'Fintech/Social' },
+  { rank:17,name:'Freelancer Time + Invoice Tracker', user:'Freelancers globally', features:'One-tap timer, auto-invoice, M-Pesa/Stripe payment, project rates, simple reports', stack:'React Native + Supabase + Stripe + M-Pesa', rev:'Free + $5/mo', mvp:'3-5 weeks', firstRev:'$500 MRR by month 3', advantage:'Toggl is enterprise-bloated', risk:'Very crowded market', score:6.8, geo:'Global/Africa', cat:'Productivity' },
+  { rank:18,name:'AI Grant Writing Assistant (Africa)', user:'NGOs, startups', features:'Grant proposal drafts, funder matching, budget templates, deadline tracking', stack:'Next.js + OpenAI + grant databases', rev:'$20-50/mo', mvp:'8-12 weeks', firstRev:'$1000 MRR by month 5', advantage:'Consultants charge $500+ per proposal', risk:'NGO budgets limited, slow sales', score:6.7, geo:'Africa', cat:'AI/SaaS' },
+  { rank:19,name:'AI Document Translator (African Languages)', user:'Businesses, NGOs, govt', features:'Swahili/Kikuyu/Luo ↔ English, preserve formatting, batch translation', stack:'Next.js + OpenAI fine-tuned + Supabase', rev:'$15-30/mo', mvp:'8-12 weeks', firstRev:'$1000 MRR by month 5', advantage:'Google Translate quality poor for African languages', risk:'AI quality for low-resource languages', score:6.6, geo:'Africa', cat:'AI/Tools' },
+  { rank:20,name:'Simple Scheduling + WhatsApp Booking', user:'Service providers', features:'Booking links, WhatsApp integration, M-Pesa payment, calendar sync, reminders', stack:'Next.js + Supabase + WhatsApp API + M-Pesa', rev:'$5/mo vs Calendly $10', mvp:'4-6 weeks', firstRev:'$1000 MRR by month 4', advantage:'Calendly no WhatsApp/M-Pesa', risk:'Calendly brand dominance', score:6.5, geo:'Global/Africa', cat:'Productivity' },
+];
+
+// ====== RENDER ======
+let activeSection = 'exec';
+
+function showSection(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  const sec = document.getElementById(id);
+  if (sec) { sec.classList.add('active'); activeSection = id; }
+  document.querySelector(`nav a[href="#${id}"]`)?.classList.add('active');
+}
+
+function renderAll() {
+  const m = document.getElementById('main');
+  m.innerHTML = `
+    <section id="exec" class="active">
+      <h1>🕵️ App Market Research Dashboard</h1>
+      <p>Solo-developer intelligence for building profitable apps. Research conducted 2026-05 via DuckDuckGo + AI synthesis. Sources flagged: 🟠 DDG / 🔵 AI Analysis.</p>
+      <div class="source-key"><span class="source-dot-ddg"></span> DuckDuckGo search result <span class="source-dot-ai"></span> AI synthesis/analysis</div>
+      <div class="metrics-grid">
+        ${Object.entries(keyMetrics).map(([k,v])=>`<div class="metric"><div class="value">${v[0]}</div><div class="label">${v[1]} <span class="${v[2] === DDG ? 'source-ddg' : 'source-ai'}">${v[2]===DDG?'🟠DDG':'🔵AI'}</span></div></div>`).join('')}
+      </div>
+      <div style="text-align:right;margin-bottom:12px"><button onclick="exportData()" style="background:var(--accent);color:white;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:600">⬇ Export JSON Data</button></div>
+      <h2>Opportunity Distribution</h2>
+      <div class="chart-wrap"><canvas id="chartCategory"></canvas></div>
+      <div class="chart-wrap"><canvas id="chartGeo"></canvas></div>
+      <div class="section-nav-grid">
+        ${['section1','section2','section3','section4','section5','section6','section7','section8','section9'].map((s,i)=>`
+          <div class="section-nav-card" onclick="showSection('${s}')">
+            <div class="num">0${i+1}</div>
+            <div class="title">${['Revenue Intelligence','Trends & Categories','Underserved Niches','Cloneable Apps','AI Opportunities','Build Strategy','Africa/Kenya Deep-Dive','Pricing & Monetization','Final App Build List'][i]}</div>
+            <div class="desc">${['40 apps catalogued with RPD ratios','25 trends scored & mapped','20 niches ranked by opportunity score','12 clone targets with feature gap','15 AI-native app opportunities','Tool stack & design playbook','15 Kenya/Africa opportunities','Pricing models by category','Top 20 ranked app ideas with scores'][i]}</div>
+          </div>`).join('')}
+      </div>
+    </section>
+
+    <section id="section1">
+      <h1>1. App Store Revenue & Download Intelligence</h1>
+      <p>Non-giant apps generating real money ($1K-$100K+/month). 40 apps catalogued.</p>
+      <h2>Key Findings</h2>
+      <div class="card">
+        <p><strong>🟠DDG:</strong> Global mobile app revenue ~$585B in 2025. App Store alone ~$138B. Median indie app revenue <$50/month after 1 year. AI apps tripled IAP to $5B. Productivity grew 80% YoY.</p>
+        <p><strong>🔵AI Analysis:</strong> Solo developers can reach $3K-$10K/month by building multiple niche apps (5-30 apps) rather than betting on one. "Portfolio approach" works: each app $300-$2K/mo × several = meaningful income.</p>
+      </div>
+      <div class="filters">
+        <input placeholder="Filter apps..." oninput="filterTable('section1Table',this.value)">
+        <select onchange="filterTable('section1Table',document.querySelector('#section1 input').value)"><option>All</option><option>Productivity</option><option>Health</option><option>Education</option><option>Creative</option><option>Entertainment</option><option>Developer</option><option>Lifestyle</option><option>Social</option><option>Weather</option></select>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="section1Table">
+          <thead><tr><th>App</th><th>Category</th><th>Platform</th><th>Est. Revenue</th><th>Downloads</th><th>RPD</th><th>Team</th><th>Model</th><th>Rating</th><th>Weakness</th><th>Source</th></tr></thead>
+          <tbody>${section1Data.map(a=>`<tr>
+            <td><strong>${a.app}</strong></td><td>${a.cat}</td><td>${a.platform}</td>
+            <td>${a.estRev}</td><td>${a.dl}</td><td>${a.rpd}</td><td>${a.team}</td>
+            <td>${a.model}</td><td>${a.rating}</td><td style="color:var(--red);font-size:0.8rem">${a.weakness}</td>
+            <td><span class="${a.source==='source-ddg'?'badge badge-orange':'badge badge-blue'}">${a.source==='source-ddg'?'DDG':'AI'}</span></td>
+          </tr>`).join('')}</tbody>
+        </table>
+      </div>
+      <h2>Revenue Per Download Analysis</h2>
+      <div class="chart-wrap"><canvas id="chartRPD"></canvas></div>
+    </section>
+
+    <section id="section2">
+      <h1>2. Trends & Emerging Category Analysis</h1>
+      <p>25 trends scored by growth evidence, maturity, and solo-dev opportunity.</p>
+      <div class="card"><p><strong>🟠DDG:</strong> AI apps dominated 2025 with IAP tripling to $5B. Productivity saw 80% YoY growth. Consumers spent more on apps than games for first time.</p></div>
+      <div class="filters"><input placeholder="Filter trends..." oninput="filterTable('section2Table',this.value)"></div>
+      <div style="overflow-x:auto;">
+        <table id="section2Table">
+          <thead><tr><th>Trend</th><th>Evidence</th><th>Maturity</th><th>Geography</th><th>Window</th><th>Score</th></tr></thead>
+          <tbody>${section2Trends.map(t=>`<tr>
+            <td><strong>${t.trend}</strong></td><td>${t.evidence}</td>
+            <td><span class="badge ${t.maturity==='Early'?'badge-green':t.maturity==='Growing'?'badge-blue':'badge-orange'}">${t.maturity}</span></td>
+            <td>${t.geo}</td><td>${t.window}</td>
+            <td><div class="score-bar"><div class="score-fill" style="width:${t.score*10}%;background:${t.score>=8?'var(--green)':t.score>=6?'var(--accent2)':'var(--orange)'}"></div></div>${t.score}/10</td>
+          </tr>`).join('')}</tbody>
+        </table>
+      </div>
+      <h2>Trend Heatmap</h2>
+      <div class="heatmap-grid">
+        ${section2Trends.sort((a,b)=>b.score-a.score).map(t=>`
+          <div class="heatmap-cell ${t.score>=8?'high':t.score>=6?'med':'low'}">
+            <span class="label">${t.trend.split('(')[0].trim()}</span>
+            <span class="score">${t.score}</span>
+          </div>`).join('')}
+      </div>
+    </section>
+
+    <section id="section3">
+      <h1>3. Underserved Niches</h1>
+      <p>20 niches ranked by opportunity score. Demand, competition weakness, pricing power, build complexity, personal advantage — each scored 1-10.</p>
+      <h2>Niches with Highest Combined Score</h2>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>Niche</th><th title="Demand strength">Demand</th><th title="Competition weakness">Comp↓</th><th title="Pricing power">Price</th><th title="Build ease">Build</th><th title="Personal advantage">Adv</th><th>Geo</th><th>Model</th><th>Build Time</th></tr></thead>
+          <tbody>${section3Niches.sort((a,b)=>(b.demand+b.competition+b.pricing+b.build+b.advantage)-(a.demand+a.competition+a.pricing+a.build+a.advantage)).map(n=>`
+            <tr><td><strong>${n.niche}</strong><br><span style="font-size:0.75rem;color:var(--text2)">${n.desc}</span></td>
+            <td>${n.demand}</td><td>${n.competition}</td><td>${n.pricing}</td><td>${n.build}</td><td>${n.advantage}</td>
+            <td>${n.geo}</td><td>${n.model}</td><td>${n.buildTime}</td>
+          </tr>`).join('')}</tbody>
+        </table>
+      </div>
+      <h2>Niche Scatter: Demand vs Competition</h2>
+      <div class="chart-wrap"><canvas id="chartNicheScatter"></canvas></div>
+    </section>
+
+    <section id="section4">
+      <h1>4. Cloneable Apps — Beat Them at Their Own Game</h1>
+      <p>12 apps making real money with critical weaknesses you can exploit.</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>Target App</th><th>Weakness</th><th>Your Angle</th><th>Your Price</th><th>Build Time</th><th>1Y Revenue Est</th><th>Geo</th></tr></thead>
+          <tbody>${section4Clones.map(c=>`<tr>
+            <td><strong>${c.app}</strong></td>
+            <td style="font-size:0.8rem;max-width:250px">${c.weakness}</td>
+            <td style="font-size:0.8rem;max-width:250px">${c.angle}</td>
+            <td><span class="badge badge-green">${c.pricing}</span></td>
+            <td>${c.buildTime}</td><td>${c.rev}</td><td>${c.geo}</td>
+          </tr>`).join('')}</tbody>
+        </table>
+      </div>
+      <h2>Clone Feasibility Matrix</h2>
+      <div class="card two-col">
+        <div><h3>Highest Priority</h3>${section4Clones.slice(0,5).map(c=>`<div class="resource-card"><div class="info"><strong>${c.app}</strong><span>${c.angle.substring(0,80)}... — ${c.pricing}</span></div></div>`).join('')}</div>
+        <div><h3>Africa-Specific</h3>${section4Clones.filter(c=>c.geo.includes('Africa')).map(c=>`<div class="resource-card"><div class="info"><strong>${c.app}</strong><span>${c.angle.substring(0,80)}... — ${c.buildTime}</span></div></div>`).join('')}</div>
+      </div>
+    </section>
+
+    <section id="section5">
+      <h1>5. AI-Native App & SaaS Opportunities</h1>
+      <p>15 AI opportunities sorted by feasibility × market size × uniqueness.</p>
+      <div class="chart-wrap"><canvas id="chartAI"></canvas></div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>Opportunity</th><th>Target User</th><th>AI Advantage</th><th>Revenue</th><th>APIs Needed</th><th>Moat</th><th>Build</th><th>Geo</th></tr></thead>
+          <tbody>${section5AI.map(o=>`<tr>
+            <td><strong>${o.opp}</strong></td><td>${o.persona}</td>
+            <td style="font-size:0.8rem">${o.aiAngle}</td>
+            <td>${o.rev}</td><td style="font-size:0.75rem">${o.api}</td>
+            <td style="font-size:0.8rem">${o.moat}</td>
+            <td><span class="badge ${o.build.includes('Easy')?'badge-green':o.build.includes('Medium')?'badge-blue':'badge-red'}">${o.build}</span></td>
+            <td>${o.geo}</td>
+          </tr>`).join('')}</tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="section6">
+      <h1>6. Build Strategy — Agents, Speed & Human-Looking UI</h1>
+      <h2>AI Coding Tools Ranked</h2>
+      <table>
+        <tr><th>Tool</th><th>Best For</th><th>Pricing</th><th>Speed</th><th>Quality</th><th>Note</th></tr>
+        <tr><td><strong>Cursor</strong></td><td>Full-stack apps</td><td>$20/mo</td><td>⭐⭐⭐⭐⭐</td><td>⭐⭐⭐⭐⭐</td><td>Best overall for solo devs. Agent mode in 2025 is excellent.</td></tr>
+        <tr><td><strong>Claude Code</strong></td><td>Complex logic, refactoring</td><td>API costs</td><td>⭐⭐⭐⭐</td><td>⭐⭐⭐⭐⭐</td><td>Best code quality. Terminal-native. Great for architecture.</td></tr>
+        <tr><td><strong>Windsurf</strong></td><td>Quick prototypes</td><td>$15/mo</td><td>⭐⭐⭐⭐</td><td>⭐⭐⭐⭐</td><td>Cascade agent is fast. Good IDE integration.</td></tr>
+        <tr><td><strong>Bolt.new / Lovable</strong></td><td>Frontend + simple backends</td><td>$20-50/mo</td><td>⭐⭐⭐⭐⭐</td><td>⭐⭐⭐</td><td>Fastest to MVP, but generated code can be sloppy.</td></tr>
+        <tr><td><strong>v0 (Vercel)</strong></td><td>UI components</td><td>Free/Premium</td><td>⭐⭐⭐⭐</td><td>⭐⭐⭐⭐</td><td>Best for React/Next.js UI. Not for full apps.</td></tr>
+        <tr><td><strong>Aider + Claude</strong></td><td>Terminal coding</td><td>API costs</td><td>⭐⭐⭐⭐</td><td>⭐⭐⭐⭐</td><td>Open source, powerful for terminal-native devs.</td></tr>
+      </table>
+      <h2>Recommended Stack for Solo Dev Speed</h2>
+      <div class="card">
+        <table>
+          <tr><td><strong>Frontend</strong></td><td>React Native (Expo) for mobile + Next.js for web. <span class="tag">shadcn/ui</span> <span class="tag">Tailwind CSS</span> <span class="tag">Framer Motion</span></td></tr>
+          <tr><td><strong>Backend</strong></td><td>Supabase (Postgres, Auth, Storage, Edge Functions). One tool that does everything.</td></tr>
+          <tr><td><strong>Payments</strong></td><td>RevenueCat (app subs) + Stripe (web) + M-Pesa Daraja API (Africa). Paddle if avoiding VAT.</td></tr>
+          <tr><td><strong>AI</strong></td><td>OpenAI GPT-4o (primary) + Anthropic Claude (complex) + Replicate (open models)</td></tr>
+          <tr><td><strong>Deploy</strong></td><td>Vercel (Next.js), Fly.io (backend), App Store Connect + Google Play Console</td></tr>
+          <tr><td><strong>Design</strong></td><td>Figma + Untitled UI (components) + Lucide Icons + Inter/Space Grotesk fonts</td></tr>
+          <tr><td><strong>Boilerplates</strong></td><td><span class="tag">makerkit.dev</span> <span class="tag">shipfa.st</span> <span class="tag">nextsaas.app</span> <span class="tag">supastarter.dev</span></td></tr>
+        </table>
+      </div>
+      <h2>Making UI Look Human-Designed (Not AI Slop)</h2>
+      <div class="card">
+        <ol style="padding-left:20px;color:var(--text2)">
+          <li><strong>Typography is everything</strong> — Use Inter for UI, Space Grotesk for headings. NEVER use system default fonts.</li>
+          <li><strong>Spacing system</strong> — 4px grid. Paddings: 8/16/24/32/48. Never random spacing.</li>
+          <li><strong>Color palette</strong> — Use <a href="https://uicolors.app" style="color:var(--accent)">uicolors.app</a> to generate a cohesive palette from one primary. Never default Tailwind colors.</li>
+          <li><strong>Micro-interactions</strong> — Framer Motion for React, Lottie for animations. Every button should have hover/active states.</li>
+          <li><strong>Break the grid intentionally</strong> — One element slightly offset or overlapping creates visual interest.</li>
+          <li><strong>Empty states matter</strong> — Illustrations (use <a href="https://undraw.co" style="color:var(--accent)">unDraw</a>) + helpful copy, not just "No data."</li>
+          <li><strong>Avoid AI patterns</strong> — Centered everything, all cards same size, #6c5ce7 on black. These scream "AI generated."</li>
+        </ol>
+      </div>
+      <h2>Agent Workflow for Overnight Build</h2>
+      <div class="timeline">
+        <div class="timeline-item"><div class="phase">Phase 1: Scaffold (1 hour)</div><div class="desc">Use Bolt.new or v0 to generate full project structure. Cursor to review and fix architecture.</div></div>
+        <div class="timeline-item"><div class="phase">Phase 2: Auth + DB (1 hour)</div><div class="desc">Supabase setup, RLS policies, user tables. Claude Code for SQL and security review.</div></div>
+        <div class="timeline-item"><div class="phase">Phase 3: Core Features (3-4 hours)</div><div class="desc">Cursor Agent mode: implement 3-5 core features. Claude Code reviews each PR.</div></div>
+        <div class="timeline-item"><div class="phase">Phase 4: Design Polish (2 hours)</div><div class="desc">Figma for key screens. v0 for component fine-tuning. Manual CSS touch-ups.</div></div>
+        <div class="timeline-item"><div class="phase">Phase 5: Payments + Deploy (1 hour)</div><div class="desc">Stripe/RevenueCat integration. Vercel deploy. App Store submission.</div></div>
+      </div>
+    </section>
+
+    <section id="section7">
+      <h1>7. African & Kenyan Market Deep-Dive</h1>
+      <p>15 Kenya/Africa opportunities ranked by local fit. M-Pesa integration is the key differentiator — no Western app does it well.</p>
+      <h2>Key Insight</h2>
+      <div class="card">
+        <p>Imported Western apps fail in Africa because they: (1) don't support M-Pesa/mobile money, (2) assume always-online, (3) ignore SMS/USSD fallback, (4) use foreign pricing, (5) don't support local languages. <strong>Every one of these is your moat.</strong></p>
+      </div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>Opportunity</th><th>Demand</th><th>Why Western Fails</th><th>M-Pesa Needed?</th><th>ARPU (KES)</th><th>Competition</th><th>Expansion Ease</th></tr></thead>
+          <tbody>${section7Africa.map(o=>`<tr>
+            <td><strong>${o.opp}</strong></td><td>${o.localDemand}</td><td style="font-size:0.8rem">${o.whyFails}</td>
+            <td><span class="badge ${o.mpesaReq.includes('Yes')?'badge-green':'badge-blue'}">${o.mpesaReq}</span></td>
+            <td>${o.arpuKES}</td><td>${o.competition}</td><td>${o.expansion}</td>
+          </tr>`).join('')}</tbody>
+        </table>
+      </div>
+      <h2>M-Pesa API Integration Guide</h2>
+      <div class="card">
+        <p><strong>Daraja API (Safaricom)</strong>: REST API for payments. Key endpoints: STK Push (send payment prompt to phone), B2C (send money), C2B (receive payments), Account Balance, Transaction Status.</p>
+        <p><strong>Key requirements:</strong> Safaricom developer account, consumer key/secret, passkey, shortcode or till number.</p>
+        <p><strong>npm:</strong> <code>mpesa-node</code>, <code>daraja-mpesa</code> packages make integration ~2 days work.</p>
+      </div>
+    </section>
+
+    <section id="section8">
+      <h1>8. Pricing, Monetization & Revenue Models</h1>
+      <h2>Pricing Models by Category</h2>
+      <table>
+        <thead><tr><th>Category</th><th>Best Model</th><th>Tiers</th><th>Best Price Point</th><th>Freemium Conv.</th><th>LTV Estimate</th></tr></thead>
+        <tbody>${Object.entries(pricingData).map(([k,v])=>`<tr>
+          <td><strong>${k}</strong></td><td>${v.model}</td><td>${v.tiers}</td><td>${v.best}</td><td>${v.freemiumConv}</td><td>${v.ltv}</td>
+        </tr>`).join('')}</tbody>
+      </table>
+      <h2>Africa-Specific Pricing Playbook</h2>
+      <div class="card">
+        <p><strong>PPP Strategy:</strong> Charge 20-30% of US price for African users. Example: $10/mo US → KSh 300-500/mo Kenya ($2.50-4).</p>
+        <p><strong>M-Pesa Micro-payments:</strong> Allow per-use pricing via M-Pesa: KSh 50 per report, KSh 20 per invoice. Africans prefer small frequent payments over large subscriptions.</p>
+        <p><strong>Freemium + M-Pesa top-up:</strong> Free tier with daily limits, pay KSh 10-50 to unlock more. Works better than monthly subs.</p>
+        <p><strong>SMS fallback:</strong> Always offer SMS/USSD access alongside app. 40% of African smartphone users still prefer USSD for payments.</p>
+      </div>
+      <h2>Pricing Decision Flowchart</h2>
+      <div class="card">
+        <ol style="padding-left:20px;color:var(--text2);font-size:0.9rem">
+          <li><strong>B2C app?</strong> → Freemium. Free tier with limits, $5-10/mo for pro. Example: Duolingo model.</li>
+          <li><strong>B2B tool?</strong> → Per-seat subscription. $10-25/user/mo. Free trial 14-30 days. Example: Notion model.</li>
+          <li><strong>African market?</strong> → Freemium + micro-Pesa. Free base, pay per use (KES 50-200). Example: M-Pesa paybill model.</li>
+          <li><strong>AI tool?</strong> → Subscription + credits. $8-30/mo base + usage credits. Example: ChatGPT Plus model.</li>
+          <li><strong>Marketplace/Platform?</strong> → Take rate (5-15%). Free to join, earn on transactions. Example: Airbnb model.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="section9">
+      <h1>9. Final App Build List — Ranked & Scored</h1>
+      <p>Multi-factor scoring: Market demand (×2), Competition weakness (×2), Build feasibility (×1.5), Revenue potential (×2), Personal advantage (×1.5), Defensibility (×1).</p>
+      <div class="filters">
+        <input placeholder="Filter..." oninput="filterTable('section9Table',this.value)">
+        <select onchange="filterTop20(this.value)"><option value="all">All Geos</option><option value="Africa">Africa Focus</option><option value="Global">Global Focus</option></select>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="section9Table">
+          <thead><tr><th>#</th><th>App Name</th><th>Category</th><th>Score</th><th>MVP Time</th><th>First Revenue</th><th>Geo</th><th>Risk</th></tr></thead>
+          <tbody>${top20Ranked.map(a=>`<tr data-geo="${a.geo.includes('Africa')||a.geo.includes('Kenya')?'Africa':'Global'}">
+            <td><strong>${a.rank}</strong></td>
+            <td><strong>${a.name}</strong><br><span style="font-size:0.75rem;color:var(--text2)">${a.features}</span></td>
+            <td><span class="badge badge-accent">${a.cat}</span></td>
+            <td><span style="font-weight:700;font-size:1.1rem;color:${a.score>=8.2?'var(--green)':a.score>=7.5?'var(--accent2)':'var(--orange)'}">${a.score}</span></td>
+            <td>${a.mvp}</td><td>${a.firstRev}</td>
+            <td>${a.geo}</td><td style="font-size:0.78rem;max-width:150px">${a.risk}</td>
+          </tr>`).join('')}</tbody>
+        </table>
+      </div>
+      <h2>Gap Analysis</h2>
+      <div class="card">
+        <p><strong>Risk factors not fully addressed:</strong> (1) M-Pesa API costs and Sandbox→Production delays with Safaricom, (2) App Store approval timelines in African markets, (3) Smartphone penetration in rural areas vs. urban-only markets, (4) Power/internet reliability for cloud-dependent apps.</p>
+        <p><strong>Recommendations:</strong> Build a USSD/SMS fallback for any Africa-focused app. Start with urban Kenya/Nairobi market. Partner with local payment processors (Pesapal, Flutterwave) as M-Pesa backup. Consider progressive web apps (PWAs) before native for African markets.</p>
+      </div>
+    </section>
+  `;
+  initCharts();
+}
+
+function filterTable(tableId, query) {
+  const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+  rows.forEach(r => {
+    const txt = r.textContent.toLowerCase();
+    r.style.display = txt.includes(query.toLowerCase()) ? '' : 'none';
+  });
+}
+
+function filterTop20(geo) {
+  document.querySelectorAll('#section9Table tbody tr').forEach(r => {
+    if (geo === 'all') r.style.display = '';
+    else r.style.display = r.dataset.geo === geo ? '' : 'none';
+  });
+}
+
+function initCharts() {
+  // Category chart
+  const cats = {};
+  top20Ranked.forEach(a => { cats[a.cat] = (cats[a.cat]||0)+1; });
+  new Chart(document.getElementById('chartCategory'), {
+    type:'bar', data:{labels:Object.keys(cats),datasets:[{label:'Opportunities',data:Object.values(cats),backgroundColor:['#6c5ce7','#00cec9','#00b894','#fdcb6e','#e17055','#74b9ff','#a29bfe','#55efc4'],borderRadius:6}]},
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{grid:{color:'#252540'},ticks:{color:'#9090a8'}},x:{grid:{color:'#252540'},ticks:{color:'#9090a8'}}}}
+  });
+  // Geo split
+  const geoCount = {Africa:0,Global:0};
+  top20Ranked.forEach(a => { 
+    if (a.geo.includes('Africa') || a.geo.includes('Kenya')) geoCount.Africa++;
+    if (a.geo.includes('Global')) geoCount.Global++;
+  });
+  new Chart(document.getElementById('chartGeo'), {
+    type:'doughnut', data:{labels:Object.keys(geoCount),datasets:[{data:Object.values(geoCount),backgroundColor:['#00cec9','#6c5ce7'],borderWidth:0}]},
+    options:{responsive:true,plugins:{legend:{labels:{color:'#e2e2ea'}}}}
+  });
+  // RPD chart
+  const rpdCats = {};
+  section1Data.forEach(a => { rpdCats[a.cat] = (rpdCats[a.cat]||[]); rpdCats[a.cat].push(parseFloat(a.rpd.replace('$',''))||0); });
+  const rpdLabels = Object.keys(rpdCats);
+  const rpdAvg = rpdLabels.map(k => rpdCats[k].reduce((a,b)=>a+b,0)/rpdCats[k].length);
+  new Chart(document.getElementById('chartRPD'), {
+    type:'bar', data:{labels:rpdLabels,datasets:[{label:'Avg RPD ($)',data:rpdAvg,backgroundColor:'#6c5ce7',borderRadius:6}]},
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{grid:{color:'#252540'},ticks:{color:'#9090a8'}},x:{grid:{color:'#252540'},ticks:{color:'#9090a8'}}}}
+  });
+  // Niche scatter
+  const nicheChart = new Chart(document.getElementById('chartNicheScatter'), {
+    type:'scatter', data:{datasets:[{label:'Niches',data:section3Niches.map(n=>({x:n.demand,y:11-n.competition,label:n.niche.split('(')[0].trim()})),backgroundColor:'#00cec9',pointRadius:8,pointHoverRadius:12}]},
+    options:{responsive:true,plugins:{tooltip:{callbacks:{label:ctx=>ctx.raw.label}},legend:{labels:{color:'#e2e2ea'}}},scales:{x:{title:{text:'Demand Strength',display:true,color:'#9090a8'},grid:{color:'#252540'},ticks:{color:'#9090a8'},min:4,max:10},y:{title:{text:'Competition Weakness (inversed)',display:true,color:'#9090a8'},grid:{color:'#252540'},ticks:{color:'#9090a8'}}}}
+  });
+  // AI chart
+  const aiCats = {Easy:0,Medium:0,Hard:0};
+  section5AI.forEach(o => { if(o.build.includes('Easy'))aiCats.Easy++; else if(o.build.includes('Hard'))aiCats.Hard++; else aiCats.Medium++; });
+  new Chart(document.getElementById('chartAI'), {
+    type:'pie', data:{labels:Object.keys(aiCats),datasets:[{data:Object.values(aiCats),backgroundColor:['#00b894','#fdcb6e','#e17055'],borderWidth:0}]},
+    options:{responsive:true,plugins:{legend:{labels:{color:'#e2e2ea'}}}}
+  });
+}
+
+// Init
+renderAll();
+
+// Export function
+function exportData() {
+  const data = {metrics:keyMetrics,section1:section1Data,section2:section2Trends,section3:section3Niches,section4:section4Clones,section5:section5AI,section7:section7Africa,pricing:pricingData,top20:top20Ranked};
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='app-research-data.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>

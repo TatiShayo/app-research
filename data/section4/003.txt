@@ -1,0 +1,3 @@
+﻿[3] QUERY: successful apps terrible UX design bad reviews
+ERROR: A positional parameter cannot be found that accepts argument 'https://lite.duckduckgo.com/lite/?q=successful%20apps%20terrible%20UX%20design%20bad%20reviews'.
+

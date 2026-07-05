@@ -1,0 +1,3 @@
+﻿[6] QUERY: PPP pricing SaaS developing countries strategy
+ERROR: A positional parameter cannot be found that accepts argument 'https://lite.duckduckgo.com/lite/?q=PPP%20pricing%20SaaS%20developing%20countries%20strategy'.
+

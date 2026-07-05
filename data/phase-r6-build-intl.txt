@@ -1,0 +1,442 @@
+===================================================================
+PHASE R6: BUILD STRATEGY — RESOURCES, REPOS, TOOLS, DESIGN GUIDE
+Actual GitHub URLs, Boilerplates, Component Libraries, Agent Workflow
+FOR INTERNATIONAL MARKETS — Solo Developer Speed
+===================================================================
+
+===================================================================
+SECTION A: GITHUB REPOSITORIES & BOILERPLATES
+===================================================================
+
+-- SAAS BOILERPLATES (Next.js + Supabase) --
+
+A1. MakerKit — Next.js + Supabase SaaS Starter
+    URL: https://github.com/makerkit/next-supabase-saas-kit
+    Provides: Full SaaS starter with auth, organizations, billing (Stripe), subscription management, multi-tenancy, i18n
+    License: Paid ($297 lifetime) / open-source core available
+    Best For: Multi-tenant SaaS apps with Stripe subscriptions
+    Solo Rating: 9/10 — most complete, but paid
+
+A2. Next.js + Supabase Official Starter
+    URL: https://github.com/vercel/next.js/tree/canary/examples/with-supabase
+    Provides: Official Vercel template — auth, database, realtime, minimal setup
+    License: MIT (free, open-source)
+    Best For: Minimal starter, add what you need
+    Solo Rating: 8/10 — lightweight, official, free
+
+A3. Next SaaS Starter (open source)
+    URL: https://github.com/nextacular/nextacular
+    Provides: Multi-tenant SaaS — auth, billing, landing page, dashboard, team management
+    License: MIT (free, open-source)
+    Best For: Quick bootstrap of multi-tenant SaaS
+    Solo Rating: 7/10
+
+A4. SaaS Starter by BoxyHQ
+    URL: https://github.com/boxyhq/saas-starter-kit
+    Provides: Enterprise-ready starter — SAML SSO, audit logs, directory sync, privacy vault
+    License: Apache 2.0 (free, open-source)
+    Best For: B2B SaaS targeting enterprise customers
+    Solo Rating: 6/10 — enterprise features overkill for solo dev starting out
+
+A5. ShipFast Alternative — Next.js Supabase Starter
+    URL: https://github.com/nextjs/saas-starter
+    Provides: Minimal SaaS starter by Vercel team — Stripe, Supabase, auth
+    License: MIT (free)
+    Best For: Absolute minimal starter for rapid prototyping
+    Solo Rating: 9/10 — dead simple, free, official
+
+-- MOBILE APP BOILERPLATES --
+
+A6. Expo + Supabase Template
+    URL: https://github.com/supabase-community/expo-supabase-starter
+    Provides: React Native (Expo) + Supabase auth + database
+    License: MIT (free)
+    Best For: Cross-platform mobile apps (iOS + Android from one codebase)
+    Solo Rating: 9/10 — Expo is the best mobile framework for solo devs
+
+A7. React Native Boilerplate (TheCodingMachine)
+    URL: https://github.com/thecodingmachine/react-native-boilerplate
+    Provides: Production-ready RN boilerplate — navigation, state, API, theming
+    License: MIT (free)
+    Best For: Serious React Native apps needing production patterns
+    Solo Rating: 8/10 — comprehensive but may be overkill
+
+-- BROWSER EXTENSION BOILERPLATES --
+
+A8. Plasmo Browser Extension Framework
+    URL: https://github.com/PlasmoHQ/plasmo
+    Provides: Complete browser extension dev framework — React, TS, hot reload, cross-browser
+    License: MIT (free, open-source)
+    Best For: Chrome/Firefox/Edge extensions with React
+    Solo Rating: 10/10 — best extension framework for 2024-2025
+
+A9. WXT Browser Extension Framework
+    URL: https://github.com/wxt-dev/wxt
+    Provides: Next-gen browser extension framework — Vite-powered, manifest v3, HMR
+    License: MIT (free, open-source)
+    Best For: Fast browser extension development with modern tooling
+    Solo Rating: 9/10 — newer alternative to Plasmo
+
+===================================================================
+SECTION B: UI COMPONENT LIBRARIES & DESIGN SYSTEMS
+===================================================================
+
+B1. shadcn/ui — Component Library (Not a dependency)
+    URL: https://github.com/shadcn-ui/ui
+    Provides: Copy-paste React components — Tailwind-based, accessible, customizable
+    License: MIT (free)
+    Best For: Every web app — the default choice in 2024-2025
+    Solo Rating: 10/10
+
+B2. Magic UI — Animated Components for shadcn
+    URL: https://github.com/magicuidesign/magicui
+    Provides: 50+ animated React components (marquee, border-beam, etc.) built on shadcn
+    License: MIT (free)
+    Best For: Adding polish to shadcn apps without heavy animation libraries
+    Solo Rating: 9/10
+
+B3. Aceternity UI
+    URL: https://ui.aceternity.com
+    Provides: Premium React components — bento grids, animated cards, parallax
+    License: MIT (free, code on site)
+    Best For: Marketing pages, landing pages, hero sections
+    Solo Rating: 8/10
+
+B4. Tremor — Dashboard Components
+    URL: https://github.com/tremorlabs/tremor
+    Provides: React components for dashboards — charts, cards, tables, inputs
+    License: Apache 2.0 (free)
+    Best For: Analytics dashboards, SaaS admin panels
+    Solo Rating: 9/10 — beautiful charts with zero effort
+
+B5. Origin UI
+    URL: https://originui.com
+    Provides: Premium blocks and templates on top of shadcn/ui
+    License: MIT (free)
+    Best For: Complete page sections (not just components)
+    Solo Rating: 8/10
+
+B6. Tailwind UI (by Tailwind team)
+    URL: https://tailwindui.com
+    Provides: 500+ professionally designed components and templates
+    License: Paid ($299 one-time) / free preview available
+    Best For: Production-quality UI when you can't design from scratch
+    Solo Rating: 9/10 — expensive but saves weeks of design
+
+-- ALTERNATIVES TO SHADCN (When You Want Something Different) --
+
+B7. Radix UI Primitives
+    URL: https://github.com/radix-ui/primitives
+    Provides: Headless, accessible React UI primitives — shadcn is built on this
+    License: MIT (free)
+    Best For: Building custom design systems on top of headless components
+    Solo Rating: 8/10 — more control, more work
+
+B8. Mantine
+    URL: https://github.com/mantinedev/mantine
+    Provides: 100+ React components — forms, modals, notifications, rich text editor
+    License: MIT (free)
+    Best For: Data-heavy apps needing complex form/datatable components
+    Solo Rating: 8/10 — more components than shadcn, different aesthetic
+
+B9. NextUI
+    URL: https://github.com/nextui-org/nextui
+    Provides: Beautiful React components — modern, animated, accessible
+    License: MIT (free)
+    Best For: Modern consumer apps with animated UI
+    Solo Rating: 8/10
+
+===================================================================
+SECTION C: PAYMENTS, AUTH, STORAGE, DEPLOYMENT
+===================================================================
+
+C1. Stripe — Payment Processing
+    URL: https://github.com/stripe/stripe-node
+    Provides: Payment processing, subscriptions, invoicing, connect platform
+    License: SDK free, processing 2.9% + 30¢
+    Best For: All web-based payments
+    Solo Rating: 10/10
+
+C2. RevenueCat — Mobile App Subscriptions
+    URL: https://github.com/RevenueCat/purchases-ios
+    Provides: In-app subscription management across iOS/Android — handles StoreKit/Google Play Billing
+    License: Free up to $10K MTR, then 1% of revenue
+    Best For: Mobile apps with subscriptions
+    Solo Rating: 10/10 — essential for any mobile subscription app
+
+C3. LemonSqueezy — MoR (Merchant of Record)
+    URL: https://github.com/lmsqueezy/laravel
+    Provides: Global tax handling, payment processing, digital product delivery
+    License: 5% + 50¢ per transaction
+    Best For: International SaaS without needing to handle EU VAT/US sales tax yourself
+    Solo Rating: 9/10 — tax compliance handled for you
+
+C4. Paddle — MoR (Merchant of Record)
+    URL: https://developer.paddle.com
+    Provides: Global payments, tax compliance, subscription management
+    License: 5% + 50¢ per transaction
+    Best For: B2B SaaS selling internationally
+    Solo Rating: 9/10 — enterprise-grade, larger clients
+
+C5. Supabase — Backend (Database, Auth, Storage, Edge Functions)
+    URL: https://github.com/supabase/supabase
+    Provides: PostgreSQL database, auth (social/OAuth/magic link), file storage, realtime, edge functions
+    License: Free tier generous ($0 up to 500MB DB, 50K monthly active users), Pro $25/mo
+    Best For: Every solo project — replaces Firebase, custom backend
+    Solo Rating: 10/10 — the single best backend for solo developers
+
+C6. Clerk — Authentication
+    URL: https://github.com/clerk/javascript
+    Provides: Complete auth solution — social login, MFA, organizations, user management
+    License: Free up to 10K MAU, then $0.02/MAU
+    Best For: When Supabase auth isn't enough (better UI components, more providers)
+    Solo Rating: 9/10 — best auth UX, but costs add up
+
+C7. Uploadthing — File Uploads
+    URL: https://github.com/pingdotgg/uploadthing
+    Provides: Type-safe file uploads for Next.js — handles processing, storage, CDN
+    License: Free up to 2GB, then $10/mo for 50GB
+    Best For: Any app with user file uploads
+    Solo Rating: 9/10 — dead simple Next.js uploads
+
+C8. Vercel — Frontend Deployment
+    URL: https://vercel.com
+    Provides: Next.js hosting, serverless functions, edge network, analytics
+    License: Free (hobby), Pro $20/mo
+    Best For: Next.js apps — zero-config deploy
+    Solo Rating: 10/10
+
+C9. Railway — Backend Deployment
+    URL: https://railway.app
+    Provides: Deploy any backend (Node, Python, Go, databases) with one click
+    License: $5/mo minimum
+    Best For: Microservices, workers, non-Next.js backends
+    Solo Rating: 9/10 — simpler than AWS
+
+C10. Fly.io — Edge Deployment
+    URL: https://fly.io
+    Provides: Deploy apps close to users — Docker-based, global edge
+    License: Free tier, then pay-as-you-go
+    Best For: Low-latency apps, globally distributed
+    Solo Rating: 8/10 — steeper learning curve
+
+===================================================================
+SECTION D: DESIGN RULES — MAKING APPS NOT LOOK AI-GENERATED
+===================================================================
+
+-- THE "AI SLOP" ANTI-PATTERN GUIDE --
+
+CRITICAL RULES:
+1. DO NOT use default Inter font — it screams "default template"
+   INSTEAD: Use one of these alternatives:
+   - Satoshi (https://github.com/itfoundry/satoshi) — modern grotesk, free
+   - DM Sans (https://fonts.google.com/specimen/DM+Sans) — friendly, Google Fonts
+   - General Sans (https://github.com/itfoundry/general-sans) — versatile, free
+   - Cabinet Grotesk (https://github.com/itfoundry/cabinet-grotesk) — bold personality
+   - Geist (https://github.com/vercel/geist-font) — Vercel's font, excellent
+
+2. DO NOT use default Tailwind color palette exactly as-is
+   INSTEAD: Create a custom palette with at least:
+   - Brand primary (one hero color)
+   - Brand secondary
+   - Neutral gray scale (cool or warm, not pure #6b7280)
+   - Semantic colors (success green, warning amber, error red)
+   Tool: https://uicolors.app — generate tailwind color palette from any hex
+
+3. DO NOT use shadcn/ui components without customization
+   INSTEAD: Override these CSS variables at minimum:
+   --radius: 0.75rem (or custom — 0.5rem = sharp, 1rem = round)
+   --background + --foreground (use actual brand colors)
+   Component-specific: card, badge, button borders — add subtle custom styles
+
+4. DO NOT use AI-generated illustrations
+   INSTEAD:
+   - Humaaans (https://www.humaaans.com) — free human illustrations
+   - unDraw (https://undraw.co) — free illustrations, customizable color
+   - Blush (https://blush.design) — customizable illustrations
+   - Or: use geometric patterns and icons, no illustrations at all
+
+5. DO NOT use default spacing scale everywhere
+   INSTEAD: Apply "breathing room" — generous padding on cards (p-6 or p-8), sections (py-16 or py-24)
+   Shadcn default compact feels cramped and template-y
+
+6. DO NOT use unstyled alert/dialog/toast components
+   INSTEAD: Animate every UI feedback element:
+   - Toasts: slide in from right with spring animation
+   - Dialogs: scale + fade (scale(0.95) → scale(1))
+   - Dropdowns: fade + slide down
+   Use Framer Motion or CSS transitions: duration 200-300ms
+
+7. DO NOT have flat, uneventful pages
+   INSTEAD: Add subtle motion:
+   - Stagger children on list pages (staggerChildren: 0.05)
+   - Subtle hover effects on cards (translateY(-2px) + shadow increase)
+   - Page transitions (optional but premium feel)
+   Library: https://github.com/framer/motion (Framer Motion)
+
+-- TYPOGRAPHY SYSTEM FOR PROFESSIONAL APPS --
+   Heading font: Display/geometric (General Sans, Satoshi, Cabinet Grotesk) — bold, personality
+   Body font: Readable/neutral (DM Sans, Inter Display, Geist Sans) — clean, readable
+   Monospace: JetBrains Mono (https://github.com/JetBrains/JetBrainsMono) or Geist Mono
+   Scale: Use a defined type scale (12-14-16-18-20-24-30-36-48-60-72)
+   Line height: Headers 1.1-1.3, body 1.5-1.7
+
+-- COLOR SYSTEM THAT FEELS HUMAN-DESIGNED --
+   Background: Never pure white (#ffffff) — use #fafafa or #f8f9fa or your brand's off-white
+   Dark mode: Never pure black (#000000) — use #0a0a0a or #09090b
+   Cards: Always slightly lighter/darker than background (contrast within 10-15%)
+   Borders: Subtle (opacity 0.08-0.12 in dark, 0.06-0.10 in light)
+   Text: Never pure black text — use gray-900 (#171717) or near-black
+
+-- ICONS --
+   Best: Lucide Icons (https://github.com/lucide-icons/lucide) — MIT, shadcn default, 1000+ icons
+   Alternative: Phosphor Icons (https://github.com/phosphor-icons/phosphor-icons) — 6 styles per icon
+   Alternative: Tabler Icons (https://github.com/tabler/tabler-icons) — 4000+ icons, MIT
+   AVOID: Font Awesome (heavy, overused), Material Icons (looks Android-native)
+
+===================================================================
+SECTION E: AGENT WORKFLOW — OVERNIGHT BUILD TEMPLATE
+===================================================================
+
+PROMPT CHAIN FOR BUILDING A COMPLETE SAAS APP IN 1-2 DAYS:
+
+=== PHASE 1: SCAFFOLD (30 min) ===
+Prompt 1: "Create a Next.js 14 app with App Router, TypeScript, Tailwind CSS, and shadcn/ui. Initialize with these components: button, card, input, label, dialog, dropdown-menu, toast, avatar, badge, separator, tabs, sheet. Set up a custom font (Geist Sans from Vercel) and a custom color palette with primary #7c3aed (violet) and secondary #06b6d4 (cyan). Generate the tailwind.config.ts with these colors as CSS variables."
+
+Prompt 2: "Set up Supabase client with these tables: users (id, email, name, created_at), projects (id, user_id, name, description, status, created_at), subscriptions (id, user_id, stripe_customer_id, stripe_subscription_id, plan, status, current_period_end). Add Row Level Security policies. Add auth helpers for server components."
+
+=== PHASE 2: AUTH & PAYMENTS (1-2 hours) ===
+Prompt 3: "Implement full authentication flow using Supabase Auth: login page, signup page, password reset, magic link. Use server actions for form handling. Add middleware to protect routes. Create an auth callback route. Style auth pages professionally."
+
+Prompt 4: "Set up Stripe subscription integration: create checkout session for monthly and annual plans ($12/mo, $99/yr). Create billing portal link. Webhook handler for subscription events. Sync subscription status to Supabase. Create pricing page with plan comparison."
+
+=== PHASE 3: CORE FEATURES (3-5 hours) ===
+Prompt 5: "Build the main dashboard page with a sidebar navigation, header with user avatar dropdown, and stats cards (Total Projects, Active, Completed, Revenue). Use Tremor components for stats. Make it responsive."
+
+Prompt 6: "Build the CRUD for [MAIN ENTITY]: list view with search/filter, create form in a sheet/dialog, edit form, delete with confirmation, empty state, loading skeletons. Use server actions for mutations. Revalidate data after changes."
+
+Prompt 7: "Add [CORE FEATURE 1] — [describe in 1-2 sentences]. Use [relevant AI API] for intelligence. Show loading states and error handling. Add optimistic updates where possible."
+
+Prompt 8: "Add [CORE FEATURE 2] — [describe]. Follow the same pattern: server actions, optimistic UI, error boundaries."
+
+=== PHASE 4: POLISH (1-2 hours) ===
+Prompt 9: "Add landing page: hero section with animated headline, features grid, pricing section, testimonials (static for now), FAQ accordion, footer. Use Aceternity UI animated components for hero and features."
+
+Prompt 10: "Add empty states for every view: dashboard when no projects, list when no items, search with no results. Use illustrations from unDraw. Add tooltips to icons without labels. Add keyboard shortcuts for power users."
+
+Prompt 11: "Add animations: page transitions (fade), list item stagger on mount, card hover effects, button press feedback, toast slide-in, skeleton loading pulses. Use Framer Motion with reduced-motion support."
+
+=== PHASE 5: SHIP (30 min) ===
+Prompt 12: "Add SEO: generateMetadata for each route, opengraph-image, sitemap.ts, robots.ts. Add analytics (Plausible or PostHog snippet). Add error.tsx and not-found.tsx for every route. Add loading.tsx skeletons. Final check: all forms have validation, all mutations have loading states, responsive on mobile (375px)."
+
+===================================================================
+SECTION F: RECOMMENDED STACK BY APP TYPE
+===================================================================
+
+-- WEB SAAS (most common) --
+Frontend: Next.js 14+ (App Router) + TypeScript + Tailwind CSS + shadcn/ui
+Backend/Database: Supabase (PostgreSQL, Auth, Storage, Edge Functions)
+Payments: Stripe (Checkout + Billing Portal)
+AI: OpenAI GPT-4o (primary), Claude 3.5 Sonnet (complex legal/contract review)
+Email: Resend (https://github.com/resend) + React Email (https://github.com/resendlabs/react-email)
+Deploy: Vercel (frontend) + Supabase (backend)
+Domain: Namecheap or Porkbun ($10-15/year)
+SSL: Automatic via Vercel
+Analytics: Plausible (https://plausible.io) — privacy-first, $9/mo
+Error Tracking: Sentry (free tier up to 5K events)
+Status Page: https://github.com/nicedoc/statuspage (open-source)
+
+-- MOBILE APP (iOS + Android) --
+Framework: Expo (React Native) + TypeScript
+UI: NativeWind (Tailwind for React Native — https://github.com/marklawlor/nativewind)
+Backend: Supabase (same as web)
+Navigation: Expo Router (file-based routing like Next.js)
+Payments: RevenueCat (subscriptions) + Stripe React Native SDK (one-time)
+AI: OpenAI API (via edge function for API key security)
+Push Notifications: Expo Push Notifications + OneSignal (free tier)
+Deploy: EAS Build (https://expo.dev/eas)
+App Store: App Store Connect + Google Play Console
+Analytics: RevenueCat (subscriptions) + PostHog (product analytics)
+
+-- BROWSER EXTENSION --
+Framework: Plasmo (React + TypeScript)
+UI: Tailwind CSS + shadcn/ui (works in extension popup)
+Storage: chrome.storage.local + Supabase (optional backend)
+Authentication: Supabase Auth or Clerk
+Payments: Stripe (via popup page or external site)
+AI: OpenAI API (calls from extension)
+Deploy: Chrome Web Store + Firefox Add-ons + Edge Add-ons (single codebase via Plasmo)
+
+-- LANDING PAGE / MARKETING SITE --
+Framework: Next.js + TypeScript + Tailwind
+Components: Aceternity UI + Magic UI + Tremor (for stats/charts)
+Hosting: Vercel
+Forms: Tally (free) or custom with Resend for email notifications
+Analytics: Plausible
+SEO: Next.js built-in metadata + next-sitemap
+Blog: MDX (built into Next.js App Router) or Notion-to-blog
+
+===================================================================
+SECTION G: FREE ICON / ASSET / ANIMATION RESOURCES
+===================================================================
+
+Icons:
+  - Lucide: https://lucide.dev (MIT, 1000+ icons, shadcn default)
+  - Phosphor: https://phosphoricons.com (MIT, 6 styles, 900+ icons)
+  - Tabler: https://tabler-icons.io (MIT, 4000+ icons)
+  - Heroicons: https://heroicons.com (MIT, by Tailwind team, 300 icons)
+  - Simple Icons: https://simpleicons.org (brand logos, CC0)
+
+Illustrations:
+  - unDraw: https://undraw.co (MIT, customize color, 800+ illustrations)
+  - Humaaans: https://humaaans.com (CC0, human illustrations, mix-and-match)
+  - Blush: https://blush.design (free + paid, customizable, diverse styles)
+  - Open Peeps: https://openpeeps.com (CC0, hand-drawn people, mix-and-match)
+  - Storyset (by Freepik): https://storyset.com (free with attribution, animated)
+
+Animations:
+  - Framer Motion: https://www.framer.com/motion (MIT, React animation library)
+  - Motion One: https://motion.dev (MIT, lightweight, ~3KB, no React dependency)
+  - AutoAnimate: https://auto-animate.formkit.com (MIT, zero-config, just add directive)
+  - GSAP: https://gsap.com (paid for advanced, free for basic)
+  - Magic UI: https://magicui.design (MIT, pre-built animated components)
+
+Backgrounds/Patterns:
+  - Pattern.css: https://bansal.io/pattern-css (MIT, CSS-only background patterns)
+  - Hero Patterns: https://heropatterns.com (CC BY, SVG background patterns)
+  - Haikei: https://haikei.app (free, SVG blob/shape generators)
+  - BGJar: https://bgjar.com (free, SVG background generator)
+
+===================================================================
+SECTION H: AI CODING AGENT TOOLS & WORKFLOW
+===================================================================
+
+Cursor IDE: https://cursor.com
+  - Best setup: Enable "Agent" mode, use Claude 3.5 Sonnet model
+  - Use .cursorrules file to define project conventions
+  - Composer (Cmd+I) for multi-file edits, Chat (Cmd+L) for questions
+
+Windsurf (by Codeium): https://codeium.com/windsurf
+  - Alternative to Cursor, better for larger codebase navigation
+  - Cascade feature for agentic multi-file operations
+
+v0 (by Vercel): https://v0.dev
+  - Generate UI components from text descriptions
+  - Works with shadcn/ui + Tailwind — copy-paste into your project
+  - Best for: Landing pages, dashboard layouts, complex form UIs
+
+bolt.new: https://bolt.new
+  - Full-stack app generation from prompts
+  - Best for: Prototyping, quick POCs, not production apps
+
+CREW3 (for discovering what ships): https://crew3.xyz
+  - See what others are building with AI agents
+
+CRITICAL WORKFLOW TIP:
+  For complex features, start with v0 for UI, then use Cursor/Windsurf Agent to wire up logic.
+  For full pages, generate in v0 → paste → connect to backend in Cursor.
+  For API integrations, use Cursor Agent with @docs references (Stripe, Supabase, OpenAI docs).
+
+===================================================================
+END PHASE R6
+===================================================================

@@ -1,0 +1,268 @@
+﻿===================================================================
+QUERY: app store revenue estimates small indie apps 2024 2025
+===================================================================
+  [1] RevenueCat - In-App Subscriptions Made Easy
+      revenuecat.com
+      Powerful subscription analytics for the insights you need to build and grow better apps. Trusted by over 50,000 apps to power in-app subscriptions across iOS, Android, & the Web.
+
+  [2] App Revenue Statistics By Platform, Market And Facts (2026)
+      www.sci-tech-today.com/stats/app-revenue-statistics/
+      App Revenue Statistics: Global mobile app revenue is set to reach $585 billion in 2025, growing 8-12% year over year.
+
+  [3] App stores - statistics & facts | Statista
+      www.apple.com/newsroom/pdfs/2024-Apple-Global-Ecosystem-Report-June2025.pdf
+      Technology research firm Omdia estimated that in-app ad revenue from ads placed by developers in their iOS apps was $150 billion globally in 2024, with around $25 billion tied to games.xvi This estimate includes revenue generated from the publishing of advertisements within apps only and excludes advertising on mobile web (including mobile ...
+
+  [4] Apple App Store Statistics (2026): Apps, Weekly Users, Developer ... - DMR
+      www.statista.com/topics/1729/app-stores/
+      Mobile app downloads worldwide 2017-2029, by segment Number of iOS and Google Play app downloads as of Q1 2024 Share of apps and games with over one million monthly downloads 2024, by store
+
+  [5] iOS Apple App Store Statistics 2026 - apptunix.com
+      expandedramblings.com/index.php/itunes-app-store-stats/
+      Updated Apple App Store stats for 2026: 850M weekly users (2025), $550B+ developer earnings since 2008, $1.3T ecosystem billings & sales (2024), app review volume, fraud prevention, and app count estimates.
+
+  [6] Top Apple's App Store Statistics and Facts for 2025
+      www.apptunix.com/blog/apple-app-store-statistics/
+      The iOS App Store hosts nearly 2 million apps, with thousands being published daily (around 1,249 per day), showing rapid ongoing expansion. The App Store is projected to generate about $138 billion in global revenue in 2025, and total downloads are expected to exceed ~38 billion (2026), reflecting strong monetization and user demand. Gaming apps account for roughly 60 % of App Store revenue ...
+
+  [7] App Revenue Data (2026) - Business of Apps
+      mac.eltima.com/app-store-stats/
+      In this article, you&#x27;ll discover key Apple&#x27;s App Store statistics for 2025 and metrics from top app categories to revenue insights.
+
+  [8] App Revenue Statistics and Facts (2026) - Market Scoop
+      www.businessofapps.com/data/app-revenues/
+      The mobile app industry has been active for over a decade now, generating billions of dollars in revenue for Apple, Google and thousands of mobile app developers. While originally not perceived as necessary by Apple or Google, which did not add app stores to the first versions of iOS and Android, it has become a key revenue stream for both of them. Even with less than 20 percent market share ...
+
+  [9] Free Revenue & Download Estimates for Millions of Apps
+      scoop.market.us/app-revenue-statistics/
+      App Revenue Statistics by Platform The mobile app revenue estimate is expected to reach $613 billion by 2025. (Statista) There will be roughly 3.553 million apps for Android devices on the Google Play Store in 2023. Conversely, there are roughly 1.642 million apps in the Apple App Store. The applications market is growing, as there is a prediction that the mobile app revenue estimation will ...
+
+  [10] Shocking report reveals average app monthly revenue is &lt; $50 ... - Reddit
+      news.appfigures.com/free-revenue-download-estimates-for-millions-of-apps-278725
+      Comprehensive download and revenue estimates for the last month from all countries for all apps and games across the App Store and Google Play. Unmatched accuracy, leveraging our proprietary App Intelligence algorithms.
+
+
+===================================================================
+QUERY: google play store top grossing apps NOT in top 100 revenue
+===================================================================
+  [1] Live Google Play Charts: Top Free, Paid & Grossing Android Rankings ...
+      appark.ai/en/top-charts/google-play
+      View the latest live top charts for the Google Play Store on Appark for free. Track the Top 200 free, paid, and grossing Android apps and games to discover Android market trends.
+
+  [2] Top Mobile App Revenue & Downloads May 2026 | AppRank
+      apprank.io
+      Discover top mobile app revenue and earnings for May 2026. Track iOS and Android app downloads, rankings, and revenue data. See how much money top apps make monthly.
+
+  [3] Top Apps
+      appmagic.rocks/top-charts/apps
+      AppMagic is a service for mobile app market intelligence designed for quick and powerful market research. It offers unique features, such as the high-precision classification of app genres, comparison of multiple apps and publishers, detector of successful soft launches, evaluation of the monetary impact of featuring, and many more.
+
+  [4] App Store Market Performance | Apptopia
+      apptopia.com/store-insights/store-comparison
+      Free app store data, updated weekly, with top categories, total app submissions, and more for Google Play and iOS
+
+  [5] App Download & Revenue Charts - Top App Data Rankings - Appark
+      appark.ai/en/top-charts/apps
+      View global app download and revenue estimate rankings on Appark. Get accurate app market intelligence data to analyze the business performance of top apps and games on the App Store & Google Play.
+
+  [6] Top Apps ΓÇö AppMagic
+      appmagic.rocks/top-charts/apps?hl=en
+      Scout for the best performing apps of the market segment of your interest. Don&#x27;t forget to use the Tags selector.
+
+  [7] Publisher Overview - Google - Sensor Tower
+      app.sensortower.com/publisher/ios/281956209/
+      View Google&#x27;s top apps, top grossing apps, revenue estimates, and app downloads from Sensor Tower&#x27;s Platform.
+
+  [8] Live App Store Charts: Top Free, Paid & Grossing iOS Rankings - Appark
+      appark.ai/en/top-charts/app-store
+      View the latest live top charts for the Apple App Store on Appark for free. Track the Top 200 free, paid, and grossing apps and games for iPhone & iPad to discover iOS market trends.
+
+
+===================================================================
+QUERY: sensor tower similarweb data mid-tier app revenue
+===================================================================
+  [1] Sensor Tower Analysis & Market Share Overview | Similarweb
+      www.similarweb.com/company/sensortower.com/
+      Sensor Tower Market Share Analysis for April 2026 Sensor Tower&#x27;s latest report includes insights about elevated payment app adoption, money transfer app trends, and more.
+
+  [2] Digital Intelligence & App Data Analysis by Sensor Tower
+      sensortower.com
+      Discover Sensor Tower&#x27;s platform to measure the digital economy. Access app download data, app analysis, and ad performance insights to optimize your strategy
+
+  [3] Compare Sensor Tower vs. Similarweb | G2
+      www.g2.com/compare/sensor-tower-vs-similarweb
+      Compare Sensor Tower and Similarweb head-to-head across pricing, user satisfaction, and features, using data from actual users.
+
+  [4] State of Mobile 2025: Key Data and Trends from Sensor Tower
+      www.byyd.me/en/blog/2025/02/state-of-mobile-2025-key-data/
+      Overview of the State of Mobile 2025 Report by Sensor Tower: Popular Apps, User Preferences in Games, and Recommendations for Advertisers.
+
+  [5] Sensor Tower Revenue 2024: $17M ARR, $46M Raised
+      getlatka.com/companies/sensor-tower
+      Sensor Tower 2024 revenue: $17M ARR (up from $13.4M in 2023). Total funding: $46M across 2 rounds. 319 employees Updated Dec 23, 2024.
+
+  [6] Data digest: Sensor Tower's State of Mobile, dealmaking, App Store ...
+      mobilegamer.biz/data-digest-sensor-towers-state-of-mobile-dealmaking-app-store-millionaires-homa-hits-2bn-and-more/
+      Get started here. Mobile gaming rebounds as IAP revenue reaches $80.9bn in 2024 Mobile gaming IAP revenue rose 4% to $80.9bn in 2024, according to Sensor Tower&#x27;s annual State of Mobile report. Driven by spending in the strategy, puzzle and action genres, it marks the first year-over-year IAP revenue growth since 2021.
+
+  [7] sensor_tower__state_of_mobile_2025__en.pdf - SlideShare
+      www.slideshare.net/slideshow/sensor_tower__state_of_mobile_2025__en-pdf/276760937
+      Growth in time spent on mobile devices is slowing, while revenue continues to soar, particularly in non-games. Apps have consumers&#x27; attention ΓÇö now they are monetizing it. 10. Source: Sensor Tower Note: iOS and Google Play combined. iOS only for China. Revenue is gross ΓÇö inclusive of any percent taken by the app stores.
+
+  [8] Sensor Tower: Mobile Market in 2025 - by Dmitriy Byshonkov
+      gamedevreports.substack.com/p/sensor-tower-mobile-market-in-2025
+      Sensor Tower: Mobile Market in 2025 The gaming market is struggling to find the same growth as non-gaming apps, yet it&#x27;s looking better than in previous years. 2024 full-year performance inside.
+
+  [9] How accurate is Sensor Tower app downloads and revenue data ... - Reddit
+      www.reddit.com/r/gamedev/comments/zzqosg/how_accurate_is_sensor_tower_app_downloads_and/
+      It&#x27;s pretty accurate in my experience, having checked ST vs. internal data on games I&#x27;ve worked on ST usually over estimates revenues, but downloads and other stats are very close to 1:1. Keep in mind that ST only shows IAP revenue estimates, not ads. A quick look at this game shows me that this is mostly monetised through ads and that the IAP economy is very basic.
+
+  [10] Sensor Tower vs Similarweb Comparison: Reviews, Features, Pricing ...
+      nerdisa.com/similarweb-vs-sensortower
+      Sensor Tower Features Store Intelligence Access accurate estimates for app downloads and revenue across different countries and categories to benchmark your performance. Ad Intelligence View your competitors&#x27; top-performing ad creatives and see which networks they are using to acquire new users.
+
+
+===================================================================
+QUERY: apple app store apps making $10k month small developer
+===================================================================
+  [1] App Store Small Business Program - Apple Developer
+      developer.apple.com/app-store/small-business-program/
+      Propel your small business forward with the next generation of groundbreaking apps on the App Store and invest more resources into your business.
+
+  [2] How one developer makes $10K/month from 28 tiny apps
+      www.wisdomai.com/insights/starterstory/mobile-apps-app-store-optimization-side-hustle-b08e6e5d
+      A developer shipped 28 simple apps in 8 months and now earns $10K/month. He targets keywords, reuses code, and treats apps as small, repeatable bets.
+
+  [3] I make $10K/month from 28 apps | YouTube Watch Time Saver
+      itubelens.com/coding/developer-builds-28-apps-10k-mrr-strategy/
+      I make $10K/month from 28 apps Ever felt stuck, pouring years into a project with little to show for it? Meet Max, a full-time developer who faced this exact challenge. After spending over five years on various app projects thatΓÇª
+
+  [4] 10 Apps Making $10k+ Per Month (Revenue Sources Included)
+      quantumbyte.ai/articles/10-apps-making-10k-per-month
+      Having a great app idea is one thing, having the app make money is another. In today&#x27;s landscape, solo founders and tiny teams are building profitable web applications thanks to accessible tech, lean marketing, and relentless focus on real problems. This report highlights 10 apps earning $10K+ per month, the decisions that led to those milestones, and the sources that prove the revenue stories ...
+
+  [5] The $10k/month simple App Store strategy (2025 method)
+      www.youtube.com/watch?v=zNz6jxbDpfk
+      In this video I reveal the simple strategy for generating $10,000/month from the App Store in 2025. I&#x27;ll show you the exact framework I use to find profitable keywords, build basic apps that ...
+
+  [6] A Chinese Developer Asked Claude to Find a "$1m App Idea" and Turned It ...
+      x.com/gippp69/status/2059248600954081296
+      After 4 months he has 19 apps live, 7 dead ones, and 5 doing most of the money. One app making $300/month looks like nothing, but a few small apps doing $700, $1,200 or $2,000/month becomes real when each build only takes 2-3 days.
+
+  [7] 53 Profitable App Ideas You can Build: Quickest Way to $10K+ per Month
+      www.blog.duomly.com/profitable-app-ideas-to-make-10k-per-month/
+      Many app developers are looking for profitable app ideas to take to the app store and generate over $10K per month. This article will discuss profitable app ideas that you could do today!
+
+  [8] How I developed 6 niche apps that together generated over $3k ... - Reddit
+      www.reddit.com/r/startups/comments/1d3d533/how_i_developed_6_niche_apps_that_together/
+      Four years ago, I decided to launch a startup and began creating my own mobile apps. On September 20 last year, they started bringing in over $3,000 a day (90% of which was on iOS). The very next day, Apple removed all my apps from the App Store and blocked my account.
+
+  [9] The Complete App Monetization and Funding Strategy for Indie Developers ...
+      rorklab.net/en/articles/rork-business/indie-app-funding-zero-to-revenue-2026
+      The Complete App Monetization and Funding Strategy for Indie Developers 2026 ΓÇö A Roadmap from Zero to $10K Monthly Revenue Comprehensive guide for indie developers covering 7 revenue models, RevenueCat ├ù Stripe integration, investor pitch strategies, and a 12-month roadmap to achieve $10K monthly recurring revenue. Learn from real success stories.
+
+  [10] How I Turned $100 into $10k/Month Using These 3 Apps
+      triix.medium.com/how-i-turned-100-into-10k-month-using-these-3-apps-39c7e4637b7e
+      Six months ago, I was drowning in student debt with just $100 to my name. Today, I consistently make $10,000+ monthly using three apps you probably already have on your phone.
+
+
+===================================================================
+QUERY: app annie data independent developers revenue 2024
+===================================================================
+  [1] App Performance Insights: Downloads, Revenue & Rankings | Sensor Tower
+      prod-appannie-cms-files.s3.amazonaws.com/2024-Predictions-Report-EN.pdf
+      In-App Purchases to Be the Next Bat leground for Revenue in Social Media Apps Time is money, and social media is the next batleground for consumer spend in 2024.
+
+  [2] Mobile App Industry Market Records in Year-End Reports
+      sensortower.com/product/mobile-app/app-performance-insights
+      2. How accurate is Sensor Tower&#x27;s app download and revenue data? Sensor Tower uses proprietary modeling and panel-based methodologies to estimate app downloads, revenue, and usage trends. Estimates are widely used by developers, investors, and enterprises for directional analysis, competitive benchmarking, and market sizing.
+
+  [3] AI app growth pushes mobile app revenue to $150 billion in 2024: research
+      www.ongraph.com/mobile-app-industry-to-surpass-records-in-year-end-reports/
+      According to App Annie, In the year 2024, about 233 applications and games generated more than $100 million in consumer spend, and 13 exceeded $1 billion in revenue. To know more, read the full tech blog.
+
+  [4] State of Mobile Market, 2024 - apptica.com
+      www.marketingbrew.com/stories/2025/02/10/ai-app-growth-pushes-mobile-app-revenue-to-usd150-billion-in-2024-research
+      Revenue from in-app purchases (IAP) grew 12.5% YoY to $150 billion in 2024. Excluding IAPs from games, mobile apps brought in about $14 billion in IAP revenue in 2024 compared to about $9 billion in 2023, according to the report, which analyzed Apple App Store and Google Play download and revenue estimate data from January 2014 to December 2024.
+
+  [5] data.ai Stock Price, Funding, Valuation, Revenue & Financial Statements
+      apptica.com/en/report-state-of-mobile-market-2024
+      Discover the exciting transformation of the app market in 2024 with our in-depth annual report, packed with the latest trends, top rankings, insightful charts, and expert opinions you&#x27;ll definitely find valuable!
+
+  [6] 30+ AI In The App Industry Statistics | Verified 2026 Data
+      www.cbinsights.com/company/app-annie/financials
+      Funding, Valuation & Revenue 9 Fundings data.ai has raised $157M over 9 rounds. data.ai&#x27;s latest funding round was a Acquired for on March 18, 2024.
+
+  [7] [Downloads & Revenue] Top Apps Report Guide - helpcenter.data.ai
+      gitnux.org/ai-in-the-app-industry-statistics/
+      2 38% of developers reported using AI-assisted coding tools, based on the 2024 Stack Overflow Developer Survey 3 2.1x growth in the number of apps incorporating AI features reported by a 2024 App Store analytics analysis
+
+  [8] App Annie - Company Insights & Financial Strength - 2025
+      helpcenter.data.ai/community/s/article/Downloads-Revenue-Top-Apps-Report-Guide
+      The Top Apps report displays top apps by free downloads, paid downloads, and revenue for a selected country. Available filters include iOS and Google Play combined, or separately iOS, iPhone, iPad, and Google play. Choose from over 150 countries for iOS and 60 countries for Android apps. Compare apps from iOS and Android with visualizations of downloads, revenue, usage, and engagement.
+
+  [9] App Annie: Revenue, Competitors, Alternatives - growjo.com
+      compworth.com/company/app-annie
+      About App Annie App Annie is the industry&#x27;s most trusted mobile data and analytics platform. App Annie&#x27;s mission is to help customers create winning mobile experiences and achieve excellence. Founded in 2010, the company launched the first mobile market data solution. In 2019, App Annie acquired Libring, an advertising monetization and spend offering. Together, these solutions comprise the ...
+
+
+===================================================================
+QUERY: play store underperforming category revenue opportunity
+===================================================================
+  [1] Google Play Store Stats 2026: Key Insights for Businesses
+      appinventiv.com/blog/google-play-store-statistics/
+      Discover 2026 Google Play Store stats on apps, users, and revenue. Learn key trends shaping growth, monetization, and app success strategies.
+
+  [2] Google Play Store Revenue, Ratings & Subscription Stats 2026
+      prioridata.com/data/google-play-revenue-statistics/
+      Google Play is the biggest app store in the world. It has the most apps available for download and the most users. Official Data Status (May 2026): Key Statistics: 20.00M (latest_official_available, 2025 official); Revenue / Monetization: $891.00M (latest_official_available, 2025 official); Engagement / Downloads / Activity: 110.00B (latest_official_available, 2025 official); Valuation / Net ...
+
+  [3] Statistics | Google Play Console
+      play.google.com/console/about/stats/
+      Compare your key performance to peers to identify opportunities where your app is underperforming, or success stories where you&#x27;re out-performing the market. Get an overview of all the ways you can configure your statistics report. See how changes to your app impact specific metrics using the events timeline.
+
+  [4] Google Play Store Statistics 2026: Key Insights - apptunix.com
+      www.apptunix.com/blog/google-play-store-statistics/
+      Google Play Store statistics reveal the real game regarding who&#x27;s downloading, how much they spend, and what drives engagement. Understanding these numbers can drastically transform how you plan, market, and scale your next app. The data shows where people spend their time, which categories dominate, and what users expect in 2026.
+
+  [5] Google Play Store Statistics 2026: Latest Figures - XtendedView
+      xtendedview.com/google-play-store-statistics/
+      Explore Google Play Store Statistics with clear insights on app growth, downloads, and user trends to make smarter mobile decisions fast.
+
+  [6] Google Play Store Analytics - GitHub
+      github.com/Sravyatogarla/Google-Play-Store-Analytics
+      This repository contains a comprehensive analysis of apps on the Google Play Store using Python and interactive visualizations.This project is a deep-dive analysis of Google Play Store apps. Using data wrangling, cleaning, and visualization, we explore app popularity, category distribution, ratings, installs, update patterns, sentiment trends, and revenue opportunities. This project was ...
+
+  [7] Google Play Statistics and Trends 2026 - 42matters
+      42matters.com/google-play-statistics-and-trends
+      Google Play Store Statistics ΓÇö updated daily! Here, we monitor how many Android apps are on Google Play, how they&#x27;re distributed by category, and more.
+
+  [8] Google Play Store Revenue 2025: The Complete Guide
+      www.hubifi.com/blog/google-play-revenue-guide
+      See the latest Google Play Store revenue 2024 stats and trends. Our guide covers market share, top apps, and accurate revenue recognition. Boost your earnings now.
+
+  [9] Google Play Store Statistics 2026: Trends & Growth ΓÇó SQ Magazine
+      sqmagazine.co.uk/google-play-store-statistics/
+      Discover Google Play Store Statistics: Key trends, growth insights, and revenue data to boost your app strategy and market success.
+
+  [10] Google Play Store - statistics & facts | Statista
+      www.statista.com/topics/9929/google-play-store/
+      Leading global markets for mobile app revenue on the Google Play Store 2024 Most downloaded apps by Google worldwide 2026 Android apps global retention rates 2024, by category
+
+
+===================================================================
+QUERY: app store categories with highest revenue per download
+===================================================================
+
+===================================================================
+QUERY: indie app developer revenue reports 2024
+===================================================================
+
+===================================================================
+QUERY: appfigures data small app revenue
+===================================================================
+
+===================================================================
+QUERY: apptopia revenue estimates non-giant apps
+===================================================================
+
