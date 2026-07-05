@@ -1,0 +1,115 @@
+===================================================================
+PHASE R8: HIGH-CHURN / HIGH-EARNING APP RESEARCH (July 2026)
+Fresh web research pass — "churn-proof" one-time-need apps
+===================================================================
+
+CORE THESIS (validated by this pass):
+High churn is NOT a problem if the market replenishes itself. Two
+proven patterns are printing money right now:
+
+PATTERN A — Mobile consumer AI utility:
+  photo/voice input → instant AI result → hard paywall → weekly sub
+  Distribution: TikTok/Instagram UGC creators, not ads or SEO.
+  Users churn in weeks; new users arrive daily from short-form video.
+
+PATTERN B — Web one-time-need tool:
+  SEO/Google intent → single job done → one-time payment or credits.
+  No App Store 30% cut. Churn is the business model (per-event/per-use).
+
+===================================================================
+RAW EVIDENCE COLLECTED
+===================================================================
+
+[Cal AI — photo calorie tracker]
+- Launched May 2024 by two teenagers; $1M sales by Sept 2024
+- ~$35M ARR by end 2025, on track for $50M through 2026; ~$1.4M/mo
+  gross profit after store fees; acquired by MyFitnessPal Dec 2025
+- Sources: techcrunch.com (Mar 2025), cnbc.com (Sep 2025),
+  getlatka.com/companies/calai.app, inc.com
+
+[Umax — looksmaxxing face-scan app, Blake Anderson]
+- $6M ARR within 3.5 months of launch; $4.2M+ on iOS alone;
+  still ~$350-400K/month
+- NOTE: heavy ethical criticism (teen mental health) — avoid teen
+  looksmaxxing angle; adult skincare/grooming is the cleaner variant
+
+[Quittr — porn-abstinence app, 19-yr-old founder]
+- Built in 10 days; $300K/month; $40K in a single day; 1M+ downloads
+- "Quit X" category generalizes: vaping, weed, sugar, doomscrolling
+
+["App Mafia" collective (Anderson, Yadegari, Slater, et al.)]
+- Combined $80-100M/yr revenue, no investors, 2-3 person teams
+- Playbook: viral pain-point + AI wrapper + weekly sub + UGC creators
+
+[Rizz — AI dating keyboard/wingman]
+- 7.5M+ downloads; 1M+ MAU in 2025; ~$190K/mo early; $7/week sub
+
+[Scanner/identifier app farms]
+- Next Vision Limited (China): 24 identifier apps (CoinSnap, Rock
+  Identifier...) ≈ $3M revenue/MONTH combined
+- CoinSnap alone: ~$1M/mo iOS + $400K/mo Google Play, ~700K dl/mo
+- PictureThis (Glority) long-standing $100M-class plant identifier
+- Model: same codebase, new model + keyword niche, weekly sub
+
+[AI photo/headshot]
+- PhotoAI (solo founder Pieter Levels): $130K+ MRR, ~87% margin
+- Aragon AI: $10M+/yr, 2.3M users. Market maturing/crowded but
+  proves one-time-pack pricing works ($35-49 packs)
+
+[Job search / interview prep]
+- Resume-builder AI app market: ~$1.4B global 2025 (NA $537.6M)
+- Final Round AI: $6.88M seed, 10M+ users, charges $148/mo (!)
+- Rezi 4.3M users. AIApply, Seekario, EarnBetter all scaling
+- Perfect churn-proof niche: users leave when hired; demand infinite
+
+[Monetization benchmarks — RevenueCat State of Subscription Apps]
+- Weekly subscriptions = 55.5% of ALL subscription app revenue
+  (up from 43.3% two years prior)
+- Weekly + free trial = best 12-month LTV
+- Hard paywall converts ~5x freemium (10.7% vs 2.1% D35 dl-to-paid)
+- 35% of apps mix subs + consumables/lifetime
+- AI apps revenue-per-install $0.63 at day 60 = 2x overall median
+
+[Market macro — Sensor Tower State of Mobile/AI 2026]
+- GenAI app IAP revenue tripled in 2025 to $5B+; H1 2026 projected $4B+
+- AI app downloads doubled YoY to 3.8B in 2025
+- 2025: first year non-game IAP revenue passed games (+21% YoY)
+- GenAI time-spent projected to double again H1 2026 (17.2B → 36B hrs)
+
+[Web one-time-need tools]
+- BankStatementConverter.com (solo): ~$9K→$16K/mo, SEO-driven,
+  credits → subscription
+- Wedding photo QR-share market: fragmented (Guestpix, Wedibox,
+  GuestCam, WedUploader, Kululu...), per-event pricing $0-150,
+  wedding album market ~$3.8B 2025, demand replenishes every season
+- Passport/visa photo apps: evergreen compliance niche, 200+ country
+  specs, per-photo one-time payment
+
+[Distribution playbook]
+- 80% of dev effort should go to onboarding + paywall (expert who ran
+  10K+ experiments for Cal AI/Claim; multi-step onboarding → 34% trial
+  start rates)
+- UGC micro-creators on TikTok targeting a specific demo beats paid UA
+- Discovery commerce: awareness → conversion in the same 15 seconds
+- TikTok Minis (2026): in-TikTok lightweight apps, 80% shorter
+  conversion path — emerging free-organic-traffic channel to watch
+
+===================================================================
+KEY SOURCES
+===================================================================
+- https://techcrunch.com/2025/03/16/photo-calorie-app-cal-ai-downloaded-over-a-million-times-was-built-by-two-teenagers/
+- https://www.cnbc.com/2025/09/06/cal-ai-how-a-teenage-ceo-built-a-fast-growing-calorie-tracking-app.html
+- https://getlatka.com/companies/calai.app
+- https://il.ly/blog/app-mafia
+- https://whop.com/blog/looksmaxxing-blake-anderson/
+- https://www.revenuecat.com/state-of-subscription-apps/
+- https://sensortower.com/blog/state-of-mobile-2026
+- https://techcrunch.com/2026/01/21/consumers-spent-more-on-mobile-apps-than-games-in-2025-driven-by-ai-app-adoption/
+- https://apptopia.com/ios/app/1634551626/about (CoinSnap)
+- https://www.sterlingcurrency.com.au/.../coinsnap... (Next Vision $3M/mo)
+- https://www.finalroundai.com/ + funding coverage (Yahoo Finance)
+- https://dataintelo.com/report/resume-builder-ai-app-market
+- https://boringcashcow.com/view/boring-business-bank-statement-converter-making-9k-a-month
+- https://superwall.com/blog/part-2-how-to-design-a-viral-app-in-2025/
+- https://stormy.ai/blog/app-paywall-optimization-playbook
+- https://bigspy.com/blog/next-gold-rush-for-traffic-tiktok-minis
