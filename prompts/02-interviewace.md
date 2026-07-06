@@ -36,18 +36,35 @@ InterviewAce gets job seekers ready for a specific interview in under an hour: p
 9. **Subscription mechanics**: Stripe Checkout with `trial_period_days:3`, webhook syncs `subscriptions`, middleware gates all app routes on active status (trialing counts), cancel flow in settings (Stripe portal), dunning emails via Resend.
 10. **Landing page**: hero with 15-sec demo loop, pricing, FAQ, "How it compares" table vs $148/mo competitors. Plus 5 SEO pages: /amazon-interview-questions-prep, /star-method-practice, /ai-mock-interview, /salary-negotiation-script, /behavioral-interview-practice.
 
+11. **Job posting by URL + more resume formats**: paste a URL → server-side fetch + readability extraction (graceful fallback to manual paste on failure/paywalled sites). Resume upload accepts PDF (`pdf-parse`) AND DOCX (`mammoth`). Onboarding also asks interview type (phone screen / behavioral / technical / panel) — this changes the prep-pack question mix.
+12. **Blurred-teaser paywall (conversion booster)**: the "Building your prep plan…" step actually generates the pack; paywall screen then shows 3 real questions unblurred + 12 locked/blurred with category labels visible. Personalized proof beats generic promises.
+13. **Cheat Sheet PDF**: one-page export — top 8 questions, the user's best answers (condensed), company facts, 3 questions-to-ask — via @react-pdf/renderer, small app watermark footer (shareable = growth).
+14. **Interview-day mode**: when the countdown hits day-of: send a "You've got this" email (Resend) with the cheat sheet attached, and the app home switches to a condensed flashcard review mode (flip through answer bank).
+15. **Outcome loop**: after the interview date passes (and in the cancel flow), one-question survey: "Get the offer?" → YES: request testimonial + give referral code (1 free week per signup); NO: offer to regenerate prep for the next application. Store aggregate outcome stats (fuel for landing-page proof once real).
+16. **Cost guards**: per-user daily token budget; prep packs cached by hash(posting+resume); Anthropic prompt caching enabled on system prompts; mock sessions capped at 3/day.
+
 ## AI prompt engineering (implement exactly)
 Create `/lib/prompts.ts` with system prompts for: prep-pack (role: veteran recruiter at the target company; must output valid JSON matching zod schema; questions must be specific to the posting, never generic), scoring (strict rubric, calibrated — average answer scores 5-6, not 8), rewriting (keep user's real experiences, never fabricate). Validate all AI JSON with zod; on parse failure retry once with the error appended.
 
 ## Design rules
 Confident, calm, professional — this user is anxious. Navy (#0F2A43) + warm white + single green accent for scores. Inter font. Big touch targets (mobile PWA). No confetti, no purple gradients, no robot imagery. Progress and countdowns everywhere (urgency = conversion).
 
+## Cross-cutting requirements (non-negotiable)
+- **Analytics**: PostHog from day one. Instrument every onboarding step (drop-off per screen is your #1 optimization lever), paywall view, trial start, trial→paid conversion, feature usage, cancellation. Internal `/admin` page (email-allowlist gated): MRR, trials active, trial conversion %, mock sessions/day, AI cost/user.
+- **Error monitoring**: Sentry client + server; alert on checkout and AI-generation failures.
+- **Payments hygiene**: Stripe webhooks idempotent; dunning emails; cancellation survey wired to the outcome loop.
+- **Legal & privacy**: Privacy Policy + Terms (plain language). Resumes are sensitive personal data: state retention (deleted 90 days after last activity), self-serve account deletion + data export (GDPR).
+- **Build continuity**: maintain `PROJECT_STATE.md` at repo root — update after every milestone: done / next / NEEDS HUMAN (keys, accounts). Assume the build may resume in a fresh session with zero memory.
+- **Never stall on missing keys**: all third-party calls (Anthropic, OpenAI, Stripe, Resend) behind typed provider interfaces with mocks; missing key → run mock, log NEEDS HUMAN, keep building.
+- **Placeholder honesty**: any testimonials/social proof clearly marked placeholder in code until real ones exist.
+- Extra env vars: NEXT_PUBLIC_POSTHOG_KEY, SENTRY_DSN.
+
 ## Agent orchestration
-1. **Scaffold agent**: app + Supabase schema + auth + CI.
+1. **Scaffold agent**: app + Supabase schema + auth + PostHog/Sentry wiring + PROJECT_STATE.md + CI.
 2. **Onboarding+paywall agent**: the full 6-step flow + Stripe trial subscription, end-to-end FIRST (this is the money path).
 3. **AI core agent**: prompts.ts, prep pack generation, zod validation, streaming UI.
 4. **Voice agent**: recorder, Whisper, TTS playback, scoring loop.
-5. **Modules agents (parallel)**: STAR builder + answer bank; negotiation; cover letter/emails; dashboard.
+5. **Modules agents (parallel)**: STAR builder + answer bank; negotiation; cover letter/emails; dashboard; cheat-sheet PDF; interview-day mode; outcome loop.
 6. **Marketing agent**: landing + SEO pages.
 7. **QA agent**: Playwright e2e (signup→onboarding→trial checkout test-mode→generate pack→text-mode mock→see scores), plus unit tests for AI JSON parsing with recorded fixtures. Fix everything.
 8. **Deploy agent**: Vercel prod, webhooks registered, README with env setup.

@@ -32,17 +32,34 @@ Local: onboarding state, settings, cached last results.
 9. **Trending tab (editorial v1)**: static JSON list you author of 20 "hot flip" categories right now (e.g., vintage Pyrex, 90s band tees, Lego sets) with typical price ranges and what to look for. Updated via app config, not backend.
 10. **Anti-abuse & cost control**: edge function rate limit 20 scans/day/user (soft cap with friendly message), image downscaled to 1024px client-side before upload, Claude responses cached by image hash for 24h.
 
+11. **Multi-photo scan (accuracy multiplier)**: optional "Add tag/label photo" second shot sent in the same Claude call — tags, maker's marks, and labels massively improve brand/model ID. When confidence <0.7, the result card proactively suggests "Snap the tag for a better match" with one-tap rescan.
+12. **Condition adjuster**: segmented control on the result card (New w/ tags / Excellent / Good / Fair) applying category-specific price multipliers (e.g., clothing 1.3/1.0/0.7/0.45) to the estimate; persists per scan.
+13. **Offline queue (critical real-world UX)**: thrift stores have dead zones. If offline, save photo locally with "Queued" state in history; auto-process when connectivity returns (expo-network listener); notify when the result lands.
+14. **eBay Partner Network affiliate links**: wrap all outbound listing links with EPN tracking (extra revenue at zero UX cost); behind a config flag until the EPN account is approved (provider interface + plain-link fallback).
+15. **CSV export**: scan history with dates, items, estimates, buy prices — annual-plan perk (resellers need it for bookkeeping/taxes); share via expo-sharing.
+16. **Smart review prompt**: expo-store-review exactly once, right after the user's first FLIP verdict with ≥$50 estimated profit (peak-happiness moment).
+
 ## AI prompt (implement in edge function)
 System: expert reseller and appraiser. Given one photo, return strict JSON {name, brand, model_or_era, category(one of enum matching fee table), condition_notes, confidence 0-1, ebay_search_keywords: 2-4 strings ordered specific→broad}. If confidence <0.4, set needs_better_photo=true with a one-line tip ("show the tag"). Validate with zod; retry once on parse failure. Run eBay search with keywords[0]; if <5 results fall back to keywords[1], etc.
 
 ## Design rules
 High-energy but trustworthy: cream bg (#FBF7F0), forest green accent (#1F6F4A) for FLIP verdicts, red-clay for SKIP. Big rounded result cards, monospace numerals for prices, subtle confetti ONLY on FLIP verdicts ≥$50 profit. Camera UI minimal.
 
+## Cross-cutting requirements (non-negotiable)
+- **Analytics**: PostHog React Native SDK. Instrument: onboarding steps, scans started/completed, ID confidence distribution, free-scan exhaustion, paywall view, trial start, purchase, share-card exports, verdict distribution. Track AI cost per scan.
+- **Error monitoring**: sentry-expo in the app, Sentry in edge functions; alert on scan-pipeline failures.
+- **RevenueCat hygiene**: entitlement re-check on foreground; restore tested in sandbox; pricing/copy via RevenueCat Offerings (remote-configurable, Experiments-ready).
+- **Cost guards**: per-user monthly AI budget cap in the edge function (soft-block with friendly message at cap); image downscale + 24h cache already specified — enforce both.
+- **Privacy & store compliance**: camera-usage privacy strings; privacy policy in-app; "delete my data" action; App Privacy questionnaire documented in README.
+- **Build continuity**: maintain `PROJECT_STATE.md` at repo root — done / next / NEEDS HUMAN (eBay dev approval, EPN approval, RevenueCat products, store certs) after every milestone. Assume resume in a fresh session with zero memory.
+- **Never stall on missing keys**: Claude, eBay, EPN, RevenueCat all behind typed provider interfaces with mocks (mock comps return fixture listings); missing key → mock + NEEDS HUMAN note, keep building.
+- **Placeholder honesty**: paywall testimonials clearly marked placeholder until real.
+
 ## Agent orchestration
-1. **Scaffold agent**: Expo app + edge functions project + Supabase schema + CI.
+1. **Scaffold agent**: Expo app + edge functions project + Supabase schema + PostHog/Sentry wiring + PROJECT_STATE.md + CI.
 2. **Scan-pipeline agent**: camera → edge function → Claude → eBay → result card, end-to-end with real APIs FIRST (this is the product; everything else is chrome). Include the provider-interface abstraction for comps.
 3. **Monetization agent**: free-scan metering + RevenueCat paywall + gating (sandbox-tested).
-4. **Feature agents (parallel)**: history+watchlist; barcode mode; profit settings; share card; trending tab (write the content).
+4. **Feature agents (parallel)**: history+watchlist; barcode mode; multi-photo scan; condition adjuster; offline queue; profit settings; share card; CSV export; trending tab (write the content).
 5. **QA agent**: jest tests for profit math + zod schemas + comps-provider mock; fixture-based tests of the edge function (recorded Claude/eBay responses); simulator runs both platforms.
 6. **Release agent**: icons/splash, privacy policy (camera usage!), store listing copy + ASO keywords (thrift, reseller, flip, coin, vintage), eas.json, README with API-key setup (eBay dev account steps included).
 Env (edge function secrets): ANTHROPIC_API_KEY, EBAY_CLIENT_ID/SECRET; app: EXPO_PUBLIC_SUPABASE_URL/ANON_KEY, RevenueCat keys.

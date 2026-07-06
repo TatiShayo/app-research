@@ -37,15 +37,31 @@ RLS: hosts read/write own events+media; guest upload goes through a server route
 10. **Post-event email**: cron (Vercel cron) day after event_date → email host stats + download link + "Create another event" CTA + 20% referral code.
 11. **Marketing site + programmatic SEO**: landing page (hero with live demo event, pricing table, FAQ, testimonials placeholder) + SEO pages generated from a JSON list: `/wedding-photo-sharing-app`, `/qr-code-wedding-photos`, `/funeral-photo-sharing`, `/birthday-party-photo-collection`, `/corporate-event-photo-sharing`, each 600+ words unique copy, FAQ schema markup, CTA. Write the copy yourself, benefit-led, not keyword-stuffed.
 
+12. **Content safety & moderation (required — guests upload publicly visible media)**: server-side NSFW screening on every upload behind a typed provider interface (Sightengine API, or nsfwjs server-side as free fallback); flagged media auto-hidden pending host review. Host setting: "Approve uploads before they appear" toggle. Report button on every gallery/slideshow item; ≥1 report auto-hides pending host review.
+13. **Privacy controls**: per-event visibility setting — (a) guests see full gallery, (b) guests see only their own uploads, (c) host-only; optional 4-digit PIN on the live slideshow URL; "hide uploader names" toggle.
+14. **Guest album loop (growth engine)**: after uploading, guest sees "Want the full album? We'll email it when the host publishes" → email capture → post-event email with gallery link + "Host your own event free" CTA. This turns every event's guests into future hosts.
+15. **Event lifecycle & storage cost control**: free events auto-archive 90 days after event_date (warning email at day 75 with download reminder); paid events keep media 12 months. Vercel cron job handles purge; deletion is soft (30-day grace) then hard.
+16. **Seeded demo event**: landing page links to a real, read-only demo event pre-populated with AI-generated sample photos so visitors experience the guest flow before paying. Seed script included in repo.
+
 ## Design rules (avoid AI-slop look)
 Warm editorial aesthetic: off-white background (#FAF8F5), one accent (deep terracotta #C1502E), serif display font (Fraunces) + Inter body, generous whitespace, real photography feel. No purple gradients, no glassmorphism, no emoji in UI. Guest page must load <2s on 4G and be usable one-handed.
 
+## Cross-cutting requirements (non-negotiable)
+- **Analytics**: PostHog from day one. Instrument the full funnel — signup, event created, QR downloaded, first guest upload, upgrade viewed, upgrade paid, ZIP downloaded. Add an internal `/admin` page (email-allowlist gated) showing revenue, events created/day, free→paid conversion rate, storage used.
+- **Error monitoring**: Sentry on client and server; payment-path and upload-path errors must alert.
+- **Payments hygiene**: Stripe webhooks idempotent (persist processed event ids); enable Stripe Tax; receipt emails on every charge.
+- **Legal & privacy**: real Privacy Policy + Terms pages in plain language. GuestSnap hosts photos of identifiable people, including minors — state clearly: host is data controller, guests consent by uploading, deletion requests honored within 30 days (self-serve delete for hosts, documented email process for guests), EU-friendly wording.
+- **Build continuity**: maintain `PROJECT_STATE.md` at repo root — update after every milestone with what's done / what's next / what needs the human (keys, accounts, DNS). Assume the build may resume in a fresh session with zero memory.
+- **Never stall on missing keys**: every third-party integration sits behind a typed provider interface with a mock implementation; if a key is missing, run the mock, log it under "NEEDS HUMAN" in PROJECT_STATE.md, and keep building.
+- **Placeholder honesty**: testimonials/social proof must be clearly marked placeholder in code — never ship invented customer quotes as real.
+- Extra env vars: NEXT_PUBLIC_POSTHOG_KEY, SENTRY_DSN, SIGHTENGINE_USER/SECRET (optional, mock fallback).
+
 ## Agent orchestration
 Run this as an orchestrated build with a task list. Spawn/execute in this order:
-1. **Scaffold agent**: Next.js + Tailwind + shadcn init, Supabase schema migration files, env wiring, CI (typecheck+lint+build on push).
+1. **Scaffold agent**: Next.js + Tailwind + shadcn init, Supabase schema migration files, env wiring, PostHog + Sentry wiring, PROJECT_STATE.md, CI (typecheck+lint+build on push).
 2. **Core flow agent**: host auth → create event → guest upload → gallery (the critical path, end-to-end, deployed to preview before anything else).
 3. **Payments agent**: Stripe checkout + webhook + tier gating. Test with Stripe CLI.
-4. **Experience agents (parallel)**: slideshow+realtime; QR/PDF kit; culling; video guestbook; emails.
+4. **Experience agents (parallel)**: slideshow+realtime; QR/PDF kit; culling; video guestbook; emails; moderation + privacy controls; event lifecycle cron; demo-event seed script.
 5. **Marketing agent**: landing + SEO pages + OG images.
 6. **QA agent**: Playwright e2e — signup→create event→guest uploads 3 photos→upgrade (test mode)→ZIP download; mobile viewport tests on the guest page; fix all failures.
 7. **Deploy agent**: Vercel production deploy, env vars documented in README, Stripe webhook registered, smoke test on prod URL.

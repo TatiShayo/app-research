@@ -32,15 +32,30 @@ Supabase: `community_posts` (id, anon_handle, body ≤280 chars, streak_days, cr
 9. **AI coach tab (post-trial only)**: chat with "Coach" (Haiku via edge function, system prompt: supportive quit-coach, CBT techniques, never medical advice, ≤120 word replies), 10 msgs/day cap.
 10. **Settings**: edit spend/quit date, notification prefs, restore purchases, privacy policy, delete data.
 
+11. **Quit-method choice (doubles the addressable market)**: onboarding asks Cold Turkey vs Gradual Taper. Taper mode: personalized reduction schedule (default −15%/week from baseline puffs/day), daily allowance ring with a big puff-log button on home, weekly step-down celebrations, and an automatic "ready to quit fully?" prompt when allowance drops below 20% of baseline. Streak logic switches to "days on plan" until full quit date.
+12. **Accountability buddy (v1-lite, viral loop)**: generate an invite deep link → paired users see each other's streak on home and get notified on buddy milestones/relapses, with tap-to-send preset encouragements. Supabase `buddies` table (user_a, user_b, created_at). NO chat — presets only.
+13. **Weekly progress report**: Sunday local notification → report screen (cravings resisted, money saved, mood trend, streak chart via react-native-svg) rendered as a shareable card. Second growth surface after achievements.
+14. **Age gate + disclaimers (store compliance)**: 18+ confirmation on first launch; "not medical advice" disclaimer in onboarding and settings; quit-support hotline links (US 1-800-QUIT-NOW default, region-aware list in JSON); set store age rating accordingly (17+ Apple / adult Google).
+15. **Smart review prompt**: expo-store-review triggered exactly once, at the 7-day streak celebration (peak happiness). NEVER after a relapse or during a craving flow.
+
 ## Design rules
 Dark theme default (#0B1220 bg), single accent teal (#2DD4BF), big numerals (tabular), soft glows on progress elements, haptics on every meaningful action. Feels like a premium fitness app, not a medical pamphlet. All animations 60fps (reanimated worklets).
 
+## Cross-cutting requirements (non-negotiable)
+- **Analytics**: PostHog React Native SDK. Instrument every onboarding quiz screen (drop-off per screen), paywall view/variant, trial start, purchase, panic-button uses, relapses, share-card exports. This category lives or dies on quiz→paywall conversion — you must be able to see it.
+- **Error monitoring**: sentry-expo, wired in scaffold.
+- **RevenueCat hygiene**: entitlement re-check on app foreground; restore purchases tested in sandbox; paywall pricing/copy driven by RevenueCat Offerings (remote-configurable) so price tests need no app update; structure paywall for RevenueCat Experiments.
+- **Privacy & store compliance**: health-adjacent data stays local-first; privacy policy accessible in-app (store requirement); in-app "delete all my data" (Apple requirement when any account exists — including anonymous); App Privacy questionnaire answers documented in README.
+- **Build continuity**: maintain `PROJECT_STATE.md` at repo root — update after every milestone: done / next / NEEDS HUMAN (RevenueCat products, store listings, certs). Assume the build may resume in a fresh session with zero memory.
+- **Never stall on missing keys**: RevenueCat/Supabase/Anthropic behind typed provider interfaces with mocks (mock paywall auto-grants entitlement in dev); missing key → mock + NEEDS HUMAN note, keep building.
+- **Placeholder honesty**: paywall testimonials clearly marked placeholder until real ones exist.
+
 ## Agent orchestration
-1. **Scaffold agent**: Expo app, expo-router structure, zustand stores, theme system, CI (tsc + eslint + jest).
+1. **Scaffold agent**: Expo app, expo-router structure, zustand stores, theme system, PostHog + Sentry wiring, PROJECT_STATE.md, CI (tsc + eslint + jest).
 2. **Onboarding+paywall agent**: full 12-screen quiz + RevenueCat integration + gating. Money path first. Use RevenueCat sandbox.
-3. **Core loop agent**: home/streak, panic button, relapse flow, check-ins.
-4. **Content agents (parallel)**: health timeline (+write all milestone copy), achievements + share cards, notifications engine.
-5. **Backend agent**: Supabase schema, anon auth, community feed, AI coach edge function.
+3. **Core loop agent**: home/streak, panic button, relapse flow, check-ins, taper mode + puff logging.
+4. **Content agents (parallel)**: health timeline (+write all milestone copy), achievements + share cards, weekly report, notifications engine, age gate/disclaimers.
+5. **Backend agent**: Supabase schema, anon auth, community feed, buddy system, AI coach edge function.
 6. **QA agent**: jest unit tests for streak/money/dependency-score math (timezone edge cases!), manual test script doc, run on iOS simulator + Android emulator via Expo.
 7. **Release agent**: app icons/splash (generate), privacy policy + support page, store listing copy (title/subtitle/keywords/screenshots plan), eas.json build profiles, EAS build instructions in README.
 Env: EXPO_PUBLIC_SUPABASE_URL/ANON_KEY, RevenueCat API keys (iOS/Android), ANTHROPIC_API_KEY (edge function secret only).
