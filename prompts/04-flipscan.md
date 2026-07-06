@@ -1,0 +1,56 @@
+# BUILD: FlipScan — Thrift Resale Value Scanner (Expo React Native + API backend)
+
+## Your role
+Lead engineer-orchestrator. Build from scratch to store-submittable completion (EAS-ready). All decisions are here; don't ask, build.
+
+## Product overview & business model
+FlipScan: point your camera at any thrift-store/garage-sale item → AI identifies it → shows what it's selling for on eBay → tells you if it's a profitable flip. Target user: casual resellers and #thriftflip TikTok audience. Modeled on the "identifier app" category (CoinSnap et al., proven $1M+/mo apps on weekly subs).
+- Monetization via RevenueCat: 3 free scans (no signup), then hard paywall: $7.99/week with 3-day trial, or $49.99/year. Scans feel expensive → perceived value.
+- The scan-result screen must be screenshot-shareable (TikTok growth loop: "this $4 jacket is worth $85").
+
+## Tech stack (fixed)
+- Expo + TypeScript + expo-router, expo-camera, zustand + AsyncStorage
+- RevenueCat for subscriptions
+- Backend: Supabase (auth anon, scan history, Postgres) + Supabase Edge Functions (Deno) as the API layer — the app NEVER calls AI/eBay APIs directly
+- AI vision: Anthropic `claude-sonnet-5` with image input for item identification (brand, model, category, era, condition cues, search keywords) — structured JSON output
+- Comps: eBay Browse API (free tier) for active listings; estimate sold price as 0.75 × median active ask (label clearly as "estimate"). Architecture must isolate the comps provider behind one interface so Marketplace Insights API or another source can swap in later. Barcode path: eBay Browse by GTIN.
+- Landing page: one static Next.js page on Vercel (links, privacy, support).
+
+## Data model
+Supabase: `scans` (id, user_id, image_path, identified jsonb{name,brand,category,keywords[],confidence}, comps jsonb{median,low,high,count,sample_listings[{title,price,url,img}]}, buy_price numeric nullable, verdict enum[flip,skip,maybe], created_at), `watchlist` (user_id, scan_id), `scan_credits` (user_id, free_scans_used int).
+Local: onboarding state, settings, cached last results.
+
+## Features & implementation
+1. **Scan flow (the core — make it feel magical)**: camera screen with framing guide → snap → upload to edge function → parallel: Claude vision ID + (once keywords return) eBay comps → animated 3-stage progress ("Identifying… Checking 214 listings… Calculating profit…") → RESULT CARD: item name + confidence, price range (low/median/high), # of listings, verdict badge (FLIP 🔥 / MAYBE / SKIP), and a "What'd you pay?" input → live profit calc (median − buy price − platform fees ~13% − shipping estimate by category). Total flow target <8 seconds.
+2. **Barcode mode**: toggle on camera; expo-camera barcode scanning → GTIN → eBay lookup directly (books/media/games/electronics). Much higher accuracy; highlight in onboarding.
+3. **Scan history**: reverse-chron list with thumbnails, verdicts, profit; filterable; tap to reopen result.
+4. **Watchlist**: save items you left in store; note + store-name field.
+5. **Fee/profit calculator settings**: platform picker (eBay/Poshmark/Depop/Mercari/FB), each with fee % constants; user default platform.
+6. **Free-scan gating + paywall**: 3 scans free without account (device-keyed), then RevenueCat paywall: "You found $X in potential profit already" (sum their 3 scans' spreads — personalized!), weekly-trial default + annual option, testimonial cards, restore.
+7. **Onboarding (4 screens pre-camera)**: what it does (demo gif) → pick your platforms → "How much do you thrift per month?" → camera permission w/ explainer. Fast — get to first scan <30s.
+8. **Share card**: from result screen, generate branded image (view-shot): item photo, "Paid $4 → Worth $85", FlipScan logo. IG-story sized.
+9. **Trending tab (editorial v1)**: static JSON list you author of 20 "hot flip" categories right now (e.g., vintage Pyrex, 90s band tees, Lego sets) with typical price ranges and what to look for. Updated via app config, not backend.
+10. **Anti-abuse & cost control**: edge function rate limit 20 scans/day/user (soft cap with friendly message), image downscaled to 1024px client-side before upload, Claude responses cached by image hash for 24h.
+
+## AI prompt (implement in edge function)
+System: expert reseller and appraiser. Given one photo, return strict JSON {name, brand, model_or_era, category(one of enum matching fee table), condition_notes, confidence 0-1, ebay_search_keywords: 2-4 strings ordered specific→broad}. If confidence <0.4, set needs_better_photo=true with a one-line tip ("show the tag"). Validate with zod; retry once on parse failure. Run eBay search with keywords[0]; if <5 results fall back to keywords[1], etc.
+
+## Design rules
+High-energy but trustworthy: cream bg (#FBF7F0), forest green accent (#1F6F4A) for FLIP verdicts, red-clay for SKIP. Big rounded result cards, monospace numerals for prices, subtle confetti ONLY on FLIP verdicts ≥$50 profit. Camera UI minimal.
+
+## Agent orchestration
+1. **Scaffold agent**: Expo app + edge functions project + Supabase schema + CI.
+2. **Scan-pipeline agent**: camera → edge function → Claude → eBay → result card, end-to-end with real APIs FIRST (this is the product; everything else is chrome). Include the provider-interface abstraction for comps.
+3. **Monetization agent**: free-scan metering + RevenueCat paywall + gating (sandbox-tested).
+4. **Feature agents (parallel)**: history+watchlist; barcode mode; profit settings; share card; trending tab (write the content).
+5. **QA agent**: jest tests for profit math + zod schemas + comps-provider mock; fixture-based tests of the edge function (recorded Claude/eBay responses); simulator runs both platforms.
+6. **Release agent**: icons/splash, privacy policy (camera usage!), store listing copy + ASO keywords (thrift, reseller, flip, coin, vintage), eas.json, README with API-key setup (eBay dev account steps included).
+Env (edge function secrets): ANTHROPIC_API_KEY, EBAY_CLIENT_ID/SECRET; app: EXPO_PUBLIC_SUPABASE_URL/ANON_KEY, RevenueCat keys.
+
+## Definition of done
+- On-device demo: scan a real object photo → correct-ballpark ID → live eBay comps → profit verdict, in <10s
+- 3-free-scans metering works across app restarts; sandbox purchase unlocks unlimited; restore works
+- All tests green; EAS build configs ready; README covers eBay + RevenueCat + Supabase setup end-to-end
+
+## Out of scope v1
+Auto-listing to marketplaces, price alerts, sold-comps premium data, web app, Android widgets, user accounts beyond anonymous.

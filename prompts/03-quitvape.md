@@ -1,0 +1,55 @@
+# BUILD: QuitVape — Quit Vaping Companion App (Expo React Native)
+
+## Your role
+Lead engineer-orchestrator. Build from scratch to a store-submittable mobile app (EAS builds + TestFlight/internal-track ready). All decisions are in this doc; don't stop to ask.
+
+## Product overview & business model
+QuitVape helps people quit vaping with a personalized quit plan, streak tracking, panic-button cravings support, and money/health progress. Modeled on Quittr ($300K/mo, built in 10 days) but for nicotine vaping — bigger, cleaner market. Near-zero marginal cost (only optional AI chat).
+- Monetization via RevenueCat: hard paywall after onboarding quiz. $5.99/week (3-day trial) OR $29.99 lifetime (shown as "82% off, one-time"). Weekly is default-selected.
+- Distribution assumption: TikTok UGC — the app must produce shareable moments (streak cards, money saved).
+
+## Tech stack (fixed)
+- Expo SDK (latest stable) + TypeScript + expo-router; state via zustand + AsyncStorage persistence
+- RevenueCat (react-native-purchases) for IAP/subscriptions + paywall gating
+- Supabase: anonymous auth (device-based), community feed, craving analytics
+- expo-notifications (local scheduled), react-native-reanimated for animations, react-native-svg for progress rings, expo-haptics
+- Optional AI coach: Anthropic API `claude-haiku-4-5` via a Supabase Edge Function proxy (never ship API key in app)
+- No web app; simple static landing page (single Next.js page on Vercel) for links/privacy/support.
+
+## Data model
+Local-first (zustand persisted): quitDate, vapeCostPerWeek, puffsPerDay, dependencyScore, streakStart, relapses[], cravingsLog[{ts, intensity, trigger, resisted}], achievementsUnlocked[], checkIns[{date, mood}].
+Supabase: `community_posts` (id, anon_handle, body ≤280 chars, streak_days, created_at, report_count), `craving_events` (anonymized analytics). RLS: insert-only for posts from authed anon users; reads public; auto-hide report_count≥3.
+
+## Features & implementation
+1. **Onboarding quiz (12 screens — this IS the product's conversion engine)**: age range → how long vaping → device type → puffs/day slider → first puff timing (on waking?) → failed quit attempts → why quit (multi-select: money/health/freedom/relationship) → weekly spend slider → "Your dependency score: 7.8/10" (computed: weighted sum, animated gauge, brutal-but-kind copy) → projected savings chart (1yr/5yr, animated counting) → personalized quit plan preview → PAYWALL (RevenueCat paywall: weekly-with-trial default, lifetime alt, testimonials, "cancel anytime", restore purchases). No app access without purchase/trial.
+2. **Home / streak screen**: huge streak counter (days:hours:mins live), circular progress ring to next milestone, regrowth visual (a pair of lungs that visually clear/heal as streak grows — SVG with staged states at day 1/3/7/14/30/90), money saved counter (live-ticking), today's check-in prompt.
+3. **Panic button (always visible, thumb-reachable)**: full-screen takeover → 60-second guided breathing (animated circle, haptics on inhale/exhale) → then shows user's own "why I quit" answers + money saved → "Craving passed 💪 / I slipped" buttons → logs craving with trigger picker (stress/social/boredom/drinking).
+4. **Health timeline**: science-based milestones (20 min heart rate, 24h nicotine drop, 48h taste/smell, 2w circulation, 1m lung function, 3m cravings fade, 1y risk halved) — each card with unlocked/locked state tied to streak, plain-language explanation. Store copy in a local JSON; cite sources in an info modal.
+5. **Relapse flow (compassion, not shame)**: "Slips are part of quitting. Your 12 days still count." → log what triggered it → streak resets but "total days vape-free" lifetime stat keeps counting → generates adjusted plan tip.
+6. **Daily check-in + notifications**: morning motivation (local notification, rotating copy), evening check-in (mood 5-emoji scale), streak-milestone celebration notifications, danger-hour notification (computed from their craving log patterns — e.g., most cravings logged 9-11pm → schedule support ping 8:45pm).
+7. **Community feed**: anonymous handles (auto-generated "QuittingEagle42"), post wins/struggles, tap-to-send preset encouragements (no free-text replies v1 — kills moderation load), report button.
+8. **Achievements & share cards**: badges (24h, 72h, 1w, 2w, 1m, 100 puffs resisted, $100 saved…), each unlock generates a designed share card (react-native-view-shot) sized for IG story/TikTok — dark bg, big number, app name small. This is the growth loop.
+9. **AI coach tab (post-trial only)**: chat with "Coach" (Haiku via edge function, system prompt: supportive quit-coach, CBT techniques, never medical advice, ≤120 word replies), 10 msgs/day cap.
+10. **Settings**: edit spend/quit date, notification prefs, restore purchases, privacy policy, delete data.
+
+## Design rules
+Dark theme default (#0B1220 bg), single accent teal (#2DD4BF), big numerals (tabular), soft glows on progress elements, haptics on every meaningful action. Feels like a premium fitness app, not a medical pamphlet. All animations 60fps (reanimated worklets).
+
+## Agent orchestration
+1. **Scaffold agent**: Expo app, expo-router structure, zustand stores, theme system, CI (tsc + eslint + jest).
+2. **Onboarding+paywall agent**: full 12-screen quiz + RevenueCat integration + gating. Money path first. Use RevenueCat sandbox.
+3. **Core loop agent**: home/streak, panic button, relapse flow, check-ins.
+4. **Content agents (parallel)**: health timeline (+write all milestone copy), achievements + share cards, notifications engine.
+5. **Backend agent**: Supabase schema, anon auth, community feed, AI coach edge function.
+6. **QA agent**: jest unit tests for streak/money/dependency-score math (timezone edge cases!), manual test script doc, run on iOS simulator + Android emulator via Expo.
+7. **Release agent**: app icons/splash (generate), privacy policy + support page, store listing copy (title/subtitle/keywords/screenshots plan), eas.json build profiles, EAS build instructions in README.
+Env: EXPO_PUBLIC_SUPABASE_URL/ANON_KEY, RevenueCat API keys (iOS/Android), ANTHROPIC_API_KEY (edge function secret only).
+
+## Definition of done
+- Runs clean on iOS simulator + Android emulator; EAS build config ready; RevenueCat sandbox purchase + restore working
+- Full flow: quiz → paywall → trial → streak home → panic button → share card export
+- Streak math unit-tested incl. timezone/DST; notifications fire correctly
+- README: store submission checklist, RevenueCat + App Store Connect/Play Console setup steps
+
+## Out of scope v1
+Apple Watch, home-screen widgets, free-text community replies, cigarettes/other substances (vaping only), web version.
