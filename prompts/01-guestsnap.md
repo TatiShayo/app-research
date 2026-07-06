@@ -3,6 +3,8 @@
 ## Your role
 You are the lead engineer-orchestrator building a production web app from scratch to deployed completion. Do not stop to ask questions — every decision you need is in this document. Where a detail is unspecified, pick the simplest option that ships.
 
+**BINDING COMPANION DOCUMENT**: a universal `PLAYBOOK.md` is supplied alongside this prompt (premium design standards, full security checklist, retention systems, monetization doctrine). Copy it into the repo root and comply with ALL of it — its Definition-of-Done addendum applies to this project.
+
 ## Product overview & business model
 GuestSnap lets event hosts (weddings, birthdays, funerals, corporate) collect photos/videos from all guests via a QR code — guests upload from their phone browser, NO app download, NO account. Host pays PER EVENT (one-time payment, not subscription). Churn is the business model; revenue comes from a constant stream of new events.
 - Free tier: 1 event, 20 photos, GuestSnap watermark on gallery
@@ -43,8 +45,35 @@ RLS: hosts read/write own events+media; guest upload goes through a server route
 15. **Event lifecycle & storage cost control**: free events auto-archive 90 days after event_date (warning email at day 75 with download reminder); paid events keep media 12 months. Vercel cron job handles purge; deletion is soft (30-day grace) then hard.
 16. **Seeded demo event**: landing page links to a real, read-only demo event pre-populated with AI-generated sample photos so visitors experience the guest flow before paying. Seed script included in repo.
 
-## Design rules (avoid AI-slop look)
-Warm editorial aesthetic: off-white background (#FAF8F5), one accent (deep terracotta #C1502E), serif display font (Fraunces) + Inter body, generous whitespace, real photography feel. No purple gradients, no glassmorphism, no emoji in UI. Guest page must load <2s on 4G and be usable one-handed.
+## Premium UI & motion direction (follow PLAYBOOK Part 1 + this art direction)
+**Concept: "modern heirloom"** — feels like beautiful wedding stationery brought to life, not a SaaS tool.
+- Palette: ivory canvas #FAF8F5, ink #1C1917, terracotta accent #C1502E, muted sage secondary; 3% paper-grain texture on large surfaces. Type: Fraunces (display, tight tracking, big) + Inter (body). Photography is the hero — chrome recedes.
+- **Signature interaction — the live slideshow**: cinematic crossfades with slow Ken Burns drift, uploader name set in italic Fraunces as a caption, new arrivals enter with a gentle scale-settle. This screen will be on a TV at real weddings — it must look like a rented $500 service.
+- Upload moment: guest photos "drop onto a stack" with spring physics and slight polaroid tilt; progress shown as the photo developing (opacity/contrast ramp), not a bar. Success = soft haptic-feel bounce + warm serif toast ("Emma will love these.").
+- Host dashboard is reactive: live photo-count odometer, "3 guests uploading now" presence indicator (Supabase presence), gallery tiles lift on hover with deepening soft shadow; lightbox with momentum swipe.
+- QR table cards (the printable PDF) are designed like letterpress stationery — 3 style variants (classic serif, modern minimal, playful). Hosts will photograph these for Instagram; they're marketing.
+- Empty states: fine line-art (envelope, picture frame) + one action. Guest page loads <2s on 4G, fully one-handed. No purple gradients, no glassmorphism, no emoji UI.
+
+## Security (project-specific threat model — PLAYBOOK Part 2 applies in full)
+- The guest upload endpoint is PUBLIC and the #1 attack surface: per-IP + per-event rate limits, 25MB cap enforced server-side, magic-byte type verification, re-encode every image via sharp (**strips guests' EXIF/GPS — mandatory privacy measure**), reject SVGs, cap video duration (45s) and size, invisible Turnstile on the upload route.
+- Media privacy: private storage buckets only; all media served via short-lived signed URLs issued after an event-access check; no bucket listing; event slugs get a random 4-char suffix (`emma-jake-x7k2`) against enumeration.
+- Slideshow PIN: hashed, attempt-rate-limited (5/min), lockout with friendly copy.
+- ZIP export authorizes the host session server-side and streams — no temp files in public paths.
+- Stripe: signature-verified idempotent webhooks; tier/price mapping server-side only.
+- Moderation/admin surfaces allowlist-gated and audit-logged.
+
+## Retention & repurchase engine (churn-by-design — PLAYBOOK 3.4)
+- Email capture at both value moments: guests ("send me the album") and hosts (account). Tag by event type.
+- Host sequence: post-event thank-you + stats → NPS → "planning another event?" at 3 months → event-anniversary email at 11 months ("One year! Throw a party?") with a returning-host discount.
+- Guest→host conversion: album email footer "Host your own event free"; every public gallery and slideshow carries tasteful "Powered by GuestSnap" attribution (free tier) — outputs are the marketing.
+- Photographer/planner detection: 2+ events in 90 days triggers an email about the Pro pack (see revenue) — these are the whales.
+
+## Revenue maximization (PLAYBOOK Part 4 applies)
+- Checkout order bump: "+$19 — keep photos 24 months instead of 12" (near-zero cost, one checkbox).
+- Post-purchase one-click upsell: Standard buyers offered Premium delta ($50) on the success page.
+- **Pro Pack SKU: 3 events for $99** (targets planners/photographers — recurring buyers, the real LTV).
+- Referral: hosts get $10 off next event per referred host; shown on the post-event stats email (peak happiness).
+- Stripe Tax on; guarantee ("not thrilled? full refund") on the pricing page; one-click refund in admin.
 
 ## Cross-cutting requirements (non-negotiable)
 - **Analytics**: PostHog from day one. Instrument the full funnel — signup, event created, QR downloaded, first guest upload, upgrade viewed, upgrade paid, ZIP downloaded. Add an internal `/admin` page (email-allowlist gated) showing revenue, events created/day, free→paid conversion rate, storage used.
@@ -63,8 +92,10 @@ Run this as an orchestrated build with a task list. Spawn/execute in this order:
 3. **Payments agent**: Stripe checkout + webhook + tier gating. Test with Stripe CLI.
 4. **Experience agents (parallel)**: slideshow+realtime; QR/PDF kit; culling; video guestbook; emails; moderation + privacy controls; event lifecycle cron; demo-event seed script.
 5. **Marketing agent**: landing + SEO pages + OG images.
-6. **QA agent**: Playwright e2e — signup→create event→guest uploads 3 photos→upgrade (test mode)→ZIP download; mobile viewport tests on the guest page; fix all failures.
-7. **Deploy agent**: Vercel production deploy, env vars documented in README, Stripe webhook registered, smoke test on prod URL.
+6. **Polish agent**: full-app motion/micro-interaction pass, slideshow signature-interaction tuning, empty/error states, then run the PLAYBOOK screenshot test on every screen and redo failures.
+7. **Security agent**: execute PLAYBOOK Part 2 + the project threat model above as a checklist; write the RLS deny-test, rate-limit script test, EXIF-strip verification.
+8. **QA agent**: Playwright e2e — signup→create event→guest uploads 3 photos→upgrade (test mode)→ZIP download; mobile viewport tests on the guest page; fix all failures.
+9. **Deploy agent**: Vercel production deploy, env vars documented in README, Stripe webhook registered, smoke test on prod URL.
 After each agent completes, verify build passes before proceeding. Commit at every milestone with clear messages.
 
 ## Env vars required (document in README, use placeholders)

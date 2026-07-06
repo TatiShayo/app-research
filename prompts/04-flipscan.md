@@ -3,6 +3,8 @@
 ## Your role
 Lead engineer-orchestrator. Build from scratch to store-submittable completion (EAS-ready). All decisions are here; don't ask, build.
 
+**BINDING COMPANION DOCUMENT**: a universal `PLAYBOOK.md` is supplied alongside this prompt (premium design standards, full security checklist, retention systems, monetization doctrine). Copy it into the repo root and comply with ALL of it — its Definition-of-Done addendum applies to this project.
+
 ## Product overview & business model
 FlipScan: point your camera at any thrift-store/garage-sale item → AI identifies it → shows what it's selling for on eBay → tells you if it's a profitable flip. Target user: casual resellers and #thriftflip TikTok audience. Modeled on the "identifier app" category (CoinSnap et al., proven $1M+/mo apps on weekly subs).
 - Monetization via RevenueCat: 3 free scans (no signup), then hard paywall: $7.99/week with 3-day trial, or $49.99/year. Scans feel expensive → perceived value.
@@ -42,8 +44,36 @@ Local: onboarding state, settings, cached last results.
 ## AI prompt (implement in edge function)
 System: expert reseller and appraiser. Given one photo, return strict JSON {name, brand, model_or_era, category(one of enum matching fee table), condition_notes, confidence 0-1, ebay_search_keywords: 2-4 strings ordered specific→broad}. If confidence <0.4, set needs_better_photo=true with a one-line tip ("show the tag"). Validate with zod; retry once on parse failure. Run eBay search with keywords[0]; if <5 results fall back to keywords[1], etc.
 
-## Design rules
-High-energy but trustworthy: cream bg (#FBF7F0), forest green accent (#1F6F4A) for FLIP verdicts, red-clay for SKIP. Big rounded result cards, monospace numerals for prices, subtle confetti ONLY on FLIP verdicts ≥$50 profit. Camera UI minimal.
+## Premium UI & motion direction (follow PLAYBOOK Part 1 + this art direction)
+**Concept: "the appraiser's field tool"** — the tactile confidence of an auction house in your pocket; energetic but credible.
+- Palette: cream #FBF7F0, deep forest #1F6F4A (FLIP), clay red (SKIP), ink text; receipt-paper texture on history lists. Type: Space Grotesk (display) + Inter (body) + JetBrains Mono for every price (monospace = precision).
+- **Signature interaction — the verdict reveal**: shutter haptic on capture → 3-stage staged progress with real copy ("Identifying… Checking 214 sold listings… Calculating your profit…") → result card springs up, the price-range bar fills left-to-right, then the verdict stamps down like a rubber stamp — slight rotation, scale-settle, heavy haptic thunk. FLIP verdicts ≥$50 get one brief, tasteful confetti burst (the only confetti in the app). This reveal is the TikTok moment; polish it obsessively.
+- Camera screen: minimal chrome, elegant framing corners that pulse gently when a subject is centered; barcode mode slides in as a segmented toggle.
+- Prices count up with odometer motion; the condition adjuster slides the whole range bar live as you tap segments.
+- Share card: styled like a premium auction tag — kraft-paper texture, mono numerals, "Paid $4 → Worth $85".
+- History: receipt-roll aesthetic with perforated-edge dividers; pull-to-refresh with a price-tag spinner.
+
+## Security (project-specific threat model — PLAYBOOK Part 2 applies in full)
+- Edge functions are the wallet: JWT auth required on every call; per-user rate limits (20/day) AND monthly AI budget caps enforced server-side; image size cap re-checked server-side; kill-switch env flag for the AI pipeline.
+- Free-scan metering must survive reinstalls: server-side count keyed on device fingerprint + anon user id — never trust client storage alone.
+- Anthropic/eBay/EPN keys live only in edge-function secrets; the app binary contains zero secrets (verify by inspecting the built bundle).
+- Scans/watchlist RLS per user with deny-test; uploaded photos in private bucket, signed URLs, 90-day purge.
+- LLM output is zod-validated data only — never rendered as markup, never executed; eBay URLs sanitized before opening (https + ebay.com host check, prevents link injection via model output).
+
+## Retention engine (PLAYBOOK Part 3 applies)
+- Activation event: first completed scan with a verdict. Onboarding→first scan <30s; ship a "try it on this" sample image in onboarding for users not in a store right now.
+- Habit anchor: **Saturday 9am push** — "Weekend racks are freshest. 3 stores near you restock Fridays." (thrifting is a weekend ritual; own it.)
+- Weekly trending drop (push + tab badge): "This week: vintage Pyrex up 23%" — reason to open without shopping.
+- Monthly recap: "Your October: 31 scans, $840 potential profit found" as a share card.
+- Stored value surfaced: history + watchlist totals on home ("Your eye is worth $2,140 so far").
+- Win-back: lapsed 14 days → "The racks changed 14 times since your last scan" push; churned subs get a RevenueCat win-back offer.
+
+## Revenue maximization (PLAYBOOK Part 4 applies)
+- Pricing via RevenueCat Offerings: $7.99/wk (3-day trial, default) / $49.99/yr anchor. Paywall shows THEIR number: "Your 3 free scans found $112 in potential profit."
+- **Consumable top-up**: 20 extra scans $4.99 for capped/lapsed users (hybrid monetization — buyers who won't subscribe still pay).
+- eBay Partner Network on every outbound listing link (specced) — second revenue layer at zero UX cost.
+- Annual perk stack: CSV export + higher caps + "Pro comps" when sold-data API lands (fast-follow).
+- Review prompt after first ≥$50 FLIP (specced); screenshots-as-sales-narrative for ASO: pain (walked past a $200 jacket) → magic (verdict reveal) → proof (share cards) → offer.
 
 ## Cross-cutting requirements (non-negotiable)
 - **Analytics**: PostHog React Native SDK. Instrument: onboarding steps, scans started/completed, ID confidence distribution, free-scan exhaustion, paywall view, trial start, purchase, share-card exports, verdict distribution. Track AI cost per scan.
@@ -60,8 +90,10 @@ High-energy but trustworthy: cream bg (#FBF7F0), forest green accent (#1F6F4A) f
 2. **Scan-pipeline agent**: camera → edge function → Claude → eBay → result card, end-to-end with real APIs FIRST (this is the product; everything else is chrome). Include the provider-interface abstraction for comps.
 3. **Monetization agent**: free-scan metering + RevenueCat paywall + gating (sandbox-tested).
 4. **Feature agents (parallel)**: history+watchlist; barcode mode; multi-photo scan; condition adjuster; offline queue; profit settings; share card; CSV export; trending tab (write the content).
-5. **QA agent**: jest tests for profit math + zod schemas + comps-provider mock; fixture-based tests of the edge function (recorded Claude/eBay responses); simulator runs both platforms.
-6. **Release agent**: icons/splash, privacy policy (camera usage!), store listing copy + ASO keywords (thrift, reseller, flip, coin, vintage), eas.json, README with API-key setup (eBay dev account steps included).
+5. **Polish agent**: motion pass (verdict-reveal signature interaction first), haptics map, empty/error states, PLAYBOOK screenshot test on every screen — redo failures.
+6. **Security agent**: PLAYBOOK Part 2 + threat model above as a checklist; RLS deny-test, metering-bypass test (reinstall simulation), budget-cap test, bundle secret-scan.
+7. **QA agent**: jest tests for profit math + zod schemas + comps-provider mock; fixture-based tests of the edge function (recorded Claude/eBay responses); simulator runs both platforms.
+8. **Release agent**: icons/splash, privacy policy (camera usage!), store listing copy + ASO keywords (thrift, reseller, flip, coin, vintage), eas.json, README with API-key setup (eBay dev account steps included).
 Env (edge function secrets): ANTHROPIC_API_KEY, EBAY_CLIENT_ID/SECRET; app: EXPO_PUBLIC_SUPABASE_URL/ANON_KEY, RevenueCat keys.
 
 ## Definition of done

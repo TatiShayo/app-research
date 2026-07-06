@@ -3,6 +3,8 @@
 ## Your role
 Lead engineer-orchestrator. Build from scratch to deployed completion on Vercel. All decisions are in this document — do not stop to ask.
 
+**BINDING COMPANION DOCUMENT**: a universal `PLAYBOOK.md` is supplied alongside this prompt (premium design standards, full security checklist, retention systems, monetization doctrine). Copy it into the repo root and comply with ALL of it — its Definition-of-Done addendum applies to this project.
+
 ## Product overview & business model
 VisaShot turns a phone selfie into a government-compliant passport/visa/ID photo in 60 seconds: auto background replacement, auto crop to country spec, compliance checks, instant download. One-time payment $4.99 per photo set (digital files + printable 4x6/A4 sheet). No subscription — pure transactional, SEO-driven, evergreen replenishing demand (renewals, visas, new travelers).
 Growth engine: programmatic SEO — one landing page per country×document combination.
@@ -46,8 +48,36 @@ No user accounts — email-based delivery. Storage bucket with 7-day lifecycle p
 16. **Abandoned-order recovery**: optional "Email me my result" before payment; if no purchase within 4 hours → single recovery email with a 20% code (env-flag gated, easy to disable).
 17. **Comparison SEO page**: `/vs/pharmacy-passport-photos` — honest price/convenience comparison ($4.99 at home vs ~$17 retail), FAQ schema, CTA.
 
-## Design rules
-Clean, official-adjacent trust aesthetic: white bg, ink navy (#1B2A4A), single blue accent (#2563EB), generous spacing, real document terminology. Checklist icons green/amber/red. Mobile-first (most users will use a phone selfie). No gradients, no stock-photo people (use illustrated placeholder head guides).
+## Premium UI & motion direction (follow PLAYBOOK Part 1 + this art direction)
+**Concept: "Swiss precision"** — what a government form would look like if Stripe designed it. Trust is the entire brand; precision aesthetics ARE the conversion strategy.
+- Palette: pure functional white, ink navy #1B2A4A, single blue accent #2563EB, semantic green/amber/red only in the checklist. Type: Inter Display (tight, large) + Inter body; JetBrains Mono for order numbers, dimensions, and spec values (35×45 mm) — monospace reads as measured and official.
+- **Signature interaction — the compliance sequence**: the photo slides into a document frame, then blueprint-style guide lines DRAW themselves on (head-height bracket, eye-line rule, margins) like an architect's drawing, measurements labeling in mono as they land; then checklist items tick sequentially with crisp micro-animations and a soft click feel; all-green triggers an embossed "COMPLIANT ✓" seal stamping in with a subtle scale-settle. This 4-second sequence is the trust moment AND the shareable moment.
+- Background removal presented as a draggable before/after slider — let users feel the magic.
+- Face-detection feedback on upload is live and calm: an alignment ring that eases from amber to blue as the face centers.
+- Checkout: order summary styled like an official receipt (mono, ruled lines); trust badges (auto-delete in 7 days, refund guarantee) rendered as precise line-art stamps, not shield emoji.
+- Mobile-first; zero gradients; no stock-photo people (illustrated head-position guides only); loading states are staged copy ("Removing background… Aligning to 35×45 mm…"), never spinners.
+
+## Security (project-specific threat model — PLAYBOOK Part 2 applies in full)
+- **The clean photo is the product — protect it**: watermark applied server-side in the pipeline; the un-watermarked result NEVER leaves the server before payment (no client-side watermarking, no clean asset in any pre-payment response — verify in network tab as a test).
+- Face photos are sensitive biometric-adjacent data: private buckets, short-lived signed URLs, 7-day purge cron TESTED, EXIF/GPS stripped on ingest, Replicate listed as subprocessor, consent gate before processing (specced).
+- Order access: nanoid order ids + signed, expiring download links bound to paid status; email-delivered links re-check payment server-side; no sequential ids anywhere.
+- Upload hygiene: magic-byte checks, 15MB cap, re-encode via sharp; processing endpoint rate-limited per IP + invisible Turnstile (Replicate costs money — bots will find it).
+- Stripe: signature-verified idempotent webhooks; add-on math server-side only; Radar on.
+- Admin refund surface allowlist-gated + audit-logged.
+
+## Retention & repurchase engine (churn-by-design — PLAYBOOK 3.4)
+- **The expiry loop is the long-term goldmine**: after purchase, one optional question — "When does this passport/visa expire?" → automated reminder emails at 6 months and 1 month before expiry ("Renewal time — your photo specs are saved"). A $4.99 customer today is a returning customer in 2-10 years at near-zero cost; build the scheduler now.
+- Email capture at delivery (already natural — files are emailed); tag by country/doc for targeted seasonal sends (DV-lottery season, summer travel, Hajj visa windows).
+- Family/companion prompt on the success page: "Need photos for family members? Each additional person $3.99" (fresh photo, same session).
+- Every delivered PDF footer carries quiet attribution + referral link ("Made with VisaShot — $1 off for a friend").
+- Post-delivery day-3 email: "Did your photo get accepted?" → YES: review request; NO: instant guided refund (guarantee kept loudly — it feeds conversion).
+
+## Revenue maximization (PLAYBOOK Part 4 applies)
+- Core $4.99 impulse price; **attach-rate stack**: multi-spec add-on +$2.99 (specced), additional person +$3.99, order bump at checkout — "+$1.99 Compliance+ : manual-quality recheck & free reprocessing for 30 days" (pure margin, sells peace of mind).
+- Abandoned-order email at +4h with 20% single-use code (specced, env-gated).
+- Track attach rate and checklist-pass rate per check in admin — a check that's too strict is a conversion leak; tune with data.
+- SEO is the money machine: 40 spec pages + pharmacy comparison page at launch, then add specs weekly (each new spec = new page = new keyword); internal linking hub "passport photos" → all countries.
+- Later layers (fast-follow, not v1): print-at-partner affiliate, API for travel agencies (only after ≥3 organic requests).
 
 ## Cross-cutting requirements (non-negotiable)
 - **Analytics**: PostHog from day one. Instrument: spec selected, photo uploaded, processing success/fail, checklist pass rate (per check — tells you which checks are too strict), preview→checkout rate, purchase, add-on attach rate, recovery-email conversion. Internal `/admin` page (email-allowlist gated): revenue, orders/day, conversion, refund button (one-click Stripe refund + re-open order), failed-processing queue.
@@ -65,8 +95,10 @@ Clean, official-adjacent trust aesthetic: white bg, ink navy (#1B2A4A), single b
 3. **Compliance agent**: full checker + checklist UI + contrast check + auto-enhance + baby mode + exemption notes + fixtures (test portraits: tilted, glasses, smiling, dark, two faces, white-on-white clothing, infant).
 4. **Payments agent**: consent gate → watermark preview → Stripe (with multi-spec add-ons) → webhook → delivery downloads + email + print-sheet PDF generation + abandoned-order recovery.
 5. **SEO agent**: programmatic pages, comparison page, sitemap, OG images, homepage, copy for all specs.
-6. **QA agent**: Playwright e2e (upload fixture → process → checklist passes → pay test-mode → download all 3 deliverables), unit tests for crop math + PDF layout.
-7. **Deploy agent**: Vercel prod, storage purge cron, webhook registered, README (env setup, adding-a-spec guide, refund workflow).
+6. **Polish agent**: motion pass (compliance-sequence signature interaction first), before/after slider feel, empty/error states, PLAYBOOK screenshot test on every screen — redo failures.
+7. **Security agent**: PLAYBOOK Part 2 + threat model above as a checklist; verify no clean asset pre-payment (network-tab test), purge-cron test, EXIF-strip test, rate-limit script.
+8. **QA agent**: Playwright e2e (upload fixture → process → checklist passes → pay test-mode → download all 3 deliverables), unit tests for crop math + PDF layout.
+9. **Deploy agent**: Vercel prod, storage purge cron, webhook registered, README (env setup, adding-a-spec guide, refund workflow).
 Env: SUPABASE (3), STRIPE (3), REPLICATE_API_TOKEN, RESEND_API_KEY, NEXT_PUBLIC_APP_URL.
 
 ## Definition of done

@@ -4,6 +4,8 @@
 You are the lead engineer-orchestrator building this from scratch to deployed completion. Every decision you need is here; where unspecified, choose the simplest shippable option. Do not pause for questions.
 
 ## Product overview & business model
+**BINDING COMPANION DOCUMENT**: a universal `PLAYBOOK.md` is supplied alongside this prompt (premium design standards, full security checklist, retention systems, monetization doctrine). Copy it into the repo root and comply with ALL of it — its Definition-of-Done addendum applies to this project.
+
 InterviewAce gets job seekers ready for a specific interview in under an hour: paste the job posting + upload your resume → get the questions you'll actually be asked, practice them out loud with an AI interviewer, get scored feedback, and walk in with a salary-negotiation script. Users churn when hired — that's fine, the market replenishes. Incumbent (Final Round AI) charges $148/mo; we win on price and speed.
 - Monetization: hard paywall after onboarding. $6.99/week with 3-day free trial (card required), or $19.99/month. Stripe subscriptions.
 - Positioning: "Your interview is Thursday. Be ready by tonight."
@@ -46,8 +48,35 @@ InterviewAce gets job seekers ready for a specific interview in under an hour: p
 ## AI prompt engineering (implement exactly)
 Create `/lib/prompts.ts` with system prompts for: prep-pack (role: veteran recruiter at the target company; must output valid JSON matching zod schema; questions must be specific to the posting, never generic), scoring (strict rubric, calibrated — average answer scores 5-6, not 8), rewriting (keep user's real experiences, never fabricate). Validate all AI JSON with zod; on parse failure retry once with the error appended.
 
-## Design rules
-Confident, calm, professional — this user is anxious. Navy (#0F2A43) + warm white + single green accent for scores. Inter font. Big touch targets (mobile PWA). No confetti, no purple gradients, no robot imagery. Progress and countdowns everywhere (urgency = conversion).
+## Premium UI & motion direction (follow PLAYBOOK Part 1 + this art direction)
+**Concept: "executive calm"** — the poise of a private career coach's office. This user is anxious; the interface must feel like composure.
+- Palette: deep navy #0F2A43 on porcelain #F7F5F1, brass accent #B08D4A for premium moments, semantic green reserved exclusively for scores. Type: Newsreader (display serif, confident) + Inter (body), tabular numerals on every score/timer/countdown.
+- **Signature interaction — the voice mock**: a breathing interviewer orb that subtly scales while "listening", a live waveform reacting to the user's voice, then scores that count up with spring physics while the radar chart draws itself in. This is the moment users screen-record for TikTok.
+- Prep pack generation streams: question cards deal in one-by-one with staggered spring reveals as they generate — never a spinner then a wall of text.
+- The paywall shows their prep plan as an elegant letterpress-style document ("Prep Plan — {Company}, {Role}") with 3 questions readable and 12 elegantly locked (paper-stack motif, not blur-glassmorphism).
+- Interview countdown is a persistent, quietly urgent element (days:hours, brass on navy); day-of mode shifts the whole app into a focused flashcard theme.
+- Micro: buttons press to 0.97 scale; correct-answer moments get a single subtle brass shimmer, never confetti; skeletons everywhere, no spinners. No robot imagery, no purple gradients.
+
+## Security (project-specific threat model — PLAYBOOK Part 2 applies in full)
+- **Prompt injection is a live threat**: job postings and fetched URLs are attacker-controlled text sent to the LLM. Wrap all user content in delimiters; system prompt (server-side only) instructs the model to treat delimited content strictly as data; strip HTML/scripts from fetched pages before prompting; zod-validate every response.
+- **SSRF on the URL-fetch feature**: allow http(s) only; resolve DNS and block private/loopback/link-local/cloud-metadata ranges; 10s timeout; 2MB response cap.
+- **Resume PII**: private bucket, signed URLs, 90-day retention purge (tested), never in logs/analytics/Sentry payloads; account deletion wipes resumes, transcripts, and audio.
+- **Cost abuse**: all AI routes require an active trial/sub server-side (middleware, not client flags); per-user daily token budget; Stripe Radar on; disposable-email blocklist at signup (trial farming).
+- Audio recordings: same storage rules as resumes; user can delete any session.
+
+## Retention engine (PLAYBOOK Part 3 applies)
+- Activation event: first prep pack generated. Target <3 minutes from landing. Instrument every onboarding screen.
+- Trial choreography: hour 0 — pack ready email with the cheat sheet teaser; day 1 — "practice your weakest question" push/email (from mock scores); day 2 — readiness score progress email. Trial conversion is won here.
+- Interview-date triggers: day-before pep email, day-of mode + good-luck email with cheat sheet PDF, day-after outcome survey.
+- **Pause instead of cancel**: job seekers cycle — cancellation flow offers "pause until your next search, keep your answer bank" (retains the stored-value asset; reactivation email when they return).
+- Stored value surfaced constantly: "Your answer bank: 14 polished answers" — this is what they lose by leaving.
+
+## Revenue maximization (PLAYBOOK Part 4 applies)
+- Pricing: $6.99/wk (3-day trial, default) / $19.99/mo / **$34.99 "Land The Job" — 60 days flat** (anchor + best for serious searchers). All server-config, experiment-ready.
+- Checkout order bump: none v1 (keep sub flow clean); post-trial-start one-click add-on: "Priority AI (faster, longer mocks) +$2.99/wk".
+- Referral: 1 free week per referred signup, surfaced at peak moments (after a 9+ scored answer, after "got the offer!").
+- Win-back: one-time 50%-off month, sent 30 days after cancellation. Failed payments: 3-step dunning.
+- Watch AI cost/ARPU in admin weekly; must stay <15%.
 
 ## Cross-cutting requirements (non-negotiable)
 - **Analytics**: PostHog from day one. Instrument every onboarding step (drop-off per screen is your #1 optimization lever), paywall view, trial start, trial→paid conversion, feature usage, cancellation. Internal `/admin` page (email-allowlist gated): MRR, trials active, trial conversion %, mock sessions/day, AI cost/user.
@@ -66,8 +95,10 @@ Confident, calm, professional — this user is anxious. Navy (#0F2A43) + warm wh
 4. **Voice agent**: recorder, Whisper, TTS playback, scoring loop.
 5. **Modules agents (parallel)**: STAR builder + answer bank; negotiation; cover letter/emails; dashboard; cheat-sheet PDF; interview-day mode; outcome loop.
 6. **Marketing agent**: landing + SEO pages.
-7. **QA agent**: Playwright e2e (signup→onboarding→trial checkout test-mode→generate pack→text-mode mock→see scores), plus unit tests for AI JSON parsing with recorded fixtures. Fix everything.
-8. **Deploy agent**: Vercel prod, webhooks registered, README with env setup.
+7. **Polish agent**: motion/micro-interaction pass (voice-mock signature interaction tuned first), empty/error states, PLAYBOOK screenshot test on every screen — redo failures.
+8. **Security agent**: PLAYBOOK Part 2 + threat model above as a checklist; SSRF tests, prompt-injection red-team fixtures (posting containing "ignore previous instructions"), RLS deny-test, token-budget test.
+9. **QA agent**: Playwright e2e (signup→onboarding→trial checkout test-mode→generate pack→text-mode mock→see scores), plus unit tests for AI JSON parsing with recorded fixtures. Fix everything.
+10. **Deploy agent**: Vercel prod, webhooks registered, README with env setup.
 Env vars: SUPABASE (3), STRIPE (3), ANTHROPIC_API_KEY, OPENAI_API_KEY, RESEND_API_KEY, NEXT_PUBLIC_APP_URL.
 
 ## Definition of done
