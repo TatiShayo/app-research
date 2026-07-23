@@ -131,13 +131,16 @@ tr:hover td { background:var(--surface2); }
 .source-dot-ddg { background:var(--orange); }
 .source-dot-ai { background:var(--blue); }
 
-.progress-bar { height:6px; background:var(--border); border-radius:3px; margin:4px 0; }
-.progress-fill { height:6px; border-radius:3px; }
+.skip-link { position: absolute; top: -100px; left: 16px; background: var(--accent); color: #fff; padding: 8px 12px; border-radius: 4px; z-index: 1000; text-decoration: none; font-size: 0.85rem; }
+.skip-link:focus { top: 16px; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 </style>
 </head>
 <body>
 
-<nav id="nav">
+<a href="#main" class="skip-link">Skip to content</a>
+
+<nav id="nav" aria-label="Main Navigation">
 <a href="#exec" class="active" onclick="showSection('exec')">Executive Summary</a>
 <a href="#section1" onclick="showSection('section1')">1. Revenue Intelligence</a>
 <a href="#section2" onclick="showSection('section2')">2. Trends</a>
@@ -532,7 +535,7 @@ function renderAll() {
       </div>
       <div style="overflow-x:auto;">
         <table>
-          <thead><tr><th>Opportunity</th><th>Demand</th><th>Why Western Fails</th><th>M-Pesa Needed?</th><th>ARPU (KES)</th><th>Competition</th><th>Expansion Ease</th></tr></thead>
+          <thead><tr><th scope="col">Opportunity</th><th scope="col">Demand</th><th scope="col">Why Western Fails</th><th scope="col">M-Pesa Needed?</th><th scope="col">ARPU (KES)</th><th scope="col">Competition</th><th scope="col">Expansion Ease</th></tr></thead>
           <tbody>${section7Africa.map(o=>`<tr>
             <td><strong>${o.opp}</strong></td><td>${o.localDemand}</td><td style="font-size:0.8rem">${o.whyFails}</td>
             <td><span class="badge ${o.mpesaReq.includes('Yes')?'badge-green':'badge-blue'}">${o.mpesaReq}</span></td>
@@ -552,7 +555,7 @@ function renderAll() {
       <h1>8. Pricing, Monetization & Revenue Models</h1>
       <h2>Pricing Models by Category</h2>
       <table>
-        <thead><tr><th>Category</th><th>Best Model</th><th>Tiers</th><th>Best Price Point</th><th>Freemium Conv.</th><th>LTV Estimate</th></tr></thead>
+        <thead><tr><th scope="col">Category</th><th scope="col">Best Model</th><th scope="col">Tiers</th><th scope="col">Best Price Point</th><th scope="col">Freemium Conv.</th><th scope="col">LTV Estimate</th></tr></thead>
         <tbody>${Object.entries(pricingData).map(([k,v])=>`<tr>
           <td><strong>${k}</strong></td><td>${v.model}</td><td>${v.tiers}</td><td>${v.best}</td><td>${v.freemiumConv}</td><td>${v.ltv}</td>
         </tr>`).join('')}</tbody>
@@ -585,7 +588,7 @@ function renderAll() {
       </div>
       <div style="overflow-x:auto;">
         <table id="section9Table">
-          <thead><tr><th>#</th><th>App Name</th><th>Category</th><th>Score</th><th>MVP Time</th><th>First Revenue</th><th>Geo</th><th>Risk</th></tr></thead>
+          <thead><tr><th scope="col">#</th><th scope="col">App Name</th><th scope="col">Category</th><th scope="col">Score</th><th scope="col">MVP Time</th><th scope="col">First Revenue</th><th scope="col">Geo</th><th scope="col">Risk</th></tr></thead>
           <tbody>${top20Ranked.map(a=>`<tr data-geo="${a.geo.includes('Africa')||a.geo.includes('Kenya')?'Africa':'Global'}">
             <td><strong>${a.rank}</strong></td>
             <td><strong>${a.name}</strong><br><span style="font-size:0.75rem;color:var(--text2)">${a.features}</span></td>
